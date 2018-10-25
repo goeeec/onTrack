@@ -9,8 +9,8 @@ class Dashboard extends Component {
     return(
       <div className="project-panel">
         <Row>
-          <Col s={1} className="grid">Side Nav</Col>
-          <Col s={3} className="grid"><ProjectPanel /></Col>
+          <Col s={1} className="grid side-bar">Side Nav</Col>
+          <Col s={3} className="grid projectPanel"><ProjectPanel /></Col>
           <Col s={8} className="grid"><BranchPanel /></Col>
         </Row>
       </div>
