@@ -1,7 +1,21 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-materialize";
+import data from './fakeData.json';
+import TodoList from './components/TodoList';
 
 class BranchPanel extends Component {
+  constructor(props) {
+    super(props);
+    // let selectedBranch = data['features'].filter((feat,i) => {
+    //   return(feat['name'] === this.props.selectedBranchName);
+    // });
+    let selectedBranch = data['features'].filter(feat => feat['name'] === 'dashboard');
+    console.log(selectedBranch);
+    this.state = {
+      selectedBranch: selectedBranch[0]
+    };
+  }
+
   render() {
     return(
       <div className="branch-panel">
@@ -9,11 +23,12 @@ class BranchPanel extends Component {
           <Col className="header">Branch location</Col>
         </Row>
         <Row>
-          <Col className="todo-list">To-do List</Col>
+          <Col className="todo-list"><TodoList branch={this.state.selectedBranch} /></Col>
         </Row>
+        {/* Add this part after finishing top-half section
         <Row>
           <Col className="details">Details</Col>
-        </Row>
+        </Row> */}
       </div>
     );
   }
