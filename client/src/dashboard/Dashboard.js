@@ -11,7 +11,7 @@ class Dashboard extends Component {
         <Row>
           <Col s={1} className="grid side-bar">Side Nav</Col>
           <Col s={3} className="grid projectPanel"><ProjectPanel /></Col>
-          <Col s={8} className="grid"><BranchPanel /></Col>
+          <Col s={7} className="grid branchPanel"><BranchPanel /></Col>
         </Row>
       </div>
     );

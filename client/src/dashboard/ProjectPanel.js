@@ -20,7 +20,7 @@ class ProjectPanel extends Component {
 
   render() {
     return(
-      <div className="project-panel">
+      <div className="project-col">
         <Row>
           <Col className="header">{this.state.projectName}</Col>
         </Row>
@@ -29,7 +29,7 @@ class ProjectPanel extends Component {
         </Row>
         <div className="branch-footer">
             <FeatureForm />
-            </div>
+        </div>
       </div>
     );
   }
