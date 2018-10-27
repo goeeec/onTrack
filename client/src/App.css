@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -6,19 +11,60 @@
   margin-bottom: 0;
 }
 
-
-
 /****************************
 ********* Side Bar **********
 *****************************/
 .side-bar {
-  background-color: #000100;
+  background-color: gray;
   color: #f5f5f5;
   background-size: contain;
   height: 100vh;
   font-size: 1.5em;
+  position: relative;
+  animation: slide-out 0.4s ease-in;
+  /* animation: slide-in 0.4s ease; */
 }
 
+.slideOut {
+  animation: slide-out 0.4s ease-in;
+}
+
+.slideIn {
+  animation: slide-in 0.4s ease;
+}
+
+@keyframes slide-in {
+  0% {
+    /* opacity: 0; */
+    transform: translateX(-200px);
+  }
+  100% {
+    /* opacity: 1; */
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    /* opacity: 0; */
+    transform: translateX(-200px);
+  }
+
+  100% {
+    /* opacity: 1; */
+    transform: translateX(0);
+  }
+}
+
+.closeIcon {
+  position: absolute;
+  width: 40px;
+  right: 0;
+}
+
+.sideBarIcon {
+  width: 40px;
+}
 
 /****************************
 ****** Project Panel ********
@@ -28,7 +74,7 @@
   height: 100vh;
 }
 
-.branch-footer{
+.branch-footer {
   position: absolute;
   bottom: 0;
   padding-bottom: 10px;
@@ -53,31 +99,29 @@
 }
 
 .header {
-  background-color: #B4D2E7;
-	font-weight: 600;
-	font-family: 'Titillium Web', sans-serif;
-	font-size: 36px;
-	line-height: 40px;
-	padding: 15px 15px 15px 15%;
-	color: #355681;
-	box-shadow: 
-		inset 0 0 0 1px rgba(53,86,129, 0.4), 
-		inset 0 0 5px rgba(53,86,129, 0.5),
-		inset -285px 0 35px white;
-	border-radius: 0 10px 0 10px;
+  background-color: #b4d2e7;
+  font-weight: 600;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  padding: 15px 15px 15px 15%;
+  color: #355681;
+  box-shadow: inset 0 0 0 1px rgba(53, 86, 129, 0.4),
+    inset 0 0 5px rgba(53, 86, 129, 0.5), inset -285px 0 35px white;
+  border-radius: 0 10px 0 10px;
 }
 
-.row .col.s3, .row .col.s7{
+.row .col.s3,
+.row .col.s7 {
   margin-left: 3%;
   padding: 0 20px;
 }
-
 
 /****************************
 ****** Project Panel ********
 *****************************/
 
-.branchPanel{
+.branchPanel {
   background-color: #fff;
   height: 100vh;
 }
