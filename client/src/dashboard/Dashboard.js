@@ -48,12 +48,16 @@ class Dashboard extends Component {
             </Col>
           )}
 
-          <Col s={10} m={10} l={10} className="grid">
+          <Col
+            s={this.state.isSideBarOpen ? 10 : 11}
+            m={this.state.isSideBarOpen ? 10 : 11}
+            l={this.state.isSideBarOpen ? 10 : 11}
+          >
             <Row>
-              <Col s={4} m={4} l={4} className="grid projectPanel">
+              <Col s={3} m={3} l={3} className="grid projectPanel">
                 <ProjectPanel />
               </Col>
-              <Col s={8} m={8} l={8} className="grid branchPanel">
+              <Col s={7} m={7} l={7} className="grid branchPanel">
                 <BranchPanel />
               </Col>
             </Row>
