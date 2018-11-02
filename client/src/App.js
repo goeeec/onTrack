@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import "./App.css";
+import { Switch, Route, withRouter } from "react-router-dom";
+import "./Assets/css/App.css";
 import Dashboard from "./dashboard/Dashboard";
+import Home from "./home/Home";
 
 class App extends Component {
   state = {
@@ -25,11 +27,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Dashboard />
+        <Switch>
+          <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/dashboard" render={() => <Dashboard />} />
+        </Switch>
+
         {/* <p className="App-intro">{this.state.response}</p> */}
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

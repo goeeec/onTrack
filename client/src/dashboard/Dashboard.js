@@ -3,7 +3,7 @@ import { Row, Col } from "react-materialize";
 import SideBarIcon from "../images/sideBarIcon.png";
 import closeIcon from "../images/X.png";
 
-import "../App.css";
+// import "../App.css";
 
 import ProjectPanel from "./ProjectPanel";
 import BranchPanel from "./BranchPanel";

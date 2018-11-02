@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "express": "^4.16.2",
-    "react-materialize": "^2.4.7"
+    "react-materialize": "^2.4.7",
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "concurrently": "^3.5.0",

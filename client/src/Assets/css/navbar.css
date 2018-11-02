@@ -1,0 +1,21 @@
+.navbar {
+  display: flex;
+  margin: 10px 0;
+  justify-content: space-around;
+}
+
+.navLogo {
+  display: flex;
+}
+
+.nav-item {
+  align-self: center;
+}
+
+.navLogoIcon {
+  transform: rotate(-20deg);
+}
+
+.navLogoTitle {
+  color: black;
+}
