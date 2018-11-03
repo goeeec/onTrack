@@ -11,11 +11,18 @@ class ProjectPanel extends Component {
     let branchList = data['features'].map((feat) => {
       return(feat['name']);
     });
+    console.log("BranchList in ProjectPanel: ");
     console.log(branchList);
     this.state = {
       projectName: data['projectName'],
       branchList: branchList
     };
+  }
+
+  addFeature = (newFeature) => {
+    this.setState({
+      branchList: [...this.state.branchList, newFeature]
+    });
   }
 
   render() {
@@ -28,7 +35,7 @@ class ProjectPanel extends Component {
           <Col className="branch-list"><BranchList branchList={this.state.branchList} /></Col>
         </Row>
         <div className="branch-footer">
-            <FeatureForm />
+            <FeatureForm handleAdd={this.addFeature} />
         </div>
       </div>
     );
