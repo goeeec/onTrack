@@ -5,7 +5,8 @@ class FeatureForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDrafted: false
+      isDrafted: false,
+      newFeature: {}
     };
   }
 
@@ -26,13 +27,18 @@ class FeatureForm extends Component {
 
   pushFeature = () => {
     this.props.handleAdd(this.state.newFeature.featureName);
-    this.setState({ isDrafted: false });
-    // TODO: close the modal
+    this.setState({ isDrafted: false, newFeature: {} });
   };
 
   getConfirmPage = () => {
     return (
-      <div>
+      <Modal
+        header="Edit details"
+        actions={[
+          <Button onClick={() => this.setState({ isDrafted: false })}>Edit</Button>,
+          <Button onClick={this.pushFeature} modal="close">Submit</Button>
+        ]}
+      >
         <Row>
           <label>Feature name:</label>
           <p>
@@ -55,27 +61,25 @@ class FeatureForm extends Component {
               : "Blank"}
           </p>
         </Row>
-        <Row>
-          {/* TODO: save the filled details and go back */}
-          <Button
-            onClick={() => {
-              this.setState({ isDrafted: false });
-            }}
-          >
-            Edit
-          </Button>
-          <Button onClick={this.pushFeature}>Submit</Button>
-        </Row>
-      </div>
+      </Modal>
     );
   };
 
   getForm = () => {
     return (
-      <div>
+      <Modal
+        header="New Feature"
+        modalOptions={{dismissible: false}}
+        trigger={<Button>New Feature</Button>}
+        fixedFooter={true}
+        actions={[
+          <Button onClick={this.addFeature}>Continue</Button>, 
+          <Button className="btn-flat" onClick={this.clearForm} modal="close">Close</Button>
+        ]}
+      >
         <Row>
-          <Input s={12} id="featureName" label="Feature name" />
-          <Input s={12} id="featureDescription" label="Description" />
+          <Input s={12} id="featureName" label="Feature name" defaultValue={this.state.newFeature.featureName ? this.state.newFeature.featureName : ''} />
+          <Input s={12} id="featureDescription" label="Description" defaultValue={this.state.newFeature.featureDescription ? this.state.newFeature.featureDescription : ''} />
           <Input s={12} id="featureAssignee" type="select" label="Assign to">
             <option value="1">Jason</option>
             <option value="2">Joe</option>
@@ -83,25 +87,22 @@ class FeatureForm extends Component {
           </Input>
           <Input s={12} id="featureDue" type="date" label="Due date" />
         </Row>
-        <Row>
-          <Button onClick={this.addFeature}>Continue</Button>
-        </Row>
-      </div>
+      </Modal>
     );
   };
 
+  clearForm = () => {
+    document.getElementById("featureName").value = "";
+    document.getElementById("featureDescription").value = "";
+    document.getElementById("featureAssignee").value = 1;
+  }
+
   render() {
-    let content;
     if (this.state.isDrafted === true) {
-      content = this.getConfirmPage();
+      return(this.getConfirmPage());
     } else {
-      content = this.getForm();
+      return(this.getForm());
     }
-    return (
-      <Modal header="New Feature" trigger={<Button>New Feature</Button>}>
-        {content}
-      </Modal>
-    );
   }
 }
 
