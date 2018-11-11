@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
-import BranchList from './components/BranchList';
-import FeatureForm from './components/FeatureForm';
+import BranchList from './BranchList';
+import FeatureForm from './FeatureForm';
 import '../App.css';
-import data from './fakeData.json';
+import data from '../fakeData.json';
 
 class ProjectPanel extends Component {
   constructor(props) {

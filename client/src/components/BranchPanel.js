@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-materialize";
-import data from './fakeData.json';
-import TodoList from './components/TodoList';
+import data from '../fakeData.json';
+import TodoList from './TodoList';
 
 class BranchPanel extends Component {
   constructor(props) {
