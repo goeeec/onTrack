@@ -3,18 +3,17 @@ import { Row, Col } from 'react-materialize';
 import BranchList from './BranchList';
 import FeatureForm from './FeatureForm';
 import '../App.css';
-import data from '../fakeData.json';
 
 class ProjectPanel extends Component {
   constructor(props) {
     super(props);
-    let branchList = data['features'].map((feat) => {
+    let branchList = this.props.data['features'].map((feat) => {
       return(feat['name']);
     });
     console.log("BranchList in ProjectPanel: ");
     console.log(branchList);
     this.state = {
-      projectName: data['projectName'],
+      projectName: this.props.data['projectName'],
       branchList: branchList
     };
   }

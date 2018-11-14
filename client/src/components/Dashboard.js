@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-materialize";
-import SideBarIcon from "../images/sideBarIcon.png";
-import closeIcon from "../images/X.png";
+import { connect } from 'react-redux';
 
 import "../App.css";
+import SideBarIcon from "../images/sideBarIcon.png";
+import closeIcon from "../images/X.png";
 
 import ProjectPanel from "./ProjectPanel";
 import BranchPanel from "./BranchPanel";
@@ -55,7 +56,7 @@ class Dashboard extends Component {
           >
             <Row>
               <Col s={3} m={3} l={3} className="grid projectPanel">
-                <ProjectPanel />
+                <ProjectPanel data={this.props.data} />
               </Col>
               <Col s={7} m={7} l={7} className="grid branchPanel">
                 <BranchPanel />
@@ -68,4 +69,10 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+function mapStateToProps(state) {
+  return ({
+    data: state.fakeData
+  });
+}
+
+export default connect(mapStateToProps)(Dashboard);
