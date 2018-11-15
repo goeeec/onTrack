@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-materialize";
-import SideBarIcon from "../images/sideBarIcon.png";
-import closeIcon from "../images/X.png";
+import SideBarIcon from "../Assets/images/sideBarIcon.png";
+import closeIcon from "../Assets/images/X.png";
 
 // import "../App.css";
 

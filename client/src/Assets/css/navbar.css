@@ -1,7 +1,7 @@
 .navbar {
   display: flex;
-  margin: 10px 0;
-  justify-content: space-around;
+  margin: 20px;
+  justify-content: space-between;
 }
 
 .navLogo {
@@ -14,6 +14,7 @@
 
 .navLogoIcon {
   transform: rotate(-20deg);
+  height: 50px;
 }
 
 .navLogoTitle {

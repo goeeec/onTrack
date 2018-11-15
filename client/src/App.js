@@ -3,6 +3,8 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import "./Assets/css/App.css";
 import Dashboard from "./dashboard/Dashboard";
 import Home from "./home/Home";
+import SigninPage from "./User/SigninPage";
+import SignUpPage from "./User/SignUpPage";
 
 class App extends Component {
   state = {
@@ -30,6 +32,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/dashboard" render={() => <Dashboard />} />
+          <Route exact path="/Signin" render={() => <SigninPage />} />
+          <Route exact path="/SignUp" render={() => <SignUpPage />} />
         </Switch>
 
         {/* <p className="App-intro">{this.state.response}</p> */}
