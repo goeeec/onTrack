@@ -39,7 +39,7 @@ export default class SigninPage extends Component {
 
     if (redirectToReferrer) return <Redirect to={from} />;
     if (redirect) return <Redirect to={from} />;
-
+    //test
     return (
       <div>
         <Link to="/">Home</Link>
