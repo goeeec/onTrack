@@ -1,34 +1,45 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Row, Col, Grid } from "react-materialize";
 import axios from "axios";
 
 export default class SigninPage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      redirectToReferrer: false
     };
   }
 
   handleSubmit = e => {
-    console.log(this.state);
-    axios
-      .post("/auth/signin", {
-        email: this.state.email,
-        password: this.state.password
-      })
-      .then(() => {
-        console.log("ok");
-      })
-      .catch(err => {
-        console.log(err);
-      });
     e.preventDefault();
+    console.log(this.props.auth.isAuthenticated);
+    this.props.auth.authenticate(this.state.email, this.state.password, () => {
+      this.setState({ redirectToReferrer: true });
+    });
+    // axios
+    //   .post("/auth/signin", {
+    //     email: this.state.email,
+    //     password: this.state.password
+    //   })
+    //   .then(() => {
+    //     console.log("ok");
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   render() {
+    let { from } = this.props.location.state || { from: { pathname: "/" } };
+    let { redirectToReferrer } = this.state;
+    let { redirect } = this.props.auth.isAuthenticated;
+
+    if (redirectToReferrer) return <Redirect to={from} />;
+    if (redirect) return <Redirect to={from} />;
+
     return (
       <div>
         <Link to="/">Home</Link>

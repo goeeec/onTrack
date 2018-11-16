@@ -12,6 +12,7 @@ router.post(
   "/signin",
   passport.authenticate("local", { failureRedirect: "/auth/error" }),
   (req, res) => {
+    console.log(req.session);
     res.json({
       id: req.user.id,
       firstName: req.user.firstName,

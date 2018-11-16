@@ -32,6 +32,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
+  // push to session
   done(null, user.id);
 });
 
