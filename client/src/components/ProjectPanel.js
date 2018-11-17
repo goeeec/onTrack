@@ -18,24 +18,26 @@ class ProjectPanel extends Component {
     };
   }
 
-  addFeature = (newFeature) => {
+  addFeature = newFeature => {
     this.setState({
       branchList: [...this.state.branchList, newFeature]
     });
-  }
+  };
 
   render() {
-    return(
+    return (
       <div className="project-col">
         <Row>
-          <Col className="header">{this.state.projectName}</Col>
-        </Row>
+          <Col className="header"> {this.state.projectName} </Col>{" "}
+        </Row>{" "}
         <Row>
-          <Col className="branch-list"><BranchList branchList={this.state.branchList} /></Col>
-        </Row>
+          <Col className="branch-list">
+            <BranchList branchList={this.state.branchList} />{" "}
+          </Col>{" "}
+        </Row>{" "}
         <div className="branch-footer">
-            <FeatureForm handleAdd={this.addFeature} />
-        </div>
+          <FeatureForm />
+        </div>{" "}
       </div>
     );
   }

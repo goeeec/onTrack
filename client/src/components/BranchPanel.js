@@ -6,9 +6,6 @@ import TodoList from './TodoList';
 class BranchPanel extends Component {
   constructor(props) {
     super(props);
-    // let selectedBranch = data['features'].filter((feat,i) => {
-    //   return(feat['name'] === this.props.selectedBranchName);
-    // });
     let selectedBranch = data['features'].filter(feat => feat['name'] === 'dashboard');
     console.log(selectedBranch);
     this.state = {
@@ -29,6 +26,7 @@ class BranchPanel extends Component {
         <Row>
           <Col className="details">Details</Col>
         </Row> */}
+        
       </div>
     );
   }
