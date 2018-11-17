@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "threejs",
+    "password": "admin21",
+    "database": "ontrack",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "threejs",
+    "password": "admin21",
+    "database": "ontrack",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "threejs",
+    "password": "admin21",
+    "database": "ontrack",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
