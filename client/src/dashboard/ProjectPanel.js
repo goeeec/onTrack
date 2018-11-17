@@ -25,7 +25,7 @@ class ProjectPanel extends Component {
           <Col className="header">{this.state.projectName}</Col>
         </Row>
         <Row>
-          <Col className="branch-list"><BranchList branchList={this.state.branchList} /></Col>
+          <Col className="branch-list"><BranchList /></Col>
         </Row>
         <div className="branch-footer">
             <FeatureForm />

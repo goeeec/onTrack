@@ -72,7 +72,20 @@
   padding: 0 20px;
 }
 
+.branch-list .branch-track-list {
+  text-align: left;
+}
 
+.branch-list .branch-track-list .blue{
+  float: right;
+  margin-top: -31px;
+}
+
+
+.branch-list .branch-track-list .red {
+  float: right;
+  margin-top: -10px;
+}
 /****************************
 ****** Project Panel ********
 *****************************/
