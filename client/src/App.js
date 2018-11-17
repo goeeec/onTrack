@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import Dashboard from "./dashboard/Dashboard";
+import Dashboard from "./components/Dashboard";
 
 class App extends Component {
   state = {
