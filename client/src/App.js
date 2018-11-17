@@ -28,7 +28,7 @@ const auth = {
         return response;
       })
       .then(body => {
-        console.log("in the body console " + cb);
+        console.log(body);
         cb();
       })
       .catch(err => {
@@ -86,7 +86,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <AuthButton />
+        {/* <AuthButton /> */}
         <Switch>
           <Route exact path="/" component={Home} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />

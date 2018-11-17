@@ -1,15 +1,20 @@
 .navbar {
   display: flex;
-  margin: 20px;
-  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
 }
 
 .navLogo {
   display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
-.nav-item {
-  align-self: center;
+.nav_item {
+  align-items: center;
+  justify-content: flex-end;
+  display: flex;
+  flex: 1;
 }
 
 .navLogoIcon {
@@ -19,4 +24,11 @@
 
 .navLogoTitle {
   color: black;
+}
+
+.signIn {
+  font-size: 15px;
+  color: #333333;
+  font-weight: 600;
+  text-decoration: none;
 }

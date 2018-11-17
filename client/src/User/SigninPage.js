@@ -35,10 +35,14 @@ export default class SigninPage extends Component {
   render() {
     let { from } = this.props.location.state || { from: { pathname: "/" } };
     let { redirectToReferrer } = this.state;
-    let { redirect } = this.props.auth.isAuthenticated;
+    let { isAuthenticated } = this.props.auth;
+
+    {
+      console.log(this.props.auth.isAuthenticated);
+    }
 
     if (redirectToReferrer) return <Redirect to={from} />;
-    if (redirect) return <Redirect to={from} />;
+    if (isAuthenticated) return <Redirect to={from} />;
     //test
     return (
       <div>
