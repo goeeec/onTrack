@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Row, Col } from "react-materialize";
 import { connect } from 'react-redux';
 
-import "../App.css";
-import SideBarIcon from "../images/sideBarIcon.png";
-import closeIcon from "../images/X.png";
+//import "../Assests/css/App.css";
+import SideBarIcon from "../Assets/images/sideBarIcon.png";
+import closeIcon from "../Assets/images/X.png";
 
 import ProjectPanel from "./ProjectPanel";
 import BranchPanel from "./BranchPanel";

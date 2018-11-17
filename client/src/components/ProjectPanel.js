@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
 import BranchList from './BranchList';
 import FeatureForm from './FeatureForm';
-import '../App.css';
+//import '../Assest/css/App.css';
 
 class ProjectPanel extends Component {
   constructor(props) {
