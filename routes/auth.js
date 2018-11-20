@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models");
 const User = models.User;
+const LocalAuth = models.LocalAuth;
 const passport = require("../middlewares/auth");
 
 router.get("/error", (req, res) => {
@@ -22,20 +23,19 @@ router.post(
   }
 );
 
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   console.log(req.body);
-  User.create({
-    username: req.body.username,
+  const user = await User.create({ username: req.body.username });
+  LocalAuth.create({
     email: req.body.email,
-    password_hash: req.body.password
-  })
-    .then(user => {
+    password_hash: req.body.password,
+    userId: user.id
+  }).then(user => {
       res.json({ msg: "user created" });
-    })
-    .catch(err => {
+  }).catch(err => {
       console.log(err);
       res.status(400).json({ msg: "error creating user" });
-    });
+  });
 });
 
 router.get("/logout", (req, res) => {

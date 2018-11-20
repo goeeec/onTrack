@@ -5,6 +5,7 @@ const GitHubStrategy = require('passport-github').Strategy;
 const keys = require('../config/keys');
 
 const User = require("../models").User;
+const LocalAuth = require("../models").LocalAuth;
 const GithubAuth = require("../models").GithubAuth;
 
 function passwordsMatch(passwordSubmitted, storedPassword) {
@@ -17,7 +18,7 @@ passport.use(
       usernameField: "email"
     },
     (email, password, done) => {
-      User.findOne({
+      LocalAuth.findOne({
         where: { email }
       }).then(user => {
         if (!user) {
@@ -42,8 +43,6 @@ passport.use(
   }, async (accessToken, refreshToken, profile, done) => {
     const { id, displayName } = profile;
     const email = profile.emails[0].value;
-
-    console.log('githubId: ', id);
 
     const existingGithubUser = await GithubAuth.findOne({ where: { githubId: id } });
     if (existingGithubUser) {
