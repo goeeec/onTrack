@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt-nodejs");
 
 module.exports = (sequelize, DataTypes) => {
-  const LocalAuth = sequelize.define("local_auth", {
+  const LocalAuth = sequelize.define("localAuth", {
     email: {
       type: DataTypes.STRING,
       allowNull: false,

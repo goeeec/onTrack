@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const GithubAuth = sequelize.define("github_auth", {
+  const GithubAuth = sequelize.define("githubAuth", {
     githubId: {
       type: DataTypes.STRING,
       allowNull: false,

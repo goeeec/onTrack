@@ -40,17 +40,19 @@ passport.use(
     clientSecret: keys.githubClientSecret,
     callbackURL: '/auth/github/callback'
   }, async (accessToken, refreshToken, profile, done) => {
-    const { githubId, displayName } = profile;
+    const { id, displayName } = profile;
     const email = profile.emails[0].value;
 
-    const existingGithubUser = await GithubAuth.findOne({ where: { githubId } });
+    console.log('githubId: ', id);
+
+    const existingGithubUser = await GithubAuth.findOne({ where: { githubId: id } });
     if (existingGithubUser) {
       return done(null, existingGithubUser);
     }
 
-    const newUser = await User.create();
+    const newUser = await User.create({ username: profile.username });
     const newGithubUser = await GithubAuth.create({
-      githubId: githubId,
+      githubId: id,
       name: displayName,
       email: email,
       userId: newUser.id
