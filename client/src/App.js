@@ -15,7 +15,7 @@ import SignUpPage from "./User/SignUpPage";
 import axios from "axios";
 
 const auth = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   authenticate(email, password, cb) {
     axios
       .post("/auth/signin", {
