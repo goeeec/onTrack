@@ -1,8 +1,11 @@
 const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
+const keys = require('../config/keys');
 
 const User = require("../models").User;
+const GithubAuth = require("../models").GithubAuth;
 
 function passwordsMatch(passwordSubmitted, storedPassword) {
   return bcrypt.compareSync(passwordSubmitted, storedPassword);
@@ -30,6 +33,32 @@ passport.use(
     }
   )
 );
+
+passport.use(
+  new GitHubStrategy({
+    clientID: keys.githubClientID,
+    clientSecret: keys.githubClientSecret,
+    callbackURL: '/auth/github/callback'
+  }, async (accessToken, refreshToken, profile, done) => {
+    const { githubId, displayName } = profile;
+    const email = profile.emails[0].value;
+
+    const existingGithubUser = await GithubAuth.findOne({ where: { githubId } });
+    if (existingGithubUser) {
+      return done(null, existingGithubUser);
+    }
+
+    const newUser = await User.create();
+    const newGithubUser = await GithubAuth.create({
+      githubId: githubId,
+      name: displayName,
+      email: email,
+      userId: newUser.id
+    });
+
+    return done(null, newGithubUser);
+  })
+)
 
 passport.serializeUser((user, done) => {
   // push to session

@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 import "./Assets/css/App.css";
-import Dashboard from "./components/Dashboard";
+//import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
 import SignUpPage from "./User/SignUpPage";
@@ -57,6 +57,15 @@ const AuthButton = withRouter(({ history }) =>
     <p>You are not logged in.</p>
   )
 );
+
+const Dashboard = () => {
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <AuthButton />
+    </div>
+  );
+}
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (

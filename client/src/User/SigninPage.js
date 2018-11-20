@@ -75,6 +75,9 @@ export default class SigninPage extends Component {
             </form>
           </Col>
         </Row>
+        <Row>
+          <a href="/auth/github">Login with Github</a>
+        </Row>
       </div>
     );
   }
