@@ -4,55 +4,24 @@ import {
   FormControl,
   InputLabel,
   Input,
-  Modal,
   Button,
-  Typography,
-  TextField
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide
 } from "@material-ui/core";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import "../Assets/css/featureForm.css";
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
 }
+class FeatureForm extends Component {
+  state = { open: false };
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`
-  };
-}
-
-const styles = theme => ({
-  paper: {
-    position: "absolute",
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4
-  }
-});
-
-class SimpleModal extends React.Component {
-  state = {
-    open: false,
-    featureName: "",
-    description: ""
-  };
-
-  handleFeatureName = e => {
-    this.setState({ featureName: e.target.value });
-  };
-
-  handleDescription = e => {
-    this.setState({ description: e.target.value });
-  };
-
-  handleOpen = () => {
+  handleClickOpen = () => {
     this.setState({ open: true });
   };
 
@@ -60,55 +29,79 @@ class SimpleModal extends React.Component {
     this.setState({ open: false });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log(e.target);
+    // this.setState({ open: false });
+  };
   render() {
-    const { classes } = this.props;
-
+    const { fullScreen } = this.props;
     return (
       <div>
-        <Typography gutterBottom>
-          Click to get the full Modal experience!
-        </Typography>
-        <Button onClick={this.handleOpen}>Open Modal</Button>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
+        <Button onClick={this.handleClickOpen}>New Feature</Button>
+        <Dialog
           open={this.state.open}
           onClose={this.handleClose}
+          TransitionComponent={Transition}
+          aria-labelledby="form-dialog-title"
+          fullWidth
         >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="title">New Feature</Typography>
-            <FormControl>
-              <InputLabel htmlFor="featureName">Feature Name</InputLabel>
-              <Input
-                value={this.state.featureName}
-                onChange={this.handleFeatureName}
+          <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
+          <form onSubmit={this.handleSubmit}>
+            <DialogContent>
+              <FormControl fullWidth>
+                {/* <TextField
+                autoFocus
+                margin="dense"
+                id="featureName"
+                label="Feature Name"
+                fullWidth
+                required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="description">Description</InputLabel>
-              <Input
-                value={this.state.description}
-                onChange={this.handleDescription}
-              />
-            </FormControl>
-            <TextField
-              id="multiline-static"
-              label="description"
-              multiline
-              rows="4"
-              defaultValue="Default Value"
-              margin="normal"
-            />
-          </div>
-        </Modal>
+              <TextField
+                id="featureDescription"
+                label="Description"
+                multiline
+                rowsMax="4"
+                margin="normal"
+                fullWidth
+                required
+              /> */}
+                <InputLabel htmlFor="featureName" focused required>
+                  Feature Name
+                </InputLabel>
+                <Input
+                  fullWidth
+                  required
+                  id="featureName"
+                  placeholder="Feature Name"
+                />
+              </FormControl>
+              <FormControl>
+                <InputLabel htmlFor="test" focused required>
+                  test
+                </InputLabel>
+                <Input
+                  fullWidth
+                  required
+                  id="test"
+                  placeholder="Feature Name"
+                />
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={this.handleSubmit} type="submit" color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
       </div>
     );
   }
 }
 
-SimpleModal.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-const SimpleModalWrapped = withStyles(styles)(SimpleModal);
-
-export default SimpleModalWrapped;
+export default FeatureForm;
