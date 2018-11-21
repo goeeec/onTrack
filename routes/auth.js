@@ -43,7 +43,7 @@ router.get("/logout", (req, res) => {
   res.sendStatus(200);
 });
 
-router.get("/github", passport.authenticate("github"));
+router.get("/github", passport.authenticate("github", { scope: [ 'read:user', 'public_repo', 'repo:invaite' ] }));
 
 router.get(
   "/github/callback", 
