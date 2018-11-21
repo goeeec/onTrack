@@ -16,6 +16,11 @@ export default class BranchListItem extends Component {
     console.log(this.props.branchListItem);
   };
 
+  handleMenu = () => {
+    console.log(this.props.branchListItem);
+    console.log("Menu");
+  };
+
   render() {
     return (
       <ListItem>
@@ -23,7 +28,12 @@ export default class BranchListItem extends Component {
           {this.props.branchListItem}
         </ListItemText>
         <ListItemSecondaryAction>
-          <img src={menuIcon} alt="menu icon" className="menuIcon" />
+          <img
+            src={menuIcon}
+            alt="menu icon"
+            className="menuIcon"
+            onClick={this.handleMenu}
+          />
         </ListItemSecondaryAction>
       </ListItem>
     );

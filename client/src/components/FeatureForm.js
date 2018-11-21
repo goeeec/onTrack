@@ -1,109 +1,114 @@
 import React, { Component } from "react";
-import { Row, Modal, Button, Input } from "react-materialize";
+import {
+  Grid,
+  FormControl,
+  InputLabel,
+  Input,
+  Modal,
+  Button,
+  Typography,
+  TextField
+} from "@material-ui/core";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 
-class FeatureForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isDrafted: false,
-      newFeature: {}
-    };
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`
+  };
+}
+
+const styles = theme => ({
+  paper: {
+    position: "absolute",
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4
   }
+});
 
-  addFeature = () => {
-    let newFeature = {
-      featureName: document.getElementById("featureName").value,
-      featureDescription: document.getElementById("featureDescription").value,
-      featureAssignee: document.getElementById("featureAssignee").value,
-      featureDue: document.getElementById("featureDue").value
-    };
-    this.setState({
-      isDrafted: true,
-      newFeature: newFeature
-    });
-    console.log("new feature object: ");
-    console.log(newFeature);
+class SimpleModal extends React.Component {
+  state = {
+    open: false,
+    featureName: "",
+    description: ""
   };
 
-  pushFeature = () => {
-    this.props.handleAdd(this.state.newFeature.featureName);
-    this.setState({ isDrafted: false, newFeature: {} });
+  handleFeatureName = e => {
+    this.setState({ featureName: e.target.value });
   };
 
-  getConfirmPage = () => {
-    return (
-      <Modal
-        header="Edit details"
-        actions={[
-          <Button onClick={() => this.setState({ isDrafted: false })}>Edit</Button>,
-          <Button onClick={this.pushFeature} modal="close">Submit</Button>
-        ]}
-      >
-        <Row>
-          <label>Feature name:</label>
-          <p>
-            {this.state.newFeature.featureName
-              ? this.state.newFeature.featureName
-              : "Blank"}
-          </p>
-          <label>Description:</label>
-          <p>
-            {this.state.newFeature.featureDescription
-              ? this.state.newFeature.featureDescription
-              : "Blank"}
-          </p>
-          <label>Assignee:</label>
-          <p>{this.state.newFeature.featureAssignee}</p>
-          <label>DueDate:</label>
-          <p>
-            {this.state.newFeature.featureDue
-              ? this.state.newFeature.featureDue
-              : "Blank"}
-          </p>
-        </Row>
-      </Modal>
-    );
+  handleDescription = e => {
+    this.setState({ description: e.target.value });
   };
 
-  getForm = () => {
-    return (
-      <Modal
-        header="New Feature"
-        modalOptions={{dismissible: false}}
-        trigger={<Button>New Feature</Button>}
-        fixedFooter={true}
-        actions={[
-          <Button onClick={this.addFeature}>Continue</Button>, 
-          <Button className="btn-flat" onClick={this.clearForm} modal="close">Close</Button>
-        ]}
-      >
-        <Row>
-          <Input s={12} id="featureName" label="Feature name" defaultValue={this.state.newFeature.featureName ? this.state.newFeature.featureName : ''} />
-          <Input s={12} id="featureDescription" label="Description" defaultValue={this.state.newFeature.featureDescription ? this.state.newFeature.featureDescription : ''} />
-          <Input s={12} id="featureAssignee" type="select" label="Assign to">
-            <option value="1">Jason</option>
-            <option value="2">Joe</option>
-            <option value="3">Joey</option>
-          </Input>
-          <Input s={12} id="featureDue" type="date" label="Due date" />
-        </Row>
-      </Modal>
-    );
+  handleOpen = () => {
+    this.setState({ open: true });
   };
 
-  clearForm = () => {
-    document.getElementById("featureName").value = "";
-    document.getElementById("featureDescription").value = "";
-    document.getElementById("featureAssignee").value = 1;
-  }
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
-    if (this.state.isDrafted === true) {
-      return(this.getConfirmPage());
-    } else {
-      return(this.getForm());
-    }
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <Typography gutterBottom>
+          Click to get the full Modal experience!
+        </Typography>
+        <Button onClick={this.handleOpen}>Open Modal</Button>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="title">New Feature</Typography>
+            <FormControl>
+              <InputLabel htmlFor="featureName">Feature Name</InputLabel>
+              <Input
+                value={this.state.featureName}
+                onChange={this.handleFeatureName}
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="description">Description</InputLabel>
+              <Input
+                value={this.state.description}
+                onChange={this.handleDescription}
+              />
+            </FormControl>
+            <TextField
+              id="multiline-static"
+              label="description"
+              multiline
+              rows="4"
+              defaultValue="Default Value"
+              margin="normal"
+            />
+          </div>
+        </Modal>
+      </div>
+    );
   }
 }
 
-export default FeatureForm;
+SimpleModal.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+const SimpleModalWrapped = withStyles(styles)(SimpleModal);
+
+export default SimpleModalWrapped;
