@@ -10,7 +10,8 @@ import {
   List,
   Typography,
   Divider,
-  IconButton
+  IconButton,
+  Grid
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -20,7 +21,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-
+import "typeface-roboto";
 // import "../App.css";
 
 import ProjectPanel from "./ProjectPanel";
@@ -130,9 +131,7 @@ class PersistentDrawerLeft extends React.Component {
           variant="persistent"
           anchor="left"
           open={open}
-          classes={{
-            paper: classes.drawerPaper
-          }}
+          classes={{ paper: classes.drawerPaper }}
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
@@ -153,6 +152,9 @@ class PersistentDrawerLeft extends React.Component {
           })}
         >
           <div className={classes.drawerHeader} />
+          <Grid>
+            <ProjectPanel />
+          </Grid>
         </main>
       </div>
     );

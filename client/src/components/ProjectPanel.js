@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col } from "react-materialize";
+import { Grid } from "@material-ui/core";
 import BranchList from "./BranchList";
 import FeatureForm from "./FeatureForm";
 // import '../App.css';
@@ -27,19 +27,15 @@ class ProjectPanel extends Component {
 
   render() {
     return (
-      <div className="project-col">
-        <Row>
-          <Col className="header"> {this.state.projectName} </Col>{" "}
-        </Row>{" "}
-        <Row>
-          <Col className="branch-list">
-            <BranchList branchList={this.state.branchList} />{" "}
-          </Col>{" "}
-        </Row>{" "}
-        <div className="branch-footer">
-          <FeatureForm />
-        </div>{" "}
-      </div>
+      <Grid>
+        <Grid className="header"> {this.state.projectName} </Grid>
+
+        <Grid item md={6} sm={6} lg={6} xm={6} className="background">
+          <BranchList branchList={this.state.branchList} />
+        </Grid>
+
+        <div className="branch-footer">{/* <FeatureForm /> */}</div>
+      </Grid>
     );
   }
 }

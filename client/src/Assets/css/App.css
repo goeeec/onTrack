@@ -121,11 +121,10 @@
   text-align: left;
 }
 
-.branch-list .branch-track-list .blue{
+.branch-list .branch-track-list .blue {
   float: right;
   margin-top: -31px;
 }
-
 
 .branch-list .branch-track-list .red {
   float: right;
@@ -138,4 +137,21 @@
 .branchPanel {
   background-color: #fff;
   height: 100vh;
+}
+
+.branch-list {
+  width: 100%;
+  /* max-width: 360px; */
+}
+
+.background {
+  background: #fff;
+}
+
+.branchListHover :hover {
+  background: #eeeeee;
+}
+
+.menuIcon {
+  height: 25px;
 }
