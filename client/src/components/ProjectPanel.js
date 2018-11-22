@@ -34,8 +34,6 @@ class ProjectPanel extends Component {
           <BranchList branchList={this.state.branchList} />
           <FeatureForm />
         </Grid>
-
-        <div className="branch-footer">{/* <FeatureForm /> */}</div>
       </Grid>
     );
   }

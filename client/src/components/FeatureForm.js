@@ -11,7 +11,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Slide
+  Slide,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 import "../Assets/css/featureForm.css";
 
@@ -19,7 +21,15 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 class FeatureForm extends Component {
-  state = { open: false };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      featureName: "",
+      featureDescription: "",
+      assignTo: ""
+    };
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -31,9 +41,26 @@ class FeatureForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target);
-    // this.setState({ open: false });
+    const { featureName, featureDescription, assignTo } = this.state;
+    if (featureName && featureDescription && assignTo) {
+      console.log(featureName, featureDescription, assignTo);
+      this.setState({
+        featureName: "",
+        featureDescription: "",
+        assignTo: ""
+      });
+      this.setState({ open: false });
+    } else {
+      this.setState({ open: true });
+    }
   };
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
+
   render() {
     const { fullScreen } = this.props;
     return (
@@ -49,24 +76,7 @@ class FeatureForm extends Component {
           <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
           <form onSubmit={this.handleSubmit}>
             <DialogContent>
-              <FormControl fullWidth>
-                {/* <TextField
-                autoFocus
-                margin="dense"
-                id="featureName"
-                label="Feature Name"
-                fullWidth
-                required
-              />
-              <TextField
-                id="featureDescription"
-                label="Description"
-                multiline
-                rowsMax="4"
-                margin="normal"
-                fullWidth
-                required
-              /> */}
+              <FormControl fullWidth required>
                 <InputLabel htmlFor="featureName" focused required>
                   Feature Name
                 </InputLabel>
@@ -75,18 +85,36 @@ class FeatureForm extends Component {
                   required
                   id="featureName"
                   placeholder="Feature Name"
+                  onChange={this.handleChange("featureName")}
+                  value={this.state.featureName}
                 />
               </FormControl>
-              <FormControl>
-                <InputLabel htmlFor="test" focused required>
-                  test
+              <FormControl fullWidth required>
+                <InputLabel htmlFor="featureDescription" focused required>
+                  Description
                 </InputLabel>
                 <Input
                   fullWidth
                   required
-                  id="test"
+                  id="featureDescription"
                   placeholder="Feature Name"
+                  onChange={this.handleChange("featureDescription")}
+                  value={this.state.featureDescription}
                 />
+              </FormControl>
+              <FormControl fullWidth required>
+                <InputLabel htmlFor="assignTo">Assign To</InputLabel>
+                <Select
+                  value={this.state.assignTo}
+                  onChange={this.handleChange("assignTo")}
+                  name="Assign To"
+                  displayEmpty
+                  required
+                >
+                  <MenuItem value={"Joe"}>Joe</MenuItem>
+                  <MenuItem value={"Joey"}>Joey</MenuItem>
+                  <MenuItem value={"Jason"}>Jason</MenuItem>
+                </Select>
               </FormControl>
             </DialogContent>
             <DialogActions>
