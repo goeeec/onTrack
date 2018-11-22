@@ -27,13 +27,9 @@ class ProjectPanel extends Component {
 
   render() {
     return (
-      <Grid>
-        <Grid className="header"> {this.state.projectName} </Grid>
-
-        <Grid item md={6} sm={6} lg={6} xm={6} className="background">
-          <BranchList branchList={this.state.branchList} />
-          <FeatureForm />
-        </Grid>
+      <Grid item md={6} sm={6} lg={6} xm={6} className="background">
+        <BranchList branchList={this.state.branchList} />
+        <FeatureForm newFeature={this.addFeature} />
       </Grid>
     );
   }

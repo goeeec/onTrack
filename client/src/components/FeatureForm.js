@@ -5,7 +5,6 @@ import {
   InputLabel,
   Input,
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
@@ -15,7 +14,6 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
-import "../Assets/css/featureForm.css";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -44,6 +42,7 @@ class FeatureForm extends Component {
     const { featureName, featureDescription, assignTo } = this.state;
     if (featureName && featureDescription && assignTo) {
       console.log(featureName, featureDescription, assignTo);
+      this.props.newFeature(featureName);
       this.setState({
         featureName: "",
         featureDescription: "",

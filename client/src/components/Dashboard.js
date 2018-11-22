@@ -11,7 +11,8 @@ import {
   Typography,
   Divider,
   IconButton,
-  Grid
+  Grid,
+  Button
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -22,7 +23,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import "typeface-roboto";
-// import "../App.css";
+import data from "../fakeData.json";
 
 import ProjectPanel from "./ProjectPanel";
 import BranchPanel from "./BranchPanel";
@@ -142,8 +143,12 @@ class PersistentDrawerLeft extends React.Component {
               )}
             </IconButton>
           </div>
-          <Divider />
 
+          <Button variant="contained" href="/" color="primary">
+            Home
+          </Button>
+
+          <Divider />
           <Divider />
         </Drawer>
         <main
@@ -152,7 +157,10 @@ class PersistentDrawerLeft extends React.Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          <Grid>
+          <Grid container justify="center" spacing={40}>
+            <Grid item sm={12} md={12} lg={12} xs={12} className="header">
+              {data["projectName"]}
+            </Grid>
             <ProjectPanel />
           </Grid>
         </main>
