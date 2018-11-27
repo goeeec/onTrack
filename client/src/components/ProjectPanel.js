@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import { Row, Col } from 'react-materialize';
-import BranchList from './BranchList';
-import FeatureForm from './FeatureForm';
-//import '../Assest/css/App.css';
+import React, { Component } from "react";
+import { Grid } from "@material-ui/core";
+import BranchList from "./BranchList";
+import FeatureForm from "./FeatureForm";
+// import '../App.css';
+import data from "../fakeData.json";
 
 class ProjectPanel extends Component {
   constructor(props) {
     super(props);
-    let branchList = this.props.data['features'].map((feat) => {
-      return(feat['name']);
+    let branchList = data["features"].map(feat => {
+      return feat["name"];
     });
     console.log("BranchList in ProjectPanel: ");
     console.log(branchList);
     this.state = {
-      projectName: this.props.data['projectName'],
+      projectName: data["projectName"],
       branchList: branchList
     };
   }
@@ -26,19 +27,10 @@ class ProjectPanel extends Component {
 
   render() {
     return (
-      <div className="project-col">
-        <Row>
-          <Col className="header"> {this.state.projectName} </Col>{" "}
-        </Row>{" "}
-        <Row>
-          <Col className="branch-list">
-            <BranchList branchList={this.state.branchList} />{" "}
-          </Col>{" "}
-        </Row>{" "}
-        <div className="branch-footer">
-          <FeatureForm />
-        </div>{" "}
-      </div>
+      <Grid item md={6} sm={6} lg={6} xm={6} className="background">
+        <BranchList branchList={this.state.branchList} />
+        <FeatureForm newFeature={this.addFeature} />
+      </Grid>
     );
   }
 }

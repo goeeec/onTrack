@@ -8,7 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 import "./Assets/css/App.css";
-//import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
 import SignUpPage from "./User/SignUpPage";
@@ -57,28 +57,6 @@ const AuthButton = withRouter(({ history }) =>
     <p>You are not logged in.</p>
   )
 );
-
-class Dashboard extends Component {
-  state = { username: '' }
-
-  componentDidMount() {
-    axios.get("/auth/current_user")
-      .then(res => res.data)
-      .then(result => {
-        this.setState({ username: result.username })
-      });
-  }
-  
-  render(){
-    return (
-      <div>
-        <h2>Dashboard</h2>
-        <h3>{this.state.username}</h3>
-        <AuthButton />
-      </div>
-    );
-  }
-}
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (

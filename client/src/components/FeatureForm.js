@@ -1,108 +1,133 @@
 import React, { Component } from "react";
-import { Row, Modal, Button, Input } from "react-materialize";
+import {
+  Grid,
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+  Select,
+  MenuItem
+} from "@material-ui/core";
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 class FeatureForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDrafted: false,
-      newFeature: {}
+      open: false,
+      featureName: "",
+      featureDescription: "",
+      assignTo: ""
     };
   }
 
-  addFeature = () => {
-    let newFeature = {
-      featureName: document.getElementById("featureName").value,
-      featureDescription: document.getElementById("featureDescription").value,
-      featureAssignee: document.getElementById("featureAssignee").value,
-      featureDue: document.getElementById("featureDue").value
-    };
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { featureName, featureDescription, assignTo } = this.state;
+    if (featureName && featureDescription && assignTo) {
+      console.log(featureName, featureDescription, assignTo);
+      this.props.newFeature(featureName);
+      this.setState({
+        featureName: "",
+        featureDescription: "",
+        assignTo: ""
+      });
+      this.setState({ open: false });
+    } else {
+      this.setState({ open: true });
+    }
+  };
+
+  handleChange = name => event => {
     this.setState({
-      isDrafted: true,
-      newFeature: newFeature
+      [name]: event.target.value
     });
-    console.log("new feature object: ");
-    console.log(newFeature);
   };
-
-  pushFeature = () => {
-    this.props.handleAdd(this.state.newFeature.featureName);
-    this.setState({ isDrafted: false, newFeature: {} });
-  };
-
-  getConfirmPage = () => {
-    return (
-      <Modal
-        header="Edit details"
-        actions={[
-          <Button onClick={() => this.setState({ isDrafted: false })}>Edit</Button>,
-          <Button onClick={this.pushFeature} modal="close">Submit</Button>
-        ]}
-      >
-        <Row>
-          <label>Feature name:</label>
-          <p>
-            {this.state.newFeature.featureName
-              ? this.state.newFeature.featureName
-              : "Blank"}
-          </p>
-          <label>Description:</label>
-          <p>
-            {this.state.newFeature.featureDescription
-              ? this.state.newFeature.featureDescription
-              : "Blank"}
-          </p>
-          <label>Assignee:</label>
-          <p>{this.state.newFeature.featureAssignee}</p>
-          <label>DueDate:</label>
-          <p>
-            {this.state.newFeature.featureDue
-              ? this.state.newFeature.featureDue
-              : "Blank"}
-          </p>
-        </Row>
-      </Modal>
-    );
-  };
-
-  getForm = () => {
-    return (
-      <Modal
-        header="New Feature"
-        modalOptions={{dismissible: false}}
-        trigger={<Button>New Feature</Button>}
-        fixedFooter={true}
-        actions={[
-          <Button onClick={this.addFeature}>Continue</Button>, 
-          <Button className="btn-flat" onClick={this.clearForm} modal="close">Close</Button>
-        ]}
-      >
-        <Row>
-          <Input s={12} id="featureName" label="Feature name" defaultValue={this.state.newFeature.featureName ? this.state.newFeature.featureName : ''} />
-          <Input s={12} id="featureDescription" label="Description" defaultValue={this.state.newFeature.featureDescription ? this.state.newFeature.featureDescription : ''} />
-          <Input s={12} id="featureAssignee" type="select" label="Assign to">
-            <option value="1">Jason</option>
-            <option value="2">Joe</option>
-            <option value="3">Joey</option>
-          </Input>
-          <Input s={12} id="featureDue" type="date" label="Due date" />
-        </Row>
-      </Modal>
-    );
-  };
-
-  clearForm = () => {
-    document.getElementById("featureName").value = "";
-    document.getElementById("featureDescription").value = "";
-    document.getElementById("featureAssignee").value = 1;
-  }
 
   render() {
-    if (this.state.isDrafted === true) {
-      return(this.getConfirmPage());
-    } else {
-      return(this.getForm());
-    }
+    const { fullScreen } = this.props;
+    return (
+      <div>
+        <Button onClick={this.handleClickOpen}>New Feature</Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={Transition}
+          aria-labelledby="form-dialog-title"
+          fullWidth
+        >
+          <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
+          <form onSubmit={this.handleSubmit}>
+            <DialogContent>
+              <FormControl fullWidth required>
+                <InputLabel htmlFor="featureName" focused required>
+                  Feature Name
+                </InputLabel>
+                <Input
+                  fullWidth
+                  required
+                  id="featureName"
+                  placeholder="Feature Name"
+                  onChange={this.handleChange("featureName")}
+                  value={this.state.featureName}
+                />
+              </FormControl>
+              <FormControl fullWidth required>
+                <InputLabel htmlFor="featureDescription" focused required>
+                  Description
+                </InputLabel>
+                <Input
+                  fullWidth
+                  required
+                  id="featureDescription"
+                  placeholder="Feature Name"
+                  onChange={this.handleChange("featureDescription")}
+                  value={this.state.featureDescription}
+                />
+              </FormControl>
+              <FormControl fullWidth required>
+                <InputLabel htmlFor="assignTo">Assign To</InputLabel>
+                <Select
+                  value={this.state.assignTo}
+                  onChange={this.handleChange("assignTo")}
+                  name="Assign To"
+                  displayEmpty
+                  required
+                >
+                  <MenuItem value={"Joe"}>Joe</MenuItem>
+                  <MenuItem value={"Joey"}>Joey</MenuItem>
+                  <MenuItem value={"Jason"}>Jason</MenuItem>
+                </Select>
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={this.handleSubmit} type="submit" color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
+      </div>
+    );
   }
 }
 
