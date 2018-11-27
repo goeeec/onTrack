@@ -58,13 +58,26 @@ const AuthButton = withRouter(({ history }) =>
   )
 );
 
-const Dashboard = () => {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-      <AuthButton />
-    </div>
-  );
+class Dashboard extends Component {
+  state = { username: '' }
+
+  componentDidMount() {
+    axios.get("/auth/current_user")
+      .then(res => res.data)
+      .then(result => {
+        this.setState({ username: result.username })
+      });
+  }
+  
+  render(){
+    return (
+      <div>
+        <h2>Dashboard</h2>
+        <h3>{this.state.username}</h3>
+        <AuthButton />
+      </div>
+    );
+  }
 }
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -89,7 +102,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 
 class App extends Component {
   state = {
-    response: ""
+    currentUsername: ""
   };
 
   render() {
