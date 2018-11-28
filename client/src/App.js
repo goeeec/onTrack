@@ -83,6 +83,12 @@ class App extends Component {
     currentUsername: ""
   };
 
+  componentDidMount() {
+    axios.get("/auth/getSession").then(res => {
+      console.log(res);
+    });
+  }
+
   render() {
     return (
       <div className="App">

@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
     password_hash: {
       type: DataTypes.STRING
     }
@@ -26,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     })
   );
 
-  LocalAuth.associate = (models) => {
-    LocalAuth.belongsTo(models.User, { foreignKey: 'userId' });
+  LocalAuth.associate = models => {
+    LocalAuth.belongsTo(models.User, { foreignKey: "userId" });
   };
 
   return LocalAuth;

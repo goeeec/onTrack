@@ -15,7 +15,7 @@ export default class SigninPage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.props.auth.isAuthenticated);
+    // console.log(this.props.auth.isAuthenticated);
     this.props.auth.authenticate(this.state.email, this.state.password, () => {
       this.setState({ redirectToReferrer: true });
     });

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Grid } from "react-materialize";
+import { Grid } from "@material-ui/core";
 import axios from "axios";
 
 export default class SigninPage extends Component {
@@ -34,8 +34,8 @@ export default class SigninPage extends Component {
     return (
       <div>
         <Link to="/">Home</Link>
-        <Row>
-          <Col s={5} m={5} l={5}>
+        <Grid>
+          <Grid item s={5} m={5} l={5}>
             <form onSubmit={this.handleSubmit}>
               <label>Email:</label>
               <input
@@ -70,8 +70,8 @@ export default class SigninPage extends Component {
               />
               <input type="submit" value="submit" />
             </form>
-          </Col>
-        </Row>
+          </Grid>
+        </Grid>
       </div>
     );
   }
