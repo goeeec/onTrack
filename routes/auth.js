@@ -23,9 +23,14 @@ router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/auth/error" }),
   (req, res) => {
-    res.redirect("/user_detail");
+    res.redirect("/");
   }
 );
+
+router.get("/user_detail", (req, res) => {
+  console.log(req.user);
+  res.send(req.user);
+});
 
 router.post("/user_detail", async (req, res) => {
   const existingUser = await User.findOne({ where: { githubId: id } });

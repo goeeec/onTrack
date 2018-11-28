@@ -11,9 +11,10 @@ passport.use(
     clientSecret: keys.githubClientSecret,
     callbackURL: '/auth/github/callback'
   }, async (accessToken, refreshToken, profile, done) => {
-    const { id } = profile;
-
-    return done(null, id);
+    const { id, name, email } = profile._json;
+    const tempUser = { id, name, email };
+    // console.log(tempUser);
+    return done(null, tempUser);
   })
 )
 
@@ -23,13 +24,14 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    if (!user) {
-      return done(null, false);
-    }
+  // TODO: findByPk syntax? findById deprecated? Try later after sucessfully record data in DB
+  // User.findById(id).then(user => {
+  //   if (!user) {
+  //     return done(null, false);
+  //   }
 
-    return done(null, user);
-  });
+    return done(null, id);
+  // });
 });
 
 passport.redirectIfLoggedIn = route => (req, res, next) =>
