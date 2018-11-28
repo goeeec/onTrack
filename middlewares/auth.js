@@ -1,39 +1,9 @@
-const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const GitHubStrategy = require('passport-github').Strategy;
 const keys = require('../config/keys');
 
 const User = require("../models").User;
-const LocalAuth = require("../models").LocalAuth;
-const GithubAuth = require("../models").GithubAuth;
 
-function passwordsMatch(passwordSubmitted, storedPassword) {
-  return bcrypt.compareSync(passwordSubmitted, storedPassword);
-}
-
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email"
-    },
-    (email, password, done) => {
-      LocalAuth.findOne({
-        where: { email }
-      }).then(user => {
-        if (!user) {
-          return done(null, false, { message: "Incorrect email." });
-        }
-
-        if (passwordsMatch(password, user.password_hash) === false) {
-          return done(null, false, { message: "Incorrect password." });
-        }
-
-        return done(null, user, { message: "Successfully Logged In!" });
-      });
-    }
-  )
-);
 
 passport.use(
   new GitHubStrategy({
@@ -41,29 +11,15 @@ passport.use(
     clientSecret: keys.githubClientSecret,
     callbackURL: '/auth/github/callback'
   }, async (accessToken, refreshToken, profile, done) => {
-    const { id, displayName } = profile;
-    const email = profile.emails[0].value;
+    const { id } = profile;
 
-    const existingGithubUser = await GithubAuth.findOne({ where: { githubId: id } });
-    if (existingGithubUser) {
-      return done(null, existingGithubUser);
-    }
-
-    const newUser = await User.create({ username: profile.username });
-    const newGithubUser = await GithubAuth.create({
-      githubId: id,
-      name: displayName,
-      email: email,
-      userId: newUser.id
-    });
-
-    return done(null, newGithubUser);
+    return done(null, id);
   })
 )
 
 passport.serializeUser((user, done) => {
   // push to session
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser((id, done) => {
