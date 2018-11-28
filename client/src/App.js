@@ -11,34 +11,16 @@ import "./Assets/css/App.css";
 import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
-import SignUpPage from "./User/SignUpPage";
 import axios from "axios";
 
 const auth = {
-  isAuthenticated: false,
-  authenticate(email, password, cb) {
-    axios
-      .post("/auth/signin", {
-        email: email,
-        password: password
-      })
-      .then(response => {
-        console.log("login success");
-        this.isAuthenticated = true;
-        return response;
-      })
-      .then(body => {
-        console.log(body);
-        cb();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
+  isAuthenticated: false
+  // authenticate(email, password, cb) {
+  // },
+  // signout(cb) {
+  //   this.isAuthenticated = false;
+  //   setTimeout(cb, 100);
+  // }
 };
 
 const AuthButton = withRouter(({ history }) =>
@@ -58,50 +40,97 @@ const AuthButton = withRouter(({ history }) =>
   )
 );
 
-function PrivateRoute({ component: Component, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        auth.isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/Signin",
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+// function PrivateRoute({ component: Component, ...rest }) {
+//   return (
+//     <Route
+//       {...rest}
+//       render={props =>
+//         auth.isAuthenticated ? (
+//           <Component {...props} />
+//         ) : (
+//           <Redirect
+//             to={{
+//               pathname: "/Signin",
+//               state: { from: props.location }
+//             }}
+//           />
+//         )
+//       }
+//     />
+//   );
+// }
 
 class App extends Component {
-  state = {
-    currentUsername: ""
-  };
+  constructor(props) {
+    super(props);
+    this.checkAuth();
+    this.state = {
+      currentUsername: "",
+      isAuthenticated: false
+    };
+  }
 
   componentDidMount() {
-    axios.get("/auth/getSession").then(res => {
-      console.log(res);
+    axios.get("/auth/user_detail").then(response => {
+      console.log(response.data.passport);
+      if (response.data.passport) {
+        this.setState({ isAuthenticated: true });
+      } else {
+        this.setState({ isAuthenticated: false });
+      }
     });
   }
+  checkAuth = () => {
+    axios.get("/auth/user_detail").then(response => {
+      console.log(response.data.passport);
+      if (response.data.passport) {
+        this.setState({ isAuthenticated: true });
+      } else {
+        this.setState({ isAuthenticated: false });
+      }
+    });
+  };
+
+  PrivateRoute = ({ component: Component, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          this.state.isAuthenticated ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/Signin",
+                state: { from: props.location }
+              }}
+            />
+          )
+        }
+      />
+    );
+  };
 
   render() {
     return (
       <div className="App">
-        {/* <AuthButton /> */}
         <Switch>
           <Route exact path="/" component={Home} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <Route
+            exact
+            path="/dashboard"
+            render={props => (
+              <Dashboard
+                {...props}
+                isAuthenticated={this.state.isAuthenticated}
+              />
+            )}
+          />
           <Route
             exact
             path="/Signin"
             render={props => <SigninPage {...props} auth={auth} />}
           />
-          <Route exact path="/SignUp" component={SignUpPage} />
         </Switch>
 
         {/* <p className="App-intro">{this.state.response}</p> */}

@@ -29,6 +29,8 @@ import axios from "axios";
 import ProjectPanel from "./ProjectPanel";
 import BranchPanel from "./BranchPanel";
 
+import { Redirect } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -89,18 +91,12 @@ const styles = theme => ({
 });
 
 class Dashboard extends React.Component {
-  state = {
-    open: false,
-    username: ""
-  };
-
-  componentDidMount() {
-    axios
-      .get("/auth/current_user")
-      .then(res => res.data)
-      .then(result => {
-        this.setState({ username: result.username });
-      });
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      username: ""
+    };
   }
 
   handleDrawerOpen = () => {
@@ -114,71 +110,77 @@ class Dashboard extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { open } = this.state;
+    {
+      console.log(this.props.isAuthenticated);
+    }
+    if (this.props.isAuthenticated) {
+      return (
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar
+            position="fixed"
+            className={classNames(classes.appBar, {
+              [classes.appBarShift]: open
+            })}
+          >
+            <Toolbar disableGutters={!open}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" noWrap>
+                Dashboard
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            className={classes.drawer}
+            variant="persistent"
+            anchor="left"
+            open={open}
+            classes={{ paper: classes.drawerPaper }}
+          >
+            <div className={classes.drawerHeader}>
+              {/* SideBar */}
+              <IconButton onClick={this.handleDrawerClose}>
+                {theme.direction === "ltr" ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </div>
+            <h3>{this.state.username}</h3>
+            <Button variant="contained" href="/" color="primary">
+              Home
+            </Button>
 
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: open
-          })}
-        >
-          <Toolbar disableGutters={!open}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              Dashboard
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
-          open={open}
-          classes={{ paper: classes.drawerPaper }}
-        >
-          <div className={classes.drawerHeader}>
-            {/* SideBar */}
-            <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </div>
-          <h3>{this.state.username}</h3>
-          <Button variant="contained" href="/" color="primary">
-            Home
-          </Button>
-
-          <Divider />
-          <Divider />
-        </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open
-          })}
-        >
-          {/* Main Content */}
-          <div className={classes.drawerHeader} />
-          <Grid container justify="center" spacing={40}>
-            <Grid item sm={12} md={12} lg={12} xs={12} className="header">
-              {data["projectName"]}
+            <Divider />
+            <Divider />
+          </Drawer>
+          <main
+            className={classNames(classes.content, {
+              [classes.contentShift]: open
+            })}
+          >
+            {/* Main Content */}
+            <div className={classes.drawerHeader} />
+            <Grid container justify="center" spacing={40}>
+              <Grid item sm={12} md={12} lg={12} xs={12} className="header">
+                {data["projectName"]}
+              </Grid>
+              <ProjectPanel />
             </Grid>
-            <ProjectPanel />
-          </Grid>
-        </main>
-      </div>
-    );
+          </main>
+        </div>
+      );
+    } else {
+      return <Redirect to="/" />;
+    }
   }
 }
 

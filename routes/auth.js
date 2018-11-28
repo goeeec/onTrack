@@ -28,8 +28,9 @@ router.get(
 );
 
 router.get("/user_detail", (req, res) => {
-  console.log(req.user);
-  res.send(req.user);
+  console.log("IM IN USER DETAUL");
+  console.log(req.session);
+  res.send(req.session);
 });
 
 router.post("/user_detail", async (req, res) => {
