@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import "../Assets/css/home.css";
 import { Grid } from "@material-ui/core";
-import Axios from "axios";
 
 export default class Home extends Component {
   render() {
@@ -18,9 +17,6 @@ export default class Home extends Component {
           <Navbar />
           <h2>This is home page</h2>
           <Link to="/dashboard">dashboard</Link>
-          <button onClick={() => {
-            Axios.get("/auth/user_detail").then(res => console.log(res))
-          }}>Test!</button>
         </Grid>
       </Grid>
     );

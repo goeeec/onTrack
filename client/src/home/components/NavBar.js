@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../Assets/css/navbar.css";
 import TrackIcon from "../../Assets/images/track.png";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
 import axios from "axios";
 import {
@@ -9,6 +9,13 @@ import {
   removeFromStorage
 } from "../../components/utils/storage";
 class NavBar extends Component {
+  /**
+   * This method will fetch to logout
+   * if the return response.status is 200
+   * then remove the current user id from local storage
+   * and redirect to "/" page
+   * and update the isLogged state to false
+   */
   logout = () => {
     axios.get("/auth/logout").then(res => {
       if (res.status === 200) {

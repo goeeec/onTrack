@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 import "./Assets/css/App.css";
 import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
@@ -14,8 +7,14 @@ import SigninPage from "./User/SigninPage";
 
 import axios from "axios";
 import { getFromStorage, setInStorage } from "./components/utils/storage";
-import queryString from "query-string";
 
+/**
+ * This method accepts a component
+ * Checks if the local storage has the user Id
+ * True: render the component
+ * False: redirect to sign in
+ * @param {*Component} param0
+ */
 function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
@@ -49,7 +48,8 @@ class App extends Component {
    * This will fire before render
    * It will make a fetch call to the backend
    * check if there is a user in the session
-   *
+   * True: save the user id in local storage
+   * False: Nothing
    */
   componentWillMount() {
     if (!getFromStorage("userId")) {
@@ -65,9 +65,18 @@ class App extends Component {
     });
   }
 
+  /**
+   * THIS IS NOT A GOOD PRACTICE
+   * This method will wait for newProps
+   * if there is newProps.location.state
+   * True: change the current state of isLogged
+   * which will re-render the page
+   * @param {*} newProps
+   */
   componentWillReceiveProps(newProps) {
     console.log(newProps.location);
-    this.setState({ isLogged: newProps.location.state.isLogged });
+    if (newProps.location.state)
+      this.setState({ isLogged: newProps.location.state.isLogged });
   }
 
   render() {

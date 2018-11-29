@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Grid,
   FormControl,
   InputLabel,
   Input,
@@ -8,7 +7,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Slide,
   Select,
@@ -61,7 +59,6 @@ class FeatureForm extends Component {
   };
 
   render() {
-    const { fullScreen } = this.props;
     return (
       <div>
         <Button onClick={this.handleClickOpen}>New Feature</Button>
