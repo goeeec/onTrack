@@ -15,34 +15,14 @@ export default class SigninPage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // console.log(this.props.auth.isAuthenticated);
-    this.props.auth.authenticate(this.state.email, this.state.password, () => {
-      this.setState({ redirectToReferrer: true });
-    });
-    // axios
-    //   .post("/auth/signin", {
-    //     email: this.state.email,
-    //     password: this.state.password
-    //   })
-    //   .then(() => {
-    //     console.log("ok");
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
   };
 
   render() {
     let { from } = this.props.location.state || { from: { pathname: "/" } };
     let { redirectToReferrer } = this.state;
-    let { isAuthenticated } = this.props.auth;
-
-    {
-      console.log(this.props.auth.isAuthenticated);
-    }
 
     if (redirectToReferrer) return <Redirect to={from} />;
-    if (isAuthenticated) return <Redirect to={from} />;
+    // if (isAuthenticated) return <Redirect to={from} />;
     //test
     return (
       <div>

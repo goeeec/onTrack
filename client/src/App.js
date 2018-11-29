@@ -16,33 +16,6 @@ import axios from "axios";
 import { getFromStorage, setInStorage } from "./components/utils/storage";
 import queryString from "query-string";
 
-const auth = {
-  isAuthenticated: false
-  // authenticate(email, password, cb) {
-  // },
-  // signout(cb) {
-  //   this.isAuthenticated = false;
-  //   setTimeout(cb, 100);
-  // }
-};
-
-const AuthButton = withRouter(({ history }) =>
-  auth.isAuthenticated ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          auth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  )
-);
-
 function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
@@ -67,45 +40,43 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUsername: ""
+      currentUsername: "",
+      isLogged: false
     };
   }
 
-  // this will fire before render
-  // this will make a fetch to the backend and
-  // check if there is a user in the session
-  // if there is a user
   /**
    * This will fire before render
    * It will make a fetch call to the backend
    * check if there is a user in the session
    *
    */
-  componentDidMount() {
+  componentWillMount() {
+    if (!getFromStorage("userId")) {
+      this.setState({ isLogged: false });
+    }
     axios.get("/auth/user_detail").then(response => {
       console.log(response.data.passport);
       if (response.data.passport) {
         const userId = response.data.passport.user;
         setInStorage("userId", userId.id);
+        this.setState({ isLogged: true });
       }
     });
   }
 
+  componentWillReceiveProps(newProps) {
+    console.log(newProps.location);
+    this.setState({ isLogged: newProps.location.state.isLogged });
+  }
+
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Route exact path="/" component={Home} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <Route
-            exact
-            path="/Signin"
-            render={props => <SigninPage {...props} auth={auth} />}
-          />
-
-          {/* <p className="App-intro">{this.state.response}</p> */}
-        </div>
-      </Router>
+      <div className="App">
+        <Route exact path="/" component={Home} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/Signin" component={SigninPage} />
+      </div>
     );
   }
 }

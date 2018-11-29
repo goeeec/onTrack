@@ -10,7 +10,7 @@ router.get("/error", (req, res) => {
 router.get("/logout", (req, res) => {
   req.session.destroy();
   console.log(req.session);
-  res.sendStatus(200);
+  res.redirect("/");
 });
 
 router.get(
