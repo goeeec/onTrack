@@ -11,7 +11,10 @@ import "./Assets/css/App.css";
 import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
+
 import axios from "axios";
+import { getFromStorage, setInStorage } from "./components/utils/storage";
+import queryString from "query-string";
 
 const auth = {
   isAuthenticated: false
@@ -40,101 +43,69 @@ const AuthButton = withRouter(({ history }) =>
   )
 );
 
-// function PrivateRoute({ component: Component, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={props =>
-//         auth.isAuthenticated ? (
-//           <Component {...props} />
-//         ) : (
-//           <Redirect
-//             to={{
-//               pathname: "/Signin",
-//               state: { from: props.location }
-//             }}
-//           />
-//         )
-//       }
-//     />
-//   );
-// }
+function PrivateRoute({ component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        getFromStorage("userId") ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/Signin",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.checkAuth();
     this.state = {
-      currentUsername: "",
-      isAuthenticated: false
+      currentUsername: ""
     };
   }
 
+  // this will fire before render
+  // this will make a fetch to the backend and
+  // check if there is a user in the session
+  // if there is a user
+  /**
+   * This will fire before render
+   * It will make a fetch call to the backend
+   * check if there is a user in the session
+   *
+   */
   componentDidMount() {
     axios.get("/auth/user_detail").then(response => {
       console.log(response.data.passport);
       if (response.data.passport) {
-        this.setState({ isAuthenticated: true });
-      } else {
-        this.setState({ isAuthenticated: false });
+        const userId = response.data.passport.user;
+        setInStorage("userId", userId.id);
       }
     });
   }
-  checkAuth = () => {
-    axios.get("/auth/user_detail").then(response => {
-      console.log(response.data.passport);
-      if (response.data.passport) {
-        this.setState({ isAuthenticated: true });
-      } else {
-        this.setState({ isAuthenticated: false });
-      }
-    });
-  };
-
-  PrivateRoute = ({ component: Component, ...rest }) => {
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          this.state.isAuthenticated ? (
-            <Component {...props} />
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/Signin",
-                state: { from: props.location }
-              }}
-            />
-          )
-        }
-      />
-    );
-  };
 
   render() {
     return (
-      <div className="App">
-        <Switch>
+      <Router>
+        <div className="App">
           <Route exact path="/" component={Home} />
-          <Route
-            exact
-            path="/dashboard"
-            render={props => (
-              <Dashboard
-                {...props}
-                isAuthenticated={this.state.isAuthenticated}
-              />
-            )}
-          />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <Route
             exact
             path="/Signin"
             render={props => <SigninPage {...props} auth={auth} />}
           />
-        </Switch>
 
-        {/* <p className="App-intro">{this.state.response}</p> */}
-      </div>
+          {/* <p className="App-intro">{this.state.response}</p> */}
+        </div>
+      </Router>
     );
   }
 }
