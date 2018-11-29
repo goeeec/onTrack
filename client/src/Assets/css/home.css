@@ -1,3 +1,27 @@
 .container {
   margin: 0 auto;
 }
+ 
+.background-img{
+  background-image: url("../images/home_img.jpg");
+  background-size: cover;
+  height: 100vh;
+}
+
+a:link {
+  text-decoration: none;
+  text-align: center;
+}
+
+h1{
+  margin-bottom: 20px;
+}
+.content{
+  position: absolute;
+  height: 50px;
+  top: 40%;
+  left: 50%;
+  margin-left: -50px; /* margin is -0.5 * dimension */
+  margin-top: -25px;
+}
+

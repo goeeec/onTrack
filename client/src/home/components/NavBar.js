@@ -13,7 +13,7 @@ export default class NavBar extends Component {
           <h4 className="navLogoTitle">onTrack</h4>
         </Link>
         <div className="nav_item">
-          <a href="/auth/github">Login with Github</a>
+          <Button variant="outlined" href="/auth/github">Login with Github</Button>
         </div>
       </Grid>
     );
