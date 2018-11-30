@@ -15,7 +15,7 @@ class BranchList extends Component {
         <ListSubheader>features are in progress</ListSubheader>
         <List className="branchListHover branch-list">
           {this.props.branchList.map((branch, i) => {
-            return <BranchListItem branchListItem={branch} key={i} />;
+            return <BranchListItem branchListItem={branch} key={i} index={i} />;
           })}
         </List>
       </List>
