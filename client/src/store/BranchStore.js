@@ -1,23 +1,35 @@
-import { observable, computed, action, decorate } from "mobx";
+import { observable, computed, action, decorate, get } from "mobx";
 
-class Timer {
-  start = Date.now();
-  current = Date.now();
+class Project {
+  projectName = "onTrack";
+  projectUrl = "";
+  createdAt = "2018-09-31";
+  features = [
+    {
+      name: "login",
+      description: "create login page",
+      assignee: "Jason",
+      dueDate: "2018-10-31",
+      subTasks: [
+        {
+          name: "sign up procedure",
+          isCompleted: false
+        }
+      ]
+    }
+  ];
 
-  get elapsedTime() {
-    return this.current - this.start + "milliseconds";
-  }
-
-  tick() {
-    this.current = Date.now();
+  change(name) {
+    this.projectName = name;
   }
 }
-decorate(Timer, {
-  start: observable,
-  current: observable,
-  elapsedTime: computed,
-  tick: action
+
+decorate(Project, {
+  test: observable,
+  // current: observable,
+  // elapsedTime: computed,
+  change: action
 });
 
-const store = new Timer();
+const store = new Project();
 export default store;
