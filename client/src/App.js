@@ -6,7 +6,13 @@ import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
 
 import axios from "axios";
-import { getFromStorage, setInStorage } from "./components/utils/storage";
+import {
+  getFromStorage,
+  setInStorage,
+  removeFromStorage
+} from "./components/utils/storage";
+
+import { observer, inject } from "mobx-react";
 
 /**
  * This method accepts a component
@@ -35,59 +41,67 @@ function PrivateRoute({ component: Component, ...rest }) {
   );
 }
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUsername: "",
-      isLogged: false
-    };
-  }
-
-  /**
-   * This will fire before render
-   * It will make a fetch call to the backend
-   * check if there is a user in the session
-   * True: save the user id in local storage
-   * False: Nothing
-   */
-  componentWillMount() {
-    if (!getFromStorage("userId")) {
-      this.setState({ isLogged: false });
-    }
-    axios.get("/auth/user_detail").then(response => {
-      console.log(response.data.passport);
-      if (response.data.passport) {
-        const userId = response.data.passport.user;
-        setInStorage("userId", userId.id);
-        this.setState({ isLogged: true });
+const App = inject("store")(
+  observer(
+    class App extends Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          currentUsername: "",
+          isLogged: false
+        };
       }
-    });
-  }
 
-  /**
-   * THIS IS NOT A GOOD PRACTICE
-   * This method will wait for newProps
-   * if there is newProps.location.state
-   * True: change the current state of isLogged
-   * which will re-render the page
-   * @param {*} newProps
-   */
-  componentWillReceiveProps(newProps) {
-    console.log(newProps.location);
-    if (newProps.location.state)
-      this.setState({ isLogged: newProps.location.state.isLogged });
-  }
+      /**
+       * This will fire before render
+       * It will make a fetch call to the backend
+       * check if there is a user in the session
+       * True: save the user id in local storage
+       * False: Nothing
+       */
+      componentWillMount() {
+        console.log(this.props.store);
+        if (!getFromStorage("userId")) {
+          this.setState({ isLogged: false });
+        }
+        axios.get("/auth/user_detail").then(response => {
+          console.log(response.data.passport);
+          if (response.data.passport) {
+            const userId = response.data.passport.user;
+            setInStorage("userId", userId.id);
+            this.setState({ isLogged: true });
+          } else {
+            removeFromStorage("userId");
+            this.setState({ isLogged: false });
+          }
+        });
+      }
 
-  render() {
-    return (
-      <div className="App">
-        <Route exact path="/" component={Home} />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/Signin" component={SigninPage} />
-      </div>
-    );
-  }
-}
+      /**
+       * THIS IS NOT A GOOD PRACTICE
+       * This method will wait for newProps
+       * if there is newProps.location.state
+       * True: change the current state of isLogged
+       * which will re-render the page
+       * @param {*} newProps
+       */
+      componentWillReceiveProps(newProps) {
+        console.log(newProps.location);
+        if (newProps.location.state)
+          this.setState({ isLogged: newProps.location.state.isLogged });
+      }
+
+      render() {
+        return (
+          <div className="App">
+            <Route exact path="/" component={Home} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/Signin" component={SigninPage} />
+          </div>
+        );
+      }
+    }
+  )
+);
 
 export default withRouter(App);

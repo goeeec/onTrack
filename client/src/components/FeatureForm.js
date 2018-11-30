@@ -67,7 +67,6 @@ class FeatureForm extends Component {
           onClose={this.handleClose}
           TransitionComponent={Transition}
           aria-labelledby="form-dialog-title"
-          fullWidth
         >
           <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
           <form onSubmit={this.handleSubmit}>

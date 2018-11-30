@@ -5,9 +5,14 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 
+import { Provider } from "mobx-react";
+import BranchStore from "./store/BranchStore";
+
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <Provider store={BranchStore}>
+      <App />
+    </Provider>
   </BrowserRouter>,
   document.getElementById("root")
 );

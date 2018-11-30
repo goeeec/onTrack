@@ -169,6 +169,7 @@ class Dashboard extends Component {
               {data["projectName"]}
             </Grid>
             <ProjectPanel />
+            <BranchPanel />
           </Grid>
         </main>
       </div>

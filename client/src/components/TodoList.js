@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Collection,
-  CollectionItem,
-  Input,
-  Button,
-  Modal,
-  Task
-} from "react-materialize";
+import { Grid, List, ListItem, ListSubheader } from "@material-ui/core";
 
 class TodoList extends Component {
   constructor(props) {
@@ -28,7 +21,16 @@ class TodoList extends Component {
   render() {
     return (
       <div>
-        <h2>{this.props.branch.name}</h2>
+        <List>
+          <ListSubheader>asd</ListSubheader>
+          {/* <List className="branchListHover branch-list">
+            {this.state.todos.map((task, i) => {
+              return <ListItem key={i}>{task.name}</ListItem>;
+            })}
+          </List> */}
+        </List>
+
+        {/* <h2>{this.props.branch.name}</h2>
         <Collection>
           {this.state.todos.map((task, i) => {
             let defValue = "";
@@ -69,7 +71,7 @@ class TodoList extends Component {
               </CollectionItem>
             );
           })}
-        </Collection>
+        </Collection> */}
       </div>
     );
   }
