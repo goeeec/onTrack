@@ -13,19 +13,24 @@ import { withStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 class TodoListTask extends Component {
-  state = { expanded: null };
-
-  handleChange = panel => (event, expanded) => {
-    this.setState({
-      expanded: expanded ? panel : false
-    });
-  };
-
   render() {
-    const { expanded } = this.state;
+    {
+      console.log(this.props.subtask);
+    }
     return (
-      <div>
-        <ExpansionPanel
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <h4>{this.props.subtask.name}</h4>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>{this.props.subtask.name}</ExpansionPanelDetails>
+      </ExpansionPanel>
+    );
+  }
+}
+
+export default TodoListTask;
+{
+  /* <ExpansionPanel
           expanded={expanded === this.props.subtask.name}
           onChange={this.handleChange(this.props.subtask.name)}
         >
@@ -33,13 +38,10 @@ class TodoListTask extends Component {
             {this.props.subtask.name}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>test</ExpansionPanelDetails>
-        </ExpansionPanel>
-        {/* <ListItem>
-          <ListItemText>{this.props.subtask.name}</ListItemText>
-        </ListItem> */}
-      </div>
-    );
-  }
+        </ExpansionPanel> */
 }
-
-export default TodoListTask;
+{
+  /* <ListItem>
+          <ListItemText>{this.props.subtask.name}</ListItemText>
+        </ListItem> */
+}

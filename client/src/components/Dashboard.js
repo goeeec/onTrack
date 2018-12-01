@@ -171,7 +171,7 @@ const Dashboard = inject("store")(
             >
               {/* Main Content */}
               <div className={classes.drawerHeader} />
-              <Grid container justify="center" spacing={40}>
+              <Grid container justify="space-around" spacing={40}>
                 <Grid item sm={12} md={12} lg={12} xs={12} className="header">
                   {this.props.store.projectName}
                 </Grid>

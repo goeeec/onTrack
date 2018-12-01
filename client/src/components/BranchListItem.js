@@ -16,7 +16,7 @@ const BranchListItem = inject("store")(
       }
 
       displayTodoList = () => {
-        console.log(this.props.branchListItem);
+        console.log(this.props.feature);
         console.log(this.props.index);
         console.log(this.props);
         this.props.store.updateFeatureIndex(this.props.index);
@@ -31,7 +31,7 @@ const BranchListItem = inject("store")(
         return (
           <ListItem>
             <ListItemText onClick={this.displayTodoList}>
-              {this.props.branchListItem}
+              {this.props.feature.name}
             </ListItemText>
             <ListItemSecondaryAction>
               <img
