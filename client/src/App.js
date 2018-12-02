@@ -13,6 +13,7 @@ import {
 } from "./components/utils/storage";
 
 import { observer, inject } from "mobx-react";
+import NewProjectPage from "./NewProjectPage/NewProjectPage";
 
 /**
  * This method accepts a component
@@ -98,6 +99,7 @@ const App = inject("store")(
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route exact path="/Signin" component={SigninPage} />
+            <Route exact path="/new_project" component={NewProjectPage} />
           </div>
         );
       }
