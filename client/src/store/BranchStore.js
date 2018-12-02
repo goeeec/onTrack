@@ -67,6 +67,10 @@ class Project {
   updateFeatureIndex(index) {
     this.featureIndex = index;
   }
+
+  addFeature(newFeature) {
+    this.features.push(newFeature);
+  }
 }
 
 decorate(Project, {
@@ -75,7 +79,8 @@ decorate(Project, {
   // current: observable,
   // elapsedTime: computed,
   change: action,
-  updateFeatureIndex: action
+  updateFeatureIndex: action,
+  addFeature: action
 });
 
 const store = new Project();
