@@ -13,8 +13,9 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const { id, name, email } = profile._json;
-      const tempUser = { id, name, email };
+      const tempUser = { id, name, email, accessToken };
       // console.log(tempUser);
+      console.log(accessToken);
       return done(null, tempUser);
     }
   )

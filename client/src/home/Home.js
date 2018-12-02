@@ -23,6 +23,8 @@ const Home = observer(
             <Navbar />
             <h2>This is home page</h2>
             <Link to="/dashboard">dashboard</Link>
+            <br />
+            <Link to="/new_project">Create new project</Link>
           </Grid>
         </Grid>
       );

@@ -99,7 +99,7 @@ const App = inject("store")(
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route exact path="/Signin" component={SigninPage} />
-            <Route exact path="/new_project" component={NewProjectPage} />
+            <PrivateRoute exact path="/new_project" component={NewProjectPage} />
           </div>
         );
       }
