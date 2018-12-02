@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Grid, List, ListItem, ListSubheader } from "@material-ui/core";
 import { observer, inject } from "mobx-react";
 
+import TodoListTask from "./TodoListTask";
+
 const TodoList = inject("store")(
   observer(
     class TodoList extends Component {
@@ -22,68 +24,22 @@ const TodoList = inject("store")(
       // };
 
       render() {
-        {
-          console.log(this.props.store.featureIndex);
-          console.log(this.state);
-        }
+        const { features } = this.props.store;
+        const { featureIndex } = this.props.store;
+
         return (
           <div>
             <List>
-              <ListSubheader>
+              <ListSubheader>{features[featureIndex].name}</ListSubheader>
+              <List className="branchListHover branch-list">
+                {features[featureIndex].subTasks.map((task, i) => {
+                  return <TodoListTask key={i} subtask={task} />;
+                })}
+              </List>
+              {/* <ListItem>
                 {this.props.store.features[this.props.store.featureIndex].name}
-              </ListSubheader>
-              {/* <List className="branchListHover branch-list">
-            {this.state.todos.map((task, i) => {
-              return <ListItem key={i}>{task.name}</ListItem>;
-            })}
-          </List> */}
-              <ListItem>
-                {this.props.store.features[this.props.store.featureIndex].name}
-              </ListItem>
+              </ListItem> */}
             </List>
-
-            {/* <h2>{this.props.branch.name}</h2>
-        <Collection>
-          {this.state.todos.map((task, i) => {
-            let defValue = "";
-            if (task.isCompleted === true) {
-              defValue = "checked";
-              console.log(task.name + " is completed");
-            } else {
-              defValue = "unchecked";
-            }
-            console.log(task.name + ": " + defValue);
-            return (
-              <CollectionItem index={i} key={i}>
-                <Input
-                  type="checkbox"
-                  className="filled-in"
-                  label={task.name}
-                />
-                <Button
-                  floating
-                  className="red"
-                  waves="light"
-                  icon="delete"
-                  onClick={() => {
-                    this.setState(state => ({
-                      todos: state.todos.filter(item => item !== task)
-                    }));
-                  }}
-                  key={task}
-                />
-                <Modal
-                  header="Edit Branch"
-                  trigger={
-                    <Button floating className="blue" waves="light" icon="edit">
-                      Edit
-                    </Button>
-                  }
-                />
-              </CollectionItem>
-            );
-          })}
-        </Collection> */}
           </div>
         );
       }
