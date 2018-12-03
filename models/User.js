@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("user", {
     githubId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
       validate: {

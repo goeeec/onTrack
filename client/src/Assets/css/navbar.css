@@ -26,9 +26,10 @@
   color: black;
 }
 
-.signIn {
+.link_button {
   font-size: 15px;
   color: #333333;
   font-weight: 600;
   text-decoration: none;
+  margin-right: 10px;
 }

@@ -1,69 +1,26 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 import "./Assets/css/App.css";
 import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
-import SignUpPage from "./User/SignUpPage";
+
 import axios from "axios";
+import { getFromStorage, setInStorage } from "./components/utils/storage";
 
-const auth = {
-  isAuthenticated: false,
-  authenticate(email, password, cb) {
-    axios
-      .post("/auth/signin", {
-        email: email,
-        password: password
-      })
-      .then(response => {
-        console.log("login success");
-        this.isAuthenticated = true;
-        return response;
-      })
-      .then(body => {
-        console.log(body);
-        cb();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
-
-const AuthButton = withRouter(({ history }) =>
-  auth.isAuthenticated ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          auth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  )
-);
-
+/**
+ * This method accepts a component
+ * Checks if the local storage has the user Id
+ * True: render the component
+ * False: redirect to sign in
+ * @param {*Component} param0
+ */
 function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={props =>
-        auth.isAuthenticated ? (
+        getFromStorage("userId") ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -79,26 +36,55 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 class App extends Component {
-  state = {
-    currentUsername: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentUsername: "",
+      isLogged: false
+    };
+  }
+
+  /**
+   * This will fire before render
+   * It will make a fetch call to the backend
+   * check if there is a user in the session
+   * True: save the user id in local storage
+   * False: Nothing
+   */
+  componentWillMount() {
+    if (!getFromStorage("userId")) {
+      this.setState({ isLogged: false });
+    }
+    axios.get("/auth/user_detail").then(response => {
+      console.log(response.data.passport);
+      if (response.data.passport) {
+        const userId = response.data.passport.user;
+        setInStorage("userId", userId.id);
+        this.setState({ isLogged: true });
+      }
+    });
+  }
+
+  /**
+   * THIS IS NOT A GOOD PRACTICE
+   * This method will wait for newProps
+   * if there is newProps.location.state
+   * True: change the current state of isLogged
+   * which will re-render the page
+   * @param {*} newProps
+   */
+  componentWillReceiveProps(newProps) {
+    console.log(newProps.location);
+    if (newProps.location.state)
+      this.setState({ isLogged: newProps.location.state.isLogged });
+  }
 
   render() {
     return (
       <div className="App">
-        {/* <AuthButton /> */}
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <Route
-            exact
-            path="/Signin"
-            render={props => <SigninPage {...props} auth={auth} />}
-          />
-          <Route exact path="/SignUp" component={SignUpPage} />
-        </Switch>
-
-        {/* <p className="App-intro">{this.state.response}</p> */}
+        <Route exact path="/" component={Home} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/Signin" component={SigninPage} />
       </div>
     );
   }

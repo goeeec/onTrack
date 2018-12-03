@@ -8,7 +8,6 @@ import {
   AppBar,
   Toolbar,
   List,
-  Typography,
   Divider,
   IconButton,
   Grid,
@@ -20,8 +19,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+
 import "typeface-roboto";
 import data from "../fakeData.json";
 import axios from "axios";
@@ -88,19 +86,14 @@ const styles = theme => ({
   }
 });
 
-class Dashboard extends React.Component {
-  state = {
-    open: false,
-    username: ""
-  };
-
-  componentDidMount() {
-    axios
-      .get("/auth/current_user")
-      .then(res => res.data)
-      .then(result => {
-        this.setState({ username: result.username });
-      });
+class Dashboard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      username: "",
+      isLoading: true
+    };
   }
 
   handleDrawerOpen = () => {
@@ -133,9 +126,10 @@ class Dashboard extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
+            {/* <Typography variant="h6" color="inherit" noWrap>
               Dashboard
-            </Typography>
+            </Typography> */}
+            <h4>DashBoard</h4>
           </Toolbar>
         </AppBar>
         <Drawer

@@ -1,22 +1,24 @@
 const passport = require("passport");
-const GitHubStrategy = require('passport-github').Strategy;
-const keys = require('../config/keys');
+const GitHubStrategy = require("passport-github").Strategy;
+const keys = require("../config/keys");
 
 const User = require("../models").User;
 
-
 passport.use(
-  new GitHubStrategy({
-    clientID: keys.githubClientID,
-    clientSecret: keys.githubClientSecret,
-    callbackURL: '/auth/github/callback'
-  }, async (accessToken, refreshToken, profile, done) => {
-    const { id, name, email } = profile._json;
-    const tempUser = { id, name, email };
-    // console.log(tempUser);
-    return done(null, tempUser);
-  })
-)
+  new GitHubStrategy(
+    {
+      clientID: keys.githubClientID,
+      clientSecret: keys.githubClientSecret,
+      callbackURL: "/auth/github/callback"
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const { id, name, email } = profile._json;
+      const tempUser = { id, name, email };
+      // console.log(tempUser);
+      return done(null, tempUser);
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   // push to session
@@ -30,7 +32,7 @@ passport.deserializeUser((id, done) => {
   //     return done(null, false);
   //   }
 
-    return done(null, id);
+  return done(null, id);
   // });
 });
 

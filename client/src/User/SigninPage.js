@@ -1,84 +1,90 @@
+import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { Row, Col, Grid } from "react-materialize";
 import axios from "axios";
+import {
+    FormControl,
+    InputLabel,
+    Input,
+    Button,
+    DialogContent,
+    Grid
+  } from "@material-ui/core";
 
-export default class SigninPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      redirectToReferrer: false
-    };
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    console.log(this.props.auth.isAuthenticated);
-    this.props.auth.authenticate(this.state.email, this.state.password, () => {
-      this.setState({ redirectToReferrer: true });
-    });
-    // axios
-    //   .post("/auth/signin", {
-    //     email: this.state.email,
-    //     password: this.state.password
-    //   })
-    //   .then(() => {
-    //     console.log("ok");
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  };
-
-  render() {
-    let { from } = this.props.location.state || { from: { pathname: "/" } };
-    let { redirectToReferrer } = this.state;
-    let { isAuthenticated } = this.props.auth;
-
-    {
-      console.log(this.props.auth.isAuthenticated);
+class UserConfirmInfo extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            userEmail: "",
+            userID: "",
+            userName: ""
+        };
     }
 
-    if (redirectToReferrer) return <Redirect to={from} />;
-    if (isAuthenticated) return <Redirect to={from} />;
-    //test
-    return (
-      <div>
-        <Link to="/">Home</Link>
-        <Row>
-          <Col s={5} m={5} l={5}>
-            <form onSubmit={this.handleSubmit}>
-              <label>email:</label>
-              <input
-                htmlFor="email"
-                type="email"
-                required
-                value={this.state.email}
-                onChange={e => {
-                  this.setState({ email: e.target.value });
-                }}
-              />
-              <label>Password:</label>
-              <input
-                htmlFor="password"
-                type="password"
-                minLength={6}
-                required
-                value={this.state.password}
-                onChange={e => {
-                  this.setState({ password: e.target.value });
-                }}
-              />
-              <input type="submit" value="submit" />
-            </form>
-          </Col>
-        </Row>
-        <Row>
-          <a href="/auth/github">Login with Github</a>
-        </Row>
-      </div>
-    );
-  }
+    handleSubmit = e => {
+        e.preventDefault();
+        axios.post("/auth/post_user_info", {
+            id : this.state.userID,
+            name : this.state.userName,
+            email : this.state.userEmail
+          }).then(function(body) {
+            console.log(body);
+        })
+        this.props.history.push("/", this.state.userName);
+    }
+
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value
+        });
+    };
+
+    componentWillMount() {
+        axios.get("/auth/user_detail").then(response => {
+            if(response.data.passport){
+                console.log("dasdas")
+                this.setState({
+                    userID : response.data.passport.user.id,
+                    userEmail : response.data.passport.user.email,
+                    userName: response.data.passport.user.name
+                })
+                if(this.state.userEmail === null)
+                    this.setState({ userEmail : "" })
+            }
+        });
+      }
+
+    render() {
+        return (
+            <div>
+              <Link to="/">Home</Link>
+              <Grid
+                container
+                alignItems="center"
+                justify="center"
+                className="container"
+              >
+                  <form onSubmit={this.handleSubmit}>
+                      <DialogContent>
+                          <FormControl fullWidth required>
+                              <InputLabel htmlFor="userName" focused required>User Name: </InputLabel>
+                              <Input fullWidth required id="userName" placeholder="User Name"
+                              onChange={this.handleChange("userName")}
+                              value={this.state.userName}
+                              />
+                          </FormControl>
+                          <FormControl fullWidth required>
+                              <InputLabel htmlFor="userEmail" focused required>User Email: </InputLabel>
+                              <Input fullWidth required id="userEmail" placeholder="User Email" type="email"
+                              onChange={this.handleChange("userEmail")}
+                              value={this.state.userEmail}
+                              />
+                          </FormControl>
+                          <Button onClick={this.handleSubmit} type="submit" color="primary">Submit</Button>
+                      </DialogContent>
+                  </form>
+                </Grid>
+            </div>
+        )};
 }
+
+export default UserConfirmInfo;

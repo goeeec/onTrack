@@ -5,6 +5,7 @@ import "../Assets/css/home.css";
 import { Grid, Button } from "@material-ui/core";
 import Axios from "axios";
 import TrackIcon from "../Assets/images/track.png";
+import UserConfirmInfo from "./components/UserConfirmInfo";
 
 export default class Home extends Component {
   render() {
@@ -29,6 +30,7 @@ export default class Home extends Component {
             <button onClick={() => {
               Axios.get("/auth/user_detail").then(res => console.log(res))
             }}>Test!</button>
+            {/* <UserConfirmInfo /> */}
             </div>
           </Grid>
         </Grid>

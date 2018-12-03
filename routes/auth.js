@@ -8,8 +8,9 @@ router.get("/error", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.sendStatus(200);
+  req.session.destroy();
+  console.log(req.session);
+  res.redirect("/");
 });
 
 router.get(
@@ -23,13 +24,15 @@ router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/auth/error" }),
   (req, res) => {
-    res.redirect("/");
+    console.log(req.session);
+    res.redirect("/Signin");
   }
 );
 
 router.get("/user_detail", (req, res) => {
-  console.log(req.user);
-  res.send(req.user);
+  console.log("IM IN USER DETAUL");
+  console.log(req.session);
+  res.send(req.session);
 });
 
 router.post("/user_detail", async (req, res) => {
@@ -39,6 +42,31 @@ router.post("/user_detail", async (req, res) => {
   }
   await User.create({ githubId: id });
 });
+
+router.post("/post_user_info", async (req, res) => {
+  User.findOne({ where: { githubId: req.body.id } })
+  .then(user = (id) => {
+    if(id) {
+      User.update({
+                name: req.body.name,
+                email: req.body.email, 
+                }, { where: { githubId: req.body.id }
+              });
+    }
+    else {
+      User.create({
+        name: req.body.name,
+        email: req.body.email,
+        githubId: req.body.id
+        });
+    }
+    res.json({ msg: "user updated" });
+    // res.redirect("/");
+  }).catch(() => {
+    res.status(400).json({ msg: "error creating user" });
+  })
+});
+
 
 router.get("/current_user", (req, res) => {
   res.send(req.user);
