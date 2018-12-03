@@ -155,3 +155,21 @@
 .menuIcon {
   height: 25px;
 }
+
+.flexbox {
+  display: flex;
+  align-items: center;
+}
+
+.flex-left {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.flex-right {
+  align-items: center;
+  justify-content: flex-end;
+  display: flex;
+  flex: 1;
+}

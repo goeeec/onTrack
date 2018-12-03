@@ -8,9 +8,11 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import Fab from "@material-ui/core/Fab";
+import Icon from "@material-ui/core/Icon";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import EditTaskForm from "./EditTaskForm";
 
 class TodoListTask extends Component {
   render() {
@@ -22,26 +24,15 @@ class TodoListTask extends Component {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <h4>{this.props.subtask.name}</h4>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>{this.props.subtask.name}</ExpansionPanelDetails>
+        <ExpansionPanelDetails className="flexbox">
+          <p className="flex-left">{this.props.subtask.name}</p>
+          <div className="flex-right">
+            <EditTaskForm />
+          </div>
+        </ExpansionPanelDetails>
       </ExpansionPanel>
     );
   }
 }
 
 export default TodoListTask;
-{
-  /* <ExpansionPanel
-          expanded={expanded === this.props.subtask.name}
-          onChange={this.handleChange(this.props.subtask.name)}
-        >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            {this.props.subtask.name}
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>test</ExpansionPanelDetails>
-        </ExpansionPanel> */
-}
-{
-  /* <ListItem>
-          <ListItemText>{this.props.subtask.name}</ListItemText>
-        </ListItem> */
-}
