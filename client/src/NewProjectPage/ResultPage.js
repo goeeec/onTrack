@@ -10,11 +10,15 @@ class ResultPage extends Component {
           <h2>Success!</h2>
         </Grid>
         <Grid item lg={8} md={8} sm={8}>
-          Clone your project: <br />
+          Start your repo: <br />
         </Grid>
         <Grid item lg={8} md={8} sm={8}>
           <Paper style={{ padding: '1em 1em' }}>
-            <code>git clone {this.props.project.cloneUrl}</code>
+            <code>
+              git init    // if this is a new repo<br />
+              git remote add origin {this.props.project.cloneUrl}<br />
+              git push -u origin master
+            </code>
           </Paper>
         </Grid>
         <Grid item lg={8} md={8} sm={8}>
