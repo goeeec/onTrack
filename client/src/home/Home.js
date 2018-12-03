@@ -9,9 +9,6 @@ import { observer } from "mobx-react";
 const Home = observer(
   class Home extends Component {
     render() {
-      {
-        console.log(this.props.store);
-      }
       return (
         <Grid
           container
