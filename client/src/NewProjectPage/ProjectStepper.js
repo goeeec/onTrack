@@ -9,7 +9,7 @@ import axios from 'axios';
 import ProjectForm from './ProjectForm';
 import MemberList from './MemberList';
 import Confirmation from './Confirmation';
-import SuccessPage from './SuccessPage';
+import ResultPage from './ResultPage';
 
 function getSteps() {
   return [
@@ -25,7 +25,8 @@ class ProjectStepper extends Component {
     this.state = {
       steps: getSteps(),
       activeStep: 0,
-      project: { name: '', description: '', id: '', cloneUrl: '' }
+      project: { name: '', description: '', id: '', cloneUrl: '' },
+      error: []
     };
   }
 
@@ -61,12 +62,8 @@ class ProjectStepper extends Component {
   }
   
   handleSubmit = () => {
-    console.log(this.state.project);
     axios.get("/auth/current_user")
-      .then(res => {
-        console.log(res.data.accessToken);
-        return res.data.accessToken;
-      })
+      .then(res => res.data.accessToken)
       .then(token => {
         axios.post("/github/create_project", {
           name: this.state.project.name,
@@ -74,10 +71,21 @@ class ProjectStepper extends Component {
           accessToken: token
         }).then(res => {
           console.log(res);
-          this.setState(prevState => ({
-            activeStep: prevState.activeStep + 1,
-            project: { ...prevState.project, id: res.data.id, cloneUrl: res.data.cloneUrl }
-          }));
+          if (res.status === 201) {
+            this.setState(prevState => ({
+              activeStep: prevState.activeStep + 1,
+              project: { ...prevState.project, id: res.data.id, cloneUrl: res.data.cloneUrl }
+            }));
+          } else {
+            this.setState(prevState => ({
+              activeStep: prevState.activeStep + 1,
+              error: res.data.error.errors.map(err => {
+                return ({ source: err.resource, message: err.message });
+              })
+            }))
+          }
+        }).catch(err => {
+          console.log(err);
         })
       })
   }
@@ -93,6 +101,14 @@ class ProjectStepper extends Component {
       activeStep: state.activeStep - 1,
     }));
   };
+
+  handleReset = () =>{
+    this.setState(state => ({
+      activeStep: 0,
+      project: { name: '', description: '', id: '', cloneUrl: '' },
+      error: []
+    }));
+  }
 
   render() {
     const { activeStep } = this.state;
@@ -110,7 +126,7 @@ class ProjectStepper extends Component {
         </Stepper>
         <div>
           {this.state.activeStep === this.state.steps.length ? (
-            <SuccessPage project={this.state.project} />
+            <ResultPage project={this.state.project} error={this.state.error} handleReset={this.handleReset} />
           ) : (
             <div>
               {this.getStepContent(activeStep)}

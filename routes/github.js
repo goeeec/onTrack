@@ -19,16 +19,16 @@ router.post("/create_project", (req, res) => {
     },
     body: JSON.stringify(data)
   }, (err, response, body) => {
-    console.log(response.statusCode);
     let result = JSON.parse(body);
     if (response.statusCode === 201) {
-      console.log('body.id: ', result.id);
-      console.log('body.clone_url', result.clone_url);
+      res.status(201);
+      res.json({
+        id: result.id,
+        cloneUrl: result.clone_url
+      });
+    } else {
+      res.status(200).send({ error: result });
     }
-    res.json({
-      id: result.id,
-      cloneUrl: result.clone_url
-    });
   });
 })
 
