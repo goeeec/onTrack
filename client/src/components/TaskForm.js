@@ -127,7 +127,7 @@ const TaskForm = inject("store")(
                   <FormControl fullWidth required>
                     <TextField
                       id="date"
-                      label="Due Day"
+                      label="Due Date"
                       type="date"
                       // defaultValue="2018-05-24"
                       InputLabelProps={{ shrink: true }}

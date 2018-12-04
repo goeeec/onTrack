@@ -36,9 +36,6 @@ const TodoList = inject("store")(
                   return <TodoListTask key={i} subtask={task} />;
                 })}
               </List>
-              {/* <ListItem>
-                {this.props.store.features[this.props.store.featureIndex].name}
-              </ListItem> */}
             </List>
           </div>
         );

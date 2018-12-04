@@ -37,23 +37,25 @@ const TodoListTask = inject("store")(
             </ExpansionPanelSummary>
             <Divider variant="middle" />
             <ExpansionPanelDetails className="flexbox">
-              <List className="flex-left">
-                <ListItem>
-                  <ListItemText>
-                    Description: {this.props.subtask.description}
-                  </ListItemText>
-                </ListItem>
-                <ListItem>
-                  <ListItemText>
-                    Assign To: {this.props.subtask.assignee}
-                  </ListItemText>
-                </ListItem>
-                <ListItem>
-                  <ListItemText>
-                    Due Date To: {this.props.subtask.dueDate}
-                  </ListItemText>
-                </ListItem>
-              </List>
+              <div className="flex-left">
+                <List>
+                  <ListItem>
+                    <ListItemText>
+                      Description: {this.props.subtask.description}
+                    </ListItemText>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText>
+                      Assign To: {this.props.subtask.assignee}
+                    </ListItemText>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText>
+                      Due Date To: {this.props.subtask.dueDate}
+                    </ListItemText>
+                  </ListItem>
+                </List>
+              </div>
               <div className="flex-right">
                 <EditTaskForm />
               </div>

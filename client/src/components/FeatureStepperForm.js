@@ -100,7 +100,7 @@ const FeatureStepperForm = inject("store")(
                 </ListItem>
                 <ListItem>
                   <ListItemText>
-                    Description: {this.props.featureDescription}
+                    Description: {this.state.featureDescription}
                   </ListItemText>
                 </ListItem>
               </List>
