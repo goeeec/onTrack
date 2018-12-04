@@ -10,7 +10,8 @@ import {
   DialogTitle,
   Slide,
   Select,
-  MenuItem
+  MenuItem,
+  TextField
 } from "@material-ui/core";
 
 import { observer, inject } from "mobx-react";
@@ -51,11 +52,10 @@ const TaskForm = inject("store")(
             description: "",
             assignTo: ""
           });
-          this.props.store.addFeature({
+          this.props.store.addSubTask({
             name: taskName,
             description: description,
-            assignee: assignTo,
-            subTasks: []
+            assignee: assignTo
           });
           this.setState({ open: false });
         } else {
@@ -121,6 +121,17 @@ const TaskForm = inject("store")(
                       <MenuItem value={"Joey"}>Joey</MenuItem>
                       <MenuItem value={"Jason"}>Jason</MenuItem>
                     </Select>
+                  </FormControl>
+                  <FormControl>
+                    <form noValidate>
+                      <TextField
+                        id="date"
+                        label="Birthday"
+                        type="date"
+                        defaultValue="2017-05-24"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </form>
                   </FormControl>
                 </DialogContent>
                 <DialogActions>
