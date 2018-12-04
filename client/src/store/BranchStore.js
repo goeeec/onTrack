@@ -78,7 +78,7 @@ class Project {
   }
 
   initData(projectId) {
-    axios.get("/github/project/" + projectId)
+    axios.get("/api/project/" + projectId)
       .then(res => {
         console.log(res.data);
         this.projectId = res.data.projectId;
@@ -88,8 +88,7 @@ class Project {
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
         this.isLoading = false;
-      })
-      .catch(err => console.log(err));
+      }).catch(err => console.log(err));
   }
 }
 

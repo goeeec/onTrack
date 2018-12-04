@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
+    },
+    branches: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
     }
   });
 

@@ -56,29 +56,4 @@ router.get("/branches/:owner/:repo", (req, res) => {
   })
 })
 
-router.post("/project", async (req, res) => {
-  const existingProject = await Project.findOne({ where: { projectId: req.body.projectId } });
-  if (existingProject) {
-    res.send(400, 'Duplicated project');
-  }
-  console.log('Creating new Project: ', req.body);
-  res.sendStatus(201);
-  await Project.create({
-    projectId: req.body.projectId,
-    name: req.body.name,
-    description: req.body.description,
-    cloneUrl: req.body.cloneUrl,
-    owner: req.body.owner
-  })
-})
-
-router.get("/project/:id", async (req, res) => {
-  const target = await Project.findOne({ where: { projectId: req.params.id } });
-  if (target) {
-    res.status(200).json(target);
-  } else {
-    res.status(404).send('Project not found');
-  }
-})
-
 module.exports = router;

@@ -95,12 +95,13 @@ class ProjectStepper extends Component {
   }
 
   saveProjectToDatabase = () => {
-    axios.post("/github/project", {
+    axios.post("/api/project", {
       projectId: this.state.project.id,
       name: this.state.project.name,
       cloneUrl: this.state.project.cloneUrl,
       owner: this.state.project.owner.username,
-      description: this.state.project.description
+      description: this.state.project.description,
+      branches: []
     }).then(res => console.log(res)).catch(err => console.log(err))
   }
 

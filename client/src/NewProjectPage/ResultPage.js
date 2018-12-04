@@ -10,9 +10,9 @@ class ResultPage extends Component {
           <h2>Success!</h2>
         </Grid>
         <Grid item lg={8} md={8} sm={8}>
-          Start your repo: <br />
+          Start working with your repo: <br />
         </Grid>
-        <Grid item lg={8} md={8} sm={8}>
+        <Grid item lg={12} md={10} sm={12}>
           <Paper style={{ padding: '1em 1em' }}>
             <code>
               git init    // if this is a new repo<br />

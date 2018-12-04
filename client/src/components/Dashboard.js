@@ -102,7 +102,7 @@ const Dashboard = inject("store")(
       }
 
       componentWillMount = () => {
-        this.props.store.initData("160308350");
+        this.props.store.initData("151493939");
       }
 
       handleDrawerOpen = () => {
@@ -119,7 +119,11 @@ const Dashboard = inject("store")(
 
         if (this.props.store.isLoading) {
           return (
-            <CircularProgress size={80} thickness={7.2} />
+            <Grid container justify="center" alignItems="center">
+              <Grid item md={12} lg={12} sm={12}>
+                <CircularProgress size={100} thickness={3.6} />
+              </Grid>
+            </Grid>
           );
         } else {
         return (
