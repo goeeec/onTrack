@@ -20,11 +20,13 @@ class Project {
         {
           name: "sign up procedure",
           isCompleted: false,
+          description: "testing",
           assignee: "Joe"
         },
         {
           name: "sign in flow",
           isCompleted: false,
+          description: "testing",
           assignee: "Joe"
         }
       ]
@@ -38,16 +40,19 @@ class Project {
         {
           name: "project panel",
           isCompleted: true,
+          description: "testing",
           assignee: "Joe"
         },
         {
           name: "branch panel",
           isCompleted: true,
+          description: "testing",
           assignee: "Joe"
         },
         {
           name: "side navigation bar",
           isCompleted: true,
+          description: "testing",
           assignee: "Joe"
         }
       ]
@@ -61,11 +66,13 @@ class Project {
         {
           name: "define data models",
           isCompleted: false,
+          description: "testing",
           assignee: "Joe"
         },
         {
           name: "define relationship",
           isCompleted: false,
+          description: "testing",
           assignee: "Joe"
         }
       ]
@@ -96,14 +103,12 @@ class Project {
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
         this.features = res.data.branches.map(branch => {
-          return ({ 
+          return {
             name: branch,
             description: "describing " + branch,
             assignee: "Joe",
-            subTasks: [
-              { name: "placeholder", isCompleted: false }
-            ]
-          })
+            subTasks: [{ name: "placeholder", isCompleted: false }]
+          };
         });
         this.isLoading = false;
       })
