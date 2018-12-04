@@ -14,11 +14,13 @@ class Project {
       subTasks: [
         {
           name: "sign up procedure",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         },
         {
           name: "sign in flow",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         }
       ]
     },
@@ -30,15 +32,18 @@ class Project {
       subTasks: [
         {
           name: "project panel",
-          isCompleted: true
+          isCompleted: true,
+          assignee: "Joe"
         },
         {
           name: "branch panel",
-          isCompleted: true
+          isCompleted: true,
+          assignee: "Joe"
         },
         {
           name: "side navigation bar",
-          isCompleted: true
+          isCompleted: true,
+          assignee: "Joe"
         }
       ]
     },
@@ -50,11 +55,13 @@ class Project {
       subTasks: [
         {
           name: "define data models",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         },
         {
           name: "define relationship",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         }
       ]
     }
@@ -71,6 +78,16 @@ class Project {
   addFeature(newFeature) {
     this.features.push(newFeature);
   }
+
+  handleChecked(taskName) {
+    const subTask = this.features[this.featureIndex].subTasks;
+    let index = subTask.findIndex(task => task.name === taskName);
+    subTask[index].isCompleted = !subTask[index].isCompleted;
+  }
+
+  addSubTask(task) {
+    this.features[this.featureIndex].subTasks.push(task);
+  }
 }
 
 decorate(Project, {
@@ -80,7 +97,8 @@ decorate(Project, {
   // elapsedTime: computed,
   change: action,
   updateFeatureIndex: action,
-  addFeature: action
+  addFeature: action,
+  handleChecked: action
 });
 
 const store = new Project();
