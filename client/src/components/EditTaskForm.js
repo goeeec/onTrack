@@ -65,7 +65,7 @@ const EditTaskForm = inject("store")(
               TransitionComponent={Transition}
               aria-labelledby="form-dialog-title"
             >
-              <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
+              <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
               <form>
                 <DialogContent>
                   <FormControl fullWidth required>

@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 import {
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Checkbox,
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
-import Icon from "@material-ui/core/Icon";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import EditTaskForm from "./EditTaskForm";

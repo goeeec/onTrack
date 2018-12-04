@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import data from "../fakeData.json";
-import { Grid, List, ListItem, ListSubheader } from "@material-ui/core";
+import { List, ListSubheader } from "@material-ui/core";
 
 import BranchListItem from "./BranchListItem";
 import { observer, inject } from "mobx-react";
