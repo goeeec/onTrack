@@ -173,3 +173,8 @@
   display: flex;
   flex: 1;
 }
+
+.align-items-center {
+  display: flex;
+  align-items: center;
+}

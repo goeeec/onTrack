@@ -4,7 +4,11 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Divider,
-  Checkbox
+  Checkbox,
+  List,
+  ListItem,
+  ListSubheader,
+  ListItemText
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
@@ -25,17 +29,31 @@ const TodoListTask = inject("store")(
         return (
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              {this.props.subtask.name}
+              <Checkbox
+                checked={this.props.subtask.isCompleted}
+                onClick={this.handleClick}
+              />
+              <p className="align-items-center">{this.props.subtask.name}</p>
             </ExpansionPanelSummary>
             <Divider variant="middle" />
             <ExpansionPanelDetails className="flexbox">
-              <p className="flex-left">
-                <Checkbox
-                  checked={this.props.subtask.isCompleted}
-                  onClick={this.handleClick}
-                />
-                {this.props.subtask.name}
-              </p>
+              <List className="flex-left">
+                <ListItem>
+                  <ListItemText>
+                    Description: {this.props.subtask.description}
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText>
+                    Assign To: {this.props.subtask.assignee}
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText>
+                    Due Date To: {this.props.subtask.dueDate}
+                  </ListItemText>
+                </ListItem>
+              </List>
               <div className="flex-right">
                 <EditTaskForm />
               </div>

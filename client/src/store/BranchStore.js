@@ -21,13 +21,15 @@ class Project {
           name: "sign up procedure",
           isCompleted: false,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         },
         {
           name: "sign in flow",
           isCompleted: false,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         }
       ]
     },
@@ -41,19 +43,22 @@ class Project {
           name: "project panel",
           isCompleted: true,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         },
         {
           name: "branch panel",
           isCompleted: true,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         },
         {
           name: "side navigation bar",
           isCompleted: true,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         }
       ]
     },
@@ -67,13 +72,15 @@ class Project {
           name: "define data models",
           isCompleted: false,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         },
         {
           name: "define relationship",
           isCompleted: false,
           description: "testing",
-          assignee: "Joe"
+          assignee: "Joe",
+          dueDate: ""
         }
       ]
     }
