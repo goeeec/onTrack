@@ -95,6 +95,16 @@ class Project {
         this.description = res.data.description;
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
+        this.features = res.data.branches.map(branch => {
+          return ({ 
+            name: branch,
+            description: "describing " + branch,
+            assignee: "Joe",
+            subTasks: [
+              { name: "placeholder", isCompleted: false }
+            ]
+          })
+        });
         this.isLoading = false;
       })
       .catch(err => console.log(err));
