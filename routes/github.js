@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const request = require("request");
-const Project = require("../models").Project;
 
 const githubEndpoint = 'https://api.github.com';
 
@@ -42,17 +41,36 @@ router.get("/branches/:owner/:repo", (req, res) => {
       'User-Agent': 'onTrack-dev'
     }
   }, (err, response, body) => {
-    let result = JSON.parse(body);
+    const result = JSON.parse(body);
     if (response.statusCode === 200) {
       let branches = result.map(branch => {
         return ({ ref: branch.ref, sha: branch.object.sha });
       });
-      console.log('branches', branches);
       res.status(200).send(branches);
     } else {
       console.log('error getting branches ref');
-      res.sendStatus(404);
+      res.status(200).send([]);
     }
+  })
+})
+
+router.get("/repos/:repo", (req, res) => {
+  const uri = "/repos/" + req.user.login + "/" + req.params.repo;
+  request.get({
+    url: githubEndpoint + uri,
+    headers: {
+      'User-Agent': 'onTrack-dev'
+    }
+  }, (err, response, body) => {
+    const result = JSON.parse(body);
+    const project = {
+      id: result.id,
+      owner: result.owner,
+      description: result.description,
+      cloneUrl: result.clone_url,
+      name: result.name
+    }
+    res.send(project);
   })
 })
 

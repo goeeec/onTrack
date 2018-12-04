@@ -102,7 +102,7 @@ const Dashboard = inject("store")(
       }
 
       componentWillMount = () => {
-        this.props.store.initData("151493939");
+        this.props.store.initData("160088407");
       }
 
       handleDrawerOpen = () => {
