@@ -61,8 +61,6 @@ const App = inject("store")(
        * False: Nothing
        */
       componentWillMount() {
-        console.log(this.props.store.features);
-       // this.props.store.change("lin");
         if (!getFromStorage("userId")) {
           this.setState({ isLogged: false });
         }
@@ -88,7 +86,7 @@ const App = inject("store")(
        * @param {*} newProps
        */
       componentWillReceiveProps(newProps) {
-        console.log(newProps.location);
+        console.log(newProps.location.state);
         if (newProps.location.state)
           this.setState({ isLogged: newProps.location.state.isLogged });
       }
@@ -99,7 +97,11 @@ const App = inject("store")(
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route exact path="/Signin" component={SigninPage} />
-            <PrivateRoute exact path="/new_project" component={NewProjectPage} />
+            <PrivateRoute
+              exact
+              path="/new_project"
+              component={NewProjectPage}
+            />
           </div>
         );
       }

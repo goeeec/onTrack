@@ -9,11 +9,11 @@ import { Provider } from "mobx-react";
 import BranchStore from "./store/BranchStore";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={BranchStore}>
+  <Provider store={BranchStore}>
+    <BrowserRouter>
       <App />
-    </Provider>
-  </BrowserRouter>,
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
 

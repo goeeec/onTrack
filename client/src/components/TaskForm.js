@@ -10,9 +10,7 @@ import {
   DialogTitle,
   Slide,
   Select,
-  MenuItem,
-  Fab,
-  Icon
+  MenuItem
 } from "@material-ui/core";
 
 import { observer, inject } from "mobx-react";
@@ -21,15 +19,15 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-const EditTaskForm = inject("store")(
+const TaskForm = inject("store")(
   observer(
-    class EditTaskForm extends Component {
+    class FeatureForm extends Component {
       constructor(props) {
         super(props);
         this.state = {
           open: false,
-          featureName: "",
-          featureDescription: "",
+          taskName: "",
+          description: "",
           assignTo: ""
         };
       }
@@ -42,6 +40,29 @@ const EditTaskForm = inject("store")(
         this.setState({ open: false });
       };
 
+      handleSubmit = e => {
+        e.preventDefault();
+        const { taskName, description, assignTo } = this.state;
+        if (taskName && description && assignTo) {
+          console.log(taskName, description, assignTo);
+          this.props.newFeature(taskName);
+          this.setState({
+            taskName: "",
+            description: "",
+            assignTo: ""
+          });
+          this.props.store.addFeature({
+            name: taskName,
+            description: description,
+            assignee: assignTo,
+            subTasks: []
+          });
+          this.setState({ open: false });
+        } else {
+          this.setState({ open: true });
+        }
+      };
+
       handleChange = name => event => {
         this.setState({
           [name]: event.target.value
@@ -51,47 +72,40 @@ const EditTaskForm = inject("store")(
       render() {
         return (
           <div>
-            <Fab
-              color="inherit"
-              size="small"
-              aria-label="Edit"
-              onClick={this.handleClickOpen}
-            >
-              <Icon>edit_icon</Icon>
-            </Fab>
+            <Button onClick={this.handleClickOpen}>New Feature</Button>
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
               TransitionComponent={Transition}
               aria-labelledby="form-dialog-title"
             >
-              <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
-              <form>
+              <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
+              <form onSubmit={this.handleSubmit}>
                 <DialogContent>
                   <FormControl fullWidth required>
-                    <InputLabel htmlFor="featureName" focused required>
-                      Edit Name
+                    <InputLabel htmlFor="taskName" focused required>
+                      Feature Name
                     </InputLabel>
                     <Input
                       fullWidth
                       required
-                      id="featureName"
+                      id="taskName"
                       placeholder="Feature Name"
-                      onChange={this.handleChange("featureName")}
-                      value={this.state.featureName}
+                      onChange={this.handleChange("taskName")}
+                      value={this.state.taskName}
                     />
                   </FormControl>
                   <FormControl fullWidth required>
-                    <InputLabel htmlFor="featureDescription" focused required>
+                    <InputLabel htmlFor="description" focused required>
                       Description
                     </InputLabel>
                     <Input
                       fullWidth
                       required
-                      id="featureDescription"
+                      id="description"
                       placeholder="Feature Name"
-                      onChange={this.handleChange("featureDescription")}
-                      value={this.state.featureDescription}
+                      onChange={this.handleChange("description")}
+                      value={this.state.description}
                     />
                   </FormControl>
                   <FormControl fullWidth required>
@@ -130,4 +144,4 @@ const EditTaskForm = inject("store")(
   )
 );
 
-export default EditTaskForm;
+export default TaskForm;

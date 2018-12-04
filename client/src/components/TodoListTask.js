@@ -1,38 +1,50 @@
 import React, { Component } from "react";
 import {
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Checkbox,
   ExpansionPanel,
   ExpansionPanelDetails,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  Divider,
+  Checkbox
 } from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
-import Icon from "@material-ui/core/Icon";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import EditTaskForm from "./EditTaskForm";
+import { observer, inject } from "mobx-react";
 
-class TodoListTask extends Component {
-  render() {
-    {
-      console.log(this.props.subtask);
+const TodoListTask = inject("store")(
+  observer(
+    class TodoListTask extends Component {
+      handleClick = () => {
+        this.props.store.handleChecked(this.props.subtask.name);
+      };
+
+      render() {
+        {
+          console.log(this.props.subtask);
+        }
+        return (
+          <ExpansionPanel>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              {this.props.subtask.name}
+            </ExpansionPanelSummary>
+            <Divider variant="middle" />
+            <ExpansionPanelDetails className="flexbox">
+              <p className="flex-left">
+                <Checkbox
+                  checked={this.props.subtask.isCompleted}
+                  onClick={this.handleClick}
+                />
+                {this.props.subtask.name}
+              </p>
+              <div className="flex-right">
+                <EditTaskForm />
+              </div>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        );
+      }
     }
-    return (
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <h4>{this.props.subtask.name}</h4>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className="flexbox">
-          <p className="flex-left">{this.props.subtask.name}</p>
-          <div className="flex-right">
-            <EditTaskForm />
-          </div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    );
-  }
-}
+  )
+);
 
 export default TodoListTask;

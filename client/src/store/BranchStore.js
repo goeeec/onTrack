@@ -1,5 +1,5 @@
 import { observable, computed, action, decorate, get } from "mobx";
-import axios from 'axios';
+import axios from "axios";
 
 class Project {
   projectName = "";
@@ -19,11 +19,13 @@ class Project {
       subTasks: [
         {
           name: "sign up procedure",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         },
         {
           name: "sign in flow",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         }
       ]
     },
@@ -35,15 +37,18 @@ class Project {
       subTasks: [
         {
           name: "project panel",
-          isCompleted: true
+          isCompleted: true,
+          assignee: "Joe"
         },
         {
           name: "branch panel",
-          isCompleted: true
+          isCompleted: true,
+          assignee: "Joe"
         },
         {
           name: "side navigation bar",
-          isCompleted: true
+          isCompleted: true,
+          assignee: "Joe"
         }
       ]
     },
@@ -55,11 +60,13 @@ class Project {
       subTasks: [
         {
           name: "define data models",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         },
         {
           name: "define relationship",
-          isCompleted: false
+          isCompleted: false,
+          assignee: "Joe"
         }
       ]
     }
@@ -78,7 +85,8 @@ class Project {
   }
 
   initData(projectId) {
-    axios.get("/api/project/" + projectId)
+    axios
+      .get("/api/project/" + projectId)
       .then(res => {
         console.log(res.data);
         this.projectId = res.data.projectId;
@@ -88,12 +96,23 @@ class Project {
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
         this.isLoading = false;
-      }).catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
+  }
+
+  handleChecked(taskName) {
+    const subTask = this.features[this.featureIndex].subTasks;
+    let index = subTask.findIndex(task => task.name === taskName);
+    subTask[index].isCompleted = !subTask[index].isCompleted;
+  }
+
+  addSubTask(task) {
+    this.features[this.featureIndex].subTasks.push(task);
   }
 }
 
 decorate(Project, {
-  test: observable,
+  features: observable,
   featureIndex: observable,
   isLoading: observable,
   // current: observable,
@@ -101,7 +120,8 @@ decorate(Project, {
   change: action,
   updateFeatureIndex: action,
   addFeature: action,
-  initData: action
+  initData: action,
+  handleChecked: action
 });
 
 const store = new Project();
