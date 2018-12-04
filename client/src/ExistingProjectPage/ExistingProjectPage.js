@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, InputLabel, FormControl, Input, InputAdornment, Button, FormHelperText } from '@material-ui/core';
+import { Grid, InputLabel, FormControl, Input, InputAdornment, Button, FormHelperText, Switch } from '@material-ui/core';
 import axios from 'axios';
+import { EventEmitter } from 'events';
 
 class ExistingProjectPage extends Component {
   state = {
-    isCreated: false
+    isCreated: false,
+    isCurrentUser: true
   };
 
   handleSubmit = async () => {
@@ -17,7 +19,7 @@ class ExistingProjectPage extends Component {
         cloneUrl: repo.cloneUrl,
         description: repo.description,
         branches: branches.map(branch => branch.ref),
-        owner: repo.owner.login
+        owner: this.state.isCurrentUser ? repo.owner.login : document.getElementById("username").value
       })
       if (res.status === 201) {
         this.setState({ isCreated: true });
@@ -27,6 +29,10 @@ class ExistingProjectPage extends Component {
     }
   }
 
+  handleSwitchChange = event => {
+    this.setState({ isCurrentUser: event.target.checked });
+  }
+
   render() {
     if (this.state.isCreated) {
       return (<div>Successfully loaded</div>);
@@ -34,6 +40,14 @@ class ExistingProjectPage extends Component {
     return (
       <Grid container justify="center">
         <Grid item sm={12} md={12} lg={12}>
+          <Switch checked={this.state.isCurrentUser} onChange={this.handleSwitchChange} value="isCurrentUser" />
+          {this.state.isCurrentUser ? '' : (
+            <FormControl>
+              <InputLabel>Username:</InputLabel>
+              <Input id="username" />
+            </FormControl>
+          )}
+          <br />
           <FormControl>
             <InputLabel>Project name:</InputLabel>
             <Input
