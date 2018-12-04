@@ -54,6 +54,25 @@ router.get("/branches/:owner/:repo", (req, res) => {
   })
 })
 
+router.post("/branches/:owner/:repo", (req, res) => {
+  const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
+  const data = {
+    "ref": req.body.ref,
+    "sha": req.body.sha
+  };
+  request.post({
+    url: githubEndpoint + uri,
+    headers: {
+      'User-Agent': 'onTrack-dev'
+    },
+    body: JSON.stringify(data)
+  }, (err, response, body) => {
+    const result = JSON.parse(body);
+    console.log(result);
+    res.send(response.statusCode);
+  })
+})
+
 router.get("/repos/:user/:repo", (req, res) => {
   const uri = "/repos/" + req.params.user + "/" + req.params.repo;
   console.log("URI: ", uri);

@@ -103,9 +103,11 @@ class Project {
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
         this.features = res.data.branches.map(branch => {
+          const parts = branch.split("/");    // select branch ref's last part
           return {
-            name: branch,
+            name: parts[parts.length - 1],
             description: "describing " + branch,
+            location: branch,
             assignee: "Joe",
             subTasks: [{ name: "placeholder", isCompleted: false }]
           };

@@ -185,7 +185,7 @@ const Dashboard = inject("store")(
                   {this.props.store.projectName}
                 </Grid>
                 <ProjectPanel />
-                <BranchPanel />
+                <BranchPanel branchLocation={this.props.store.features[this.props.store.featureIndex].location} />
               </Grid>
             </main>
           </div>

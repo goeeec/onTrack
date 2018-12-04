@@ -6,7 +6,7 @@ class BranchPanel extends Component {
   render() {
     return (
       <Grid item md={5} sm={12} lg={5} xm={12} className="background">
-        <Grid>Branch location</Grid>
+        <Grid><h3>{this.props.branchLocation}</h3></Grid>
         <TodoList />
         <TaskForm />
       </Grid>
