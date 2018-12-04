@@ -10,7 +10,8 @@ import {
   DialogTitle,
   Slide,
   Select,
-  MenuItem
+  MenuItem,
+  Grid
 } from "@material-ui/core";
 import FeatureStepperForm from "./FeatureStepperForm";
 
@@ -43,7 +44,7 @@ const FeatureForm = inject("store")(
 
       render() {
         return (
-          <div>
+          <Grid item>
             <Button onClick={this.handleOpen}>New Feature</Button>
             <Dialog
               open={this.state.open}
@@ -57,7 +58,7 @@ const FeatureForm = inject("store")(
                 handleOpen={this.handleOpen}
               />
             </Dialog>
-          </div>
+          </Grid>
         );
       }
     }

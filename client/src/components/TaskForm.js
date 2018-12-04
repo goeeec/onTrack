@@ -29,7 +29,8 @@ const TaskForm = inject("store")(
           open: false,
           taskName: "",
           description: "",
-          assignTo: ""
+          assignTo: "",
+          date: ""
         };
       }
 
@@ -43,19 +44,20 @@ const TaskForm = inject("store")(
 
       handleSubmit = e => {
         e.preventDefault();
-        const { taskName, description, assignTo } = this.state;
-        if (taskName && description && assignTo) {
-          console.log(taskName, description, assignTo);
-          this.props.newFeature(taskName);
+        const { taskName, description, assignTo, date } = this.state;
+        if (taskName && description && assignTo && date) {
+          console.log(taskName, description, assignTo, date);
           this.setState({
             taskName: "",
             description: "",
-            assignTo: ""
+            assignTo: "",
+            date: ""
           });
           this.props.store.addSubTask({
             name: taskName,
             description: description,
-            assignee: assignTo
+            assignee: assignTo,
+            dueDate: date
           });
           this.setState({ open: false });
         } else {
@@ -122,16 +124,16 @@ const TaskForm = inject("store")(
                       <MenuItem value={"Jason"}>Jason</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl>
-                    <form noValidate>
-                      <TextField
-                        id="date"
-                        label="Birthday"
-                        type="date"
-                        defaultValue="2017-05-24"
-                        InputLabelProps={{ shrink: true }}
-                      />
-                    </form>
+                  <FormControl fullWidth required>
+                    <TextField
+                      id="date"
+                      label="Due Date"
+                      type="date"
+                      // defaultValue="2018-05-24"
+                      InputLabelProps={{ shrink: true }}
+                      onChange={this.handleChange("date")}
+                      value={this.state.date}
+                    />
                   </FormControl>
                 </DialogContent>
                 <DialogActions>
