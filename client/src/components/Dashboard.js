@@ -11,7 +11,8 @@ import {
   Divider,
   IconButton,
   Grid,
-  Button
+  Button,
+  CircularProgress
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -100,6 +101,10 @@ const Dashboard = inject("store")(
         };
       }
 
+      componentWillMount = () => {
+        this.props.store.initData("160308350");
+      }
+
       handleDrawerOpen = () => {
         this.setState({ open: true });
       };
@@ -112,6 +117,11 @@ const Dashboard = inject("store")(
         const { classes, theme } = this.props;
         const { open } = this.state;
 
+        if (this.props.store.isLoading) {
+          return (
+            <CircularProgress size={80} thickness={7.2} />
+          );
+        } else {
         return (
           <div className={classes.root}>
             <CssBaseline />
@@ -180,7 +190,7 @@ const Dashboard = inject("store")(
               </Grid>
             </main>
           </div>
-        );
+        )};
       }
     }
   )

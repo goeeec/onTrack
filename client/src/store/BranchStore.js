@@ -1,10 +1,15 @@
 import { observable, computed, action, decorate, get } from "mobx";
+import axios from 'axios';
 
 class Project {
-  projectName = "onTrack";
+  projectName = "";
+  projectId = "";
   projectUrl = "";
+  owner = "";
+  description = "";
   featureIndex = 0;
   createdAt = "2018-09-31";
+  isLoading = true;
   features = [
     {
       name: "login",
@@ -71,16 +76,33 @@ class Project {
   addFeature(newFeature) {
     this.features.push(newFeature);
   }
+
+  initData(projectId) {
+    axios.get("/github/project/" + projectId)
+      .then(res => {
+        console.log(res.data);
+        this.projectId = res.data.projectId;
+        this.projectName = res.data.name;
+        this.projectUrl = res.data.cloneUrl;
+        this.description = res.data.description;
+        this.owner = res.data.owner;
+        this.createdAt = res.data.createdAt;
+        this.isLoading = false;
+      })
+      .catch(err => console.log(err));
+  }
 }
 
 decorate(Project, {
   test: observable,
   featureIndex: observable,
+  isLoading: observable,
   // current: observable,
   // elapsedTime: computed,
   change: action,
   updateFeatureIndex: action,
-  addFeature: action
+  addFeature: action,
+  initData: action
 });
 
 const store = new Project();

@@ -12,8 +12,8 @@ passport.use(
       callbackURL: "/auth/github/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-      const { id, name, email } = profile._json;
-      const tempUser = { id, name, email, accessToken };
+      const { id, name, email, login } = profile._json;
+      const tempUser = { id, name, email, login, accessToken };
       // console.log(tempUser);
       console.log(accessToken);
       return done(null, tempUser);
