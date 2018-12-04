@@ -25,7 +25,7 @@ class ProjectStepper extends Component {
     this.state = {
       steps: getSteps(),
       activeStep: 0,
-      project: { name: '', description: '', id: '', cloneUrl: '' },
+      project: { name: '', description: '', id: '', cloneUrl: '', owner: {} },
       error: []
     };
   }
@@ -71,11 +71,14 @@ class ProjectStepper extends Component {
           accessToken: token
         }).then(res => {
           console.log(res);
+          // if the repo is successfully created
+          // update the project state
           if (res.status === 201) {
             this.setState(prevState => ({
               activeStep: prevState.activeStep + 1,
-              project: { ...prevState.project, id: res.data.id, cloneUrl: res.data.cloneUrl }
+              project: { ...prevState.project, id: res.data.id + '', cloneUrl: res.data.cloneUrl, owner: res.data.owner }
             }));
+            this.saveProjectToDatabase();
           } else {
             this.setState(prevState => ({
               activeStep: prevState.activeStep + 1,
@@ -84,10 +87,21 @@ class ProjectStepper extends Component {
               })
             }))
           }
-        }).catch(err => {
+        }).then(() => console.log('after posting: ', this.state.project))
+        .catch(err => {
           console.log(err);
         })
       })
+  }
+
+  saveProjectToDatabase = () => {
+    axios.post("/github/project", {
+      projectId: this.state.project.id,
+      name: this.state.project.name,
+      cloneUrl: this.state.project.cloneUrl,
+      owner: this.state.project.owner.username,
+      description: this.state.project.description
+    }).then(res => console.log(res)).catch(err => console.log(err))
   }
 
   handleNext = () => {

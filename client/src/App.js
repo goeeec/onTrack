@@ -62,7 +62,7 @@ const App = inject("store")(
        */
       componentWillMount() {
         console.log(this.props.store.features);
-        this.props.store.change("lin");
+       // this.props.store.change("lin");
         if (!getFromStorage("userId")) {
           this.setState({ isLogged: false });
         }
