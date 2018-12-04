@@ -54,8 +54,9 @@ router.get("/branches/:owner/:repo", (req, res) => {
   })
 })
 
-router.get("/repos/:repo", (req, res) => {
-  const uri = "/repos/" + req.user.login + "/" + req.params.repo;
+router.get("/repos/:user/:repo", (req, res) => {
+  const uri = "/repos/" + req.params.user + "/" + req.params.repo;
+  console.log("URI: ", uri);
   request.get({
     url: githubEndpoint + uri,
     headers: {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, InputLabel, FormControl, Input, InputAdornment, Button, FormHelperText, Switch } from '@material-ui/core';
 import axios from 'axios';
-import { EventEmitter } from 'events';
 
 class ExistingProjectPage extends Component {
   state = {
@@ -10,8 +9,10 @@ class ExistingProjectPage extends Component {
   };
 
   handleSubmit = async () => {
-    const repo = (await axios.get("/github/repos/" + document.getElementById("project-name").value)).data;
-    const branches = (await axios.get("/github/branches/" + repo.owner.login + "/" + repo.name)).data;
+    const user = (await axios.get("/auth/current_user")).data.login;
+    const requestUser = this.state.isCurrentUser ? user : document.getElementById("username").value;
+    const repo = (await axios.get("/github/repos/" + requestUser + "/" + document.getElementById("project-name").value)).data;
+    const branches = (await axios.get("/github/branches/" + requestUser + "/" + repo.name)).data;
     try {
       const res = await axios.post("/api/project", {
         projectId: repo.id,
@@ -19,7 +20,7 @@ class ExistingProjectPage extends Component {
         cloneUrl: repo.cloneUrl,
         description: repo.description,
         branches: branches.map(branch => branch.ref),
-        owner: this.state.isCurrentUser ? repo.owner.login : document.getElementById("username").value
+        owner: repo.owner.login
       })
       if (res.status === 201) {
         this.setState({ isCreated: true });
