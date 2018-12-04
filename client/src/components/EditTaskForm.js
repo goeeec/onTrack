@@ -70,7 +70,7 @@ const EditTaskForm = inject("store")(
                 <DialogContent>
                   <FormControl fullWidth required>
                     <InputLabel htmlFor="featureName" focused required>
-                      Edit Task
+                      Edit Name
                     </InputLabel>
                     <Input
                       fullWidth

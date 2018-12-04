@@ -74,7 +74,7 @@ class Project {
 }
 
 decorate(Project, {
-  test: observable,
+  features: observable,
   featureIndex: observable,
   // current: observable,
   // elapsedTime: computed,

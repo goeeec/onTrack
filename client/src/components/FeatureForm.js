@@ -12,6 +12,7 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
+import FeatureStepperForm from "./FeatureStepperForm";
 
 import { observer, inject } from "mobx-react";
 
@@ -32,7 +33,7 @@ const FeatureForm = inject("store")(
         };
       }
 
-      handleClickOpen = () => {
+      handleOpen = () => {
         this.setState({ open: true });
       };
 
@@ -40,39 +41,10 @@ const FeatureForm = inject("store")(
         this.setState({ open: false });
       };
 
-      handleSubmit = e => {
-        e.preventDefault();
-        const { featureName, featureDescription, assignTo } = this.state;
-        if (featureName && featureDescription && assignTo) {
-          console.log(featureName, featureDescription, assignTo);
-          this.props.newFeature(featureName);
-          this.setState({
-            featureName: "",
-            featureDescription: "",
-            assignTo: ""
-          });
-          this.props.store.addFeature({
-            name: featureName,
-            description: featureDescription,
-            assignee: assignTo,
-            subTasks: []
-          });
-          this.setState({ open: false });
-        } else {
-          this.setState({ open: true });
-        }
-      };
-
-      handleChange = name => event => {
-        this.setState({
-          [name]: event.target.value
-        });
-      };
-
       render() {
         return (
           <div>
-            <Button onClick={this.handleClickOpen}>New Feature</Button>
+            <Button onClick={this.handleOpen}>New Feature</Button>
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
@@ -80,62 +52,10 @@ const FeatureForm = inject("store")(
               aria-labelledby="form-dialog-title"
             >
               <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
-              <form onSubmit={this.handleSubmit}>
-                <DialogContent>
-                  <FormControl fullWidth required>
-                    <InputLabel htmlFor="featureName" focused required>
-                      Feature Name
-                    </InputLabel>
-                    <Input
-                      fullWidth
-                      required
-                      id="featureName"
-                      placeholder="Feature Name"
-                      onChange={this.handleChange("featureName")}
-                      value={this.state.featureName}
-                    />
-                  </FormControl>
-                  <FormControl fullWidth required>
-                    <InputLabel htmlFor="featureDescription" focused required>
-                      Description
-                    </InputLabel>
-                    <Input
-                      fullWidth
-                      required
-                      id="featureDescription"
-                      placeholder="Feature Name"
-                      onChange={this.handleChange("featureDescription")}
-                      value={this.state.featureDescription}
-                    />
-                  </FormControl>
-                  <FormControl fullWidth required>
-                    <InputLabel htmlFor="assignTo">Assign To</InputLabel>
-                    <Select
-                      value={this.state.assignTo}
-                      onChange={this.handleChange("assignTo")}
-                      name="Assign To"
-                      displayEmpty
-                      required
-                    >
-                      <MenuItem value={"Joe"}>Joe</MenuItem>
-                      <MenuItem value={"Joey"}>Joey</MenuItem>
-                      <MenuItem value={"Jason"}>Jason</MenuItem>
-                    </Select>
-                  </FormControl>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleClose} color="primary">
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={this.handleSubmit}
-                    type="submit"
-                    color="primary"
-                  >
-                    Submit
-                  </Button>
-                </DialogActions>
-              </form>
+              <FeatureStepperForm
+                handleClose={this.handleClose}
+                handleOpen={this.handleOpen}
+              />
             </Dialog>
           </div>
         );
