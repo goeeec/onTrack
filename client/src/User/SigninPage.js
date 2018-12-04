@@ -29,7 +29,7 @@ class UserConfirmInfo extends Component {
           }).then(function(body) {
             console.log(body);
         })
-        this.props.history.push("/", this.state.userName);
+        this.props.history.push("/");
     }
 
     handleChange = name => event => {
@@ -39,7 +39,7 @@ class UserConfirmInfo extends Component {
     };
 
     componentWillMount() {
-        axios.get("/auth/user_detail").then(response => {
+        const id = axios.get("/auth/user_detail").then(response => {
             if(response.data.passport){
                 console.log("dasdas")
                 this.setState({
@@ -51,6 +51,11 @@ class UserConfirmInfo extends Component {
                     this.setState({ userEmail : "" })
             }
         });
+
+        // axios.get("/auth/check_user", id).then(response => {
+        //   if(response.data)
+        //     this.props.history.push("/");
+        // })
       }
 
     render() {

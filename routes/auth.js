@@ -24,10 +24,16 @@ router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/auth/error" }),
   (req, res) => {
-    console.log(req.session);
-    res.redirect("/Signin");
-  }
-);
+    console.log('in callback!!!!')
+    console.log(req.session.passport.user);
+    User.findOne({ where: {githubId: req.session.passport.user.id}})
+      .then(user => {
+        if(user) {
+          res.redirect("/");
+        } 
+        res.redirect("/Signin");
+      })
+  });
 
 router.get("/user_detail", (req, res) => {
   console.log("IM IN USER DETAUL");
@@ -61,12 +67,10 @@ router.post("/post_user_info", async (req, res) => {
         });
     }
     res.json({ msg: "user updated" });
-    // res.redirect("/");
   }).catch(() => {
     res.status(400).json({ msg: "error creating user" });
   })
 });
-
 
 router.get("/current_user", (req, res) => {
   res.send(req.user);
