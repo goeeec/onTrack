@@ -23,9 +23,6 @@ const TodoListTask = inject("store")(
       };
 
       render() {
-        {
-          console.log(this.props.subtask);
-        }
         return (
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

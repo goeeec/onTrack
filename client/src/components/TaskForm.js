@@ -74,7 +74,7 @@ const TaskForm = inject("store")(
       render() {
         return (
           <div>
-            <Button onClick={this.handleClickOpen}>New Feature</Button>
+            <Button onClick={this.handleClickOpen}>New Task</Button>
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
