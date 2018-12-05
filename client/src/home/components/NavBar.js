@@ -37,7 +37,7 @@ class NavBar extends Component {
           <img className="navLogoIcon" src={TrackIcon} alt="track logo" />
           <h4 className="navLogoTitle">onTrack</h4>
         </Link>
-        <div className="nav_item">
+        <div className="nav_item">{this.props.name}
           {getFromStorage("userId") ? (
             <Button
               variant="outlined"
