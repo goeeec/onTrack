@@ -2,8 +2,16 @@ const bcrypt = require("bcrypt-nodejs");
 
 module.exports = (sequelize, DataTypes) => {
   const LocalAuth = sequelize.define("localAuth", {
+    githubId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
+    },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
       validate: {
