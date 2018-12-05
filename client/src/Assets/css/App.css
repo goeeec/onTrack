@@ -181,3 +181,8 @@
   display: flex;
   align-items: center;
 }
+
+.List-Item {
+  /* border-top: 1px solid #dcdbdc; */
+  border-bottom: 1px solid #dcdbdc;
+}

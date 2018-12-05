@@ -3,7 +3,7 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  Checkbox
+  Divider
 } from "@material-ui/core";
 import menuIcon from "../Assets/images/menu-vertical.png";
 import { observer, inject } from "mobx-react";
@@ -29,7 +29,7 @@ const BranchListItem = inject("store")(
 
       render() {
         return (
-          <ListItem>
+          <ListItem className="List-Item">
             <ListItemText onClick={this.displayTodoList}>
               {this.props.feature.name}
             </ListItemText>
