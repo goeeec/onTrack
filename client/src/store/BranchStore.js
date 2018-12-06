@@ -110,7 +110,7 @@ class Project {
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
         this.features = res.data.branches.map(branch => {
-          const parts = branch.split("/");    // select branch ref's last part
+          const parts = branch.split("/"); // select branch ref's last part
           return {
             name: parts[parts.length - 1],
             description: "describing " + branch,
@@ -133,6 +133,15 @@ class Project {
   addSubTask(task) {
     this.features[this.featureIndex].subTasks.push(task);
   }
+  editSubTask(task, originalTaskIndex) {
+    const originalTask = this.features[this.featureIndex].subTasks[
+      originalTaskIndex
+    ];
+    originalTask.name = task.name;
+    originalTask.description = task.description;
+    originalTask.dueDate = task.dueDate;
+    originalTask.assignee = task.assignee;
+  }
 }
 
 decorate(Project, {
@@ -145,7 +154,8 @@ decorate(Project, {
   updateFeatureIndex: action,
   addFeature: action,
   initData: action,
-  handleChecked: action
+  handleChecked: action,
+  editSubTask: action
 });
 
 const store = new Project();

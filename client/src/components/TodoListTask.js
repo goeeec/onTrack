@@ -54,7 +54,7 @@ const TodoListTask = inject("store")(
                 </List>
               </div>
               <div className="flex-right">
-                <EditTaskForm />
+                <EditTaskForm index={this.props.index} />
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
