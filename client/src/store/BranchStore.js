@@ -1,4 +1,4 @@
-import { observable, computed, action, decorate, get } from "mobx";
+import { observable, computed, action, decorate,  } from "mobx";
 import axios from "axios";
 
 class Project {
@@ -142,20 +142,22 @@ class Project {
     originalTask.dueDate = task.dueDate;
     originalTask.assignee = task.assignee;
   }
+  currentSubTaskDetail(index) {
+    return this.features[this.featureIndex].subTasks[index];
+  }
 }
 
 decorate(Project, {
   features: observable,
   featureIndex: observable,
   isLoading: observable,
-  // current: observable,
-  // elapsedTime: computed,
   change: action,
   updateFeatureIndex: action,
   addFeature: action,
   initData: action,
   handleChecked: action,
-  editSubTask: action
+  editSubTask: action,
+  currentSubTaskDetail: action
 });
 
 const store = new Project();

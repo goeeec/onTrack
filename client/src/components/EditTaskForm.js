@@ -43,6 +43,16 @@ const EditTaskForm = inject("store")(
         };
       }
 
+      componentWillMount() {
+        const task = this.props.store.currentSubTaskDetail(this.props.index);
+        this.setState({
+          taskName: task.name,
+          description: task.description,
+          assignTo: task.assignee,
+          date: task.dueDate
+        })
+      }
+
       handleClickOpen = () => {
         console.log(this.props);
         this.setState({ open: true });
@@ -99,7 +109,7 @@ const EditTaskForm = inject("store")(
                     <InputLabel htmlFor="taskName" focused required>
                       Name
                     </InputLabel>
-                    <Input fullWidth required id="taskName" placeholder="Feature Name" defaultValue="joe" onChange={this.handleChange("taskName")} value={this.state.taskName} />
+                    <Input fullWidth required id="taskName" placeholder="Feature Name" value={this.state.taskName} onChange={this.handleChange("taskName")} />
                   </FormControl>
                   <FormControl fullWidth required>
                     <InputLabel htmlFor="description" focused required>
