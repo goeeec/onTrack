@@ -19,9 +19,12 @@ import {
   List,
   ListItem,
   ListSubheader,
-  ListItemText
+  ListItemText,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 import { observer, inject } from "mobx-react";
+import axios from 'axios';
 
 const styles = theme => ({
   root: {
@@ -54,7 +57,8 @@ const FeatureStepperForm = inject("store")(
         this.state = {
           activeStep: 0,
           featureName: "",
-          featureDescription: ""
+          featureDescription: "",
+          baseBranch: "master"
         };
       }
 
@@ -63,6 +67,21 @@ const FeatureStepperForm = inject("store")(
           case 0:
             return (
               <form onSubmit={this.handleSubmit}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="baseBranch">Select base branch</InputLabel>
+                  <Select
+                    value={this.state.baseBranch}
+                    onChange={this.handleChange("baseBranch")}
+                    name="Base branch"
+                    required
+                  >
+                    {this.props.store.features.map(feature => (
+                      <MenuItem value={feature.name}>
+                        {feature.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <FormControl fullWidth required>
                   <InputLabel htmlFor="featureName" focused required>
                     Feature Name
@@ -93,6 +112,11 @@ const FeatureStepperForm = inject("store")(
             return (
               <List>
                 <ListSubheader>Confirm your details</ListSubheader>
+                <ListItem>
+                  <ListItemText>
+                    Base branch: {this.state.baseBranch}
+                  </ListItemText>
+                </ListItem>
                 <ListItem>
                   <ListItemText>
                     Feature name: {this.state.featureName}
@@ -126,18 +150,24 @@ const FeatureStepperForm = inject("store")(
 
       handleSubmit = e => {
         e.preventDefault();
-        const { featureName, featureDescription } = this.state;
+        const { featureName, featureDescription, baseBranch } = this.state;
         if (featureName && featureDescription) {
-          console.log(featureName, featureDescription);
+          console.log(featureName, featureDescription, baseBranch);
           this.setState({
             featureName: "",
             featureDescription: ""
           });
-          this.props.store.addFeature({
-            name: featureName,
-            description: featureDescription,
-            subTasks: []
-          });
+          axios.post("/github/branches/" + this.props.store.owner + "/" + this.props.store.projectName, {
+            baseBranch: this.state.baseBranch,
+            newBranchName: this.state.featureName
+          }).then(res => {
+            this.props.store.addFeature({
+              name: res.data.name,
+              description: featureDescription,
+              location: res.data.location,
+              subTasks: []
+            });
+          }).catch(err => console.log(err));
           this.props.handleClose();
         } else {
           this.props.handleOpen();

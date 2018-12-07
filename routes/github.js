@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const request = require("request");
 
+const Project = require("../models").Project;
+const Branch = require("../models").Branch;
+
 const githubEndpoint = 'https://api.github.com';
 
 router.post("/create_project", (req, res) => {
@@ -60,24 +63,41 @@ router.get("/branches/:owner/:repo", (req, res) => {
   })
 })
 
-// router.post("/branches/:owner/:repo", (req, res) => {
-//   const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
-//   const data = {
-//     "ref": req.body.ref,
-//     "sha": req.body.sha
-//   };
-//   request.post({
-//     url: githubEndpoint + uri,
-//     headers: {
-//       'User-Agent': 'onTrack-dev'
-//     },
-//     body: JSON.stringify(data)
-//   }, (err, response, body) => {
-//     const result = JSON.parse(body);
-//     console.log(result);
-//     res.send(response.statusCode);
-//   })
-// })
+router.post("/branches/:owner/:repo", async (req, res) => {
+  const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
+  const projectId = (await Project.findOne({ where: { name: req.params.repo } })).id;
+  const sha = (await Branch.findOne({ where: { name: req.body.baseBranch, projectId: projectId } })).sha;
+  console.log("Branch create URI: ", githubEndpoint + uri);
+  const data = {
+    "ref": "refs/heads/" + req.body.newBranchName,
+    "sha": sha
+  };
+  console.log("body created: ", data);
+  request.post({
+    url: githubEndpoint + uri,
+    headers: {
+      'User-Agent': 'onTrack-dev',
+      'Authorization': 'token ' + req.user.accessToken
+    },
+    body: JSON.stringify(data)
+  }, async (err, response, body) => {
+    const result = JSON.parse(body);
+    console.log(response.statusCode, result);
+    if (response.statusCode === 201) {
+      const name = result.ref.split("/");
+      const newBranch = await Branch.create({
+        name: name[name.length - 1],
+        nodeId: result.node_id,
+        sha: result.object.sha,
+        projectId: projectId,
+        location: result.ref
+      });
+      res.status(201).json(newBranch);
+    } else {
+      res.send(response);
+    }
+  })
+})
 
 router.get("/repos/:user/:repo", (req, res) => {
   const uri = "/repos/" + req.params.user + "/" + req.params.repo;
