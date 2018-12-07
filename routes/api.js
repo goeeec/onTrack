@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models").Project;
+const Branch = require("../models").Branch;
 
 router.get("/project/:id", async (req, res) => {
-  const target = await Project.findOne({ where: { projectId: req.params.id } });
+  const target = await Project.findOne({
+    where: { projectId: req.params.id },
+    include: [{ model: Branch }]
+  });
   if (target) {
     res.status(200).json(target);
   } else {
@@ -16,16 +20,32 @@ router.post("/project", async (req, res) => {
   if (existingProject) {
     res.send(400, 'Duplicated project');
   }
-  console.log('Creating new Project: ', req.body);
+  //console.log('Creating new Project: ', req.body);
   res.sendStatus(201);
   try {
-    await Project.create({
+    let project = await Project.create({
       projectId: req.body.projectId + '',   // change to string type
       name: req.body.name,
       description: req.body.description,
       cloneUrl: req.body.cloneUrl,
       owner: req.body.owner,
-      branches: req.body.branches
+    });
+    console.log("Now mapping branches to project id: ", project.id);
+    console.log("Branch number: ", req.body.branches.length);
+    req.body.branches.map(async branch => {
+      try {
+        console.log("Received branch object: ", branch);
+        existingBranch = await Branch.findOne({ where: { nodeId: branch.nodeId } });
+        if (!existingBranch) {
+          await Branch.create({
+            name: branch.name,
+            sha: branch.sha,
+            location: branch.location,
+            nodeId: branch.nodeId,
+            projectId: project.id
+          });
+        }
+      } catch(err) { console.log(err) }
     })
   } catch(err) {
     console.log(err);

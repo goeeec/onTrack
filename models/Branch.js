@@ -1,5 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Branch = sequelize.define("branch", {
+    nodeId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -15,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Branch.associate = models => {
-    Branch.belongsTo(models.Project, { foreignKey: 'branchId' });
+    Branch.belongsTo(models.Project);
   };
 
   return Branch;

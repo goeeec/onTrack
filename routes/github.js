@@ -44,7 +44,13 @@ router.get("/branches/:owner/:repo", (req, res) => {
     const result = JSON.parse(body);
     if (response.statusCode === 200) {
       let branches = result.map(branch => {
-        return ({ ref: branch.ref, sha: branch.object.sha });
+        let parts = branch.ref.split("/");
+        return ({ 
+          name: parts[parts.length - 1],
+          sha: branch.object.sha,
+          location: branch.ref,
+          nodeId: branch.node_id
+        });
       });
       res.status(200).send(branches);
     } else {
@@ -54,24 +60,24 @@ router.get("/branches/:owner/:repo", (req, res) => {
   })
 })
 
-router.post("/branches/:owner/:repo", (req, res) => {
-  const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
-  const data = {
-    "ref": req.body.ref,
-    "sha": req.body.sha
-  };
-  request.post({
-    url: githubEndpoint + uri,
-    headers: {
-      'User-Agent': 'onTrack-dev'
-    },
-    body: JSON.stringify(data)
-  }, (err, response, body) => {
-    const result = JSON.parse(body);
-    console.log(result);
-    res.send(response.statusCode);
-  })
-})
+// router.post("/branches/:owner/:repo", (req, res) => {
+//   const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
+//   const data = {
+//     "ref": req.body.ref,
+//     "sha": req.body.sha
+//   };
+//   request.post({
+//     url: githubEndpoint + uri,
+//     headers: {
+//       'User-Agent': 'onTrack-dev'
+//     },
+//     body: JSON.stringify(data)
+//   }, (err, response, body) => {
+//     const result = JSON.parse(body);
+//     console.log(result);
+//     res.send(response.statusCode);
+//   })
+// })
 
 router.get("/repos/:user/:repo", (req, res) => {
   const uri = "/repos/" + req.params.user + "/" + req.params.repo;

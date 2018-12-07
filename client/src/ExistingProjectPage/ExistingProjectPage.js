@@ -37,7 +37,7 @@ class ExistingProjectPage extends Component {
         name: repo.name,
         cloneUrl: repo.cloneUrl,
         description: repo.description,
-        branches: branches.map(branch => branch.ref),
+        branches: branches,
         owner: repo.owner.login
       });
       if (res.status === 201) {
