@@ -1,4 +1,4 @@
-import { observable, computed, action, decorate,  } from "mobx";
+import { observable, computed, action, decorate } from "mobx";
 import axios from "axios";
 
 class Project {
@@ -133,6 +133,7 @@ class Project {
   addSubTask(task) {
     this.features[this.featureIndex].subTasks.push(task);
   }
+
   editSubTask(task, originalTaskIndex) {
     const originalTask = this.features[this.featureIndex].subTasks[
       originalTaskIndex
@@ -142,8 +143,16 @@ class Project {
     originalTask.dueDate = task.dueDate;
     originalTask.assignee = task.assignee;
   }
+
   currentSubTaskDetail(index) {
     return this.features[this.featureIndex].subTasks[index];
+  }
+
+  deleteSubTask(index) {
+    const originalTask = this.features[this.featureIndex].subTasks[index];
+    this.features[this.featureIndex].subTasks = this.features[
+      this.featureIndex
+    ].subTasks.filter(task => task.name !== originalTask.name);
   }
 }
 
@@ -157,7 +166,8 @@ decorate(Project, {
   initData: action,
   handleChecked: action,
   editSubTask: action,
-  currentSubTaskDetail: action
+  currentSubTaskDetail: action,
+  deleteSubTask: action
 });
 
 const store = new Project();

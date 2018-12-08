@@ -13,7 +13,8 @@ import {
   MenuItem,
   Fab,
   Icon,
-  TextField
+  TextField,
+  Tooltip
 } from "@material-ui/core";
 
 /**
@@ -50,7 +51,7 @@ const EditTaskForm = inject("store")(
           description: task.description,
           assignTo: task.assignee,
           date: task.dueDate
-        })
+        });
       }
 
       handleClickOpen = () => {
@@ -94,55 +95,105 @@ const EditTaskForm = inject("store")(
         }
       };
 
+      handleDelete = e => {
+        this.props.store.deleteSubTask(this.props.index);
+        this.setState({ open: false });
+      };
+
       render() {
-        return <div>
-            <Fab color="inherit" size="small" aria-label="Edit" onClick={this.handleClickOpen}>
-              <Icon>edit_icon</Icon>
-            </Fab>
-            <Dialog open={this.state.open} onClose={this.handleClose} TransitionComponent={Transition} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">
-                Edit Task
-              </DialogTitle>
+        return (
+          <div>
+            <Tooltip title="Edit">
+              <Fab
+                color="inherit"
+                size="small"
+                aria-label="Edit"
+                onClick={this.handleClickOpen}
+              >
+                <Icon>edit_icon</Icon>
+              </Fab>
+            </Tooltip>
+            <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              TransitionComponent={Transition}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
               <form onSubmit={this.handleSubmit}>
                 <DialogContent>
                   <FormControl fullWidth required>
                     <InputLabel htmlFor="taskName" focused required>
                       Name
                     </InputLabel>
-                    <Input fullWidth required id="taskName" placeholder="Feature Name" value={this.state.taskName} onChange={this.handleChange("taskName")} />
+                    <Input
+                      fullWidth
+                      required
+                      id="taskName"
+                      placeholder="Feature Name"
+                      value={this.state.taskName}
+                      onChange={this.handleChange("taskName")}
+                    />
                   </FormControl>
                   <FormControl fullWidth required>
                     <InputLabel htmlFor="description" focused required>
                       Description
                     </InputLabel>
-                    <Input fullWidth required id="description" placeholder="Feature Name" onChange={this.handleChange("description")} value={this.state.description} />
+                    <Input
+                      fullWidth
+                      required
+                      id="description"
+                      placeholder="Feature Name"
+                      onChange={this.handleChange("description")}
+                      value={this.state.description}
+                    />
                   </FormControl>
                   <FormControl fullWidth required>
-                    <InputLabel htmlFor="assignTo">
-                      Assign To
-                    </InputLabel>
-                    <Select value={this.state.assignTo} onChange={this.handleChange("assignTo")} name="Assign To" displayEmpty required>
+                    <InputLabel htmlFor="assignTo">Assign To</InputLabel>
+                    <Select
+                      value={this.state.assignTo}
+                      onChange={this.handleChange("assignTo")}
+                      name="Assign To"
+                      displayEmpty
+                      required
+                    >
                       <MenuItem value={"Joe"}>Joe</MenuItem>
                       <MenuItem value={"Joey"}>Joey</MenuItem>
                       <MenuItem value={"Jason"}>Jason</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth required>
-                    <TextField id="date" label="Due Date" type="date" InputLabelProps={{ shrink: true } // defaultValue="2018-05-24"
-                      } onChange={this.handleChange("date")} value={this.state.date} />
+                    <TextField
+                      id="date"
+                      label="Due Date"
+                      type="date"
+                      InputLabelProps={
+                        { shrink: true } // defaultValue="2018-05-24"
+                      }
+                      onChange={this.handleChange("date")}
+                      value={this.state.date}
+                    />
                   </FormControl>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="primary">
                     Cancel
                   </Button>
-                  <Button onClick={this.handleSubmit} type="submit" color="primary">
+                  <Button onClick={this.handleDelete} color="primary">
+                    Delete
+                  </Button>
+                  <Button
+                    onClick={this.handleSubmit}
+                    type="submit"
+                    color="primary"
+                  >
                     Submit
                   </Button>
                 </DialogActions>
               </form>
             </Dialog>
-          </div>;
+          </div>
+        );
       }
     }
   )
