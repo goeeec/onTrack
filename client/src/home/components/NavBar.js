@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../Assets/css/navbar.css";
-import TrackIcon from "../../Assets/images/track.png";
+import TrackIcon from "../../Assets/images/logo3.png";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
 import axios from "axios";
@@ -35,7 +35,7 @@ class NavBar extends Component {
       <Grid className="navbar">
         <Link className="navLogo" to="/">
           <img className="navLogoIcon" src={TrackIcon} alt="track logo" />
-          <h4 className="navLogoTitle">onTrack</h4>
+          {/* <h4 className="navLogoTitle">onTrack</h4> */}
         </Link>
         <div className="nav_item">{this.props.name}
           {getFromStorage("userId") ? (
