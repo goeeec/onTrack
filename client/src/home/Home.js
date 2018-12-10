@@ -41,12 +41,10 @@ const Home = observer(
               <h1>Manage your projects</h1>
               {/* <Link to="/dashboard">dashboard</Link> */}
 
-              {/* <Fab variant="outlined" color="primary" >   */}
               <Button className="dash_button" color="secondary" variant="contained" component={Link} to="/dashboard">
               dashboard
               </Button>
 
-               {/* </Fab> */}
               <br />
               {/* <Link to="/new_project">Create new project</Link> */}
               <div className="project-container">
