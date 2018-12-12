@@ -47,12 +47,12 @@ const Home = observer(
 
               <br />
               {/* <Link to="/new_project">Create new project</Link> */}
-              <div className="project-container">
-              <Button className="dash_button" color="secondary" variant="outlined" component={Link} to="/new_project">
+              <div className="row">
+              <Button className="dash_button column" color="secondary" variant="outlined" component={Link} to="/new_project">
               Create new project
               </Button>
               <br />
-              <Button className="dash_button" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
+              <Button className="dash_button column" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
               </div>
               <Dialog open={this.state.open} onClose={this.handleClose}>
                 <DialogTitle>Existing project</DialogTitle>

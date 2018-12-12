@@ -72,10 +72,17 @@ h2{
   transition: all 0.4s ease 0s;
   }
 
-.project-container{
-  display: grid;
-  grid-gap: 3px;
-  padding: 10px;
+.row{
+  /* display: grid; */
+  /* grid-gap: 3px; */
+  /* padding: 10px; */
   padding-top: 20px;
+  display: flex;
 }
-  
+
+.column{
+  flex: 50%;
+  /* flex:1 1 auto; */
+  column-gap: 40px;
+  margin:5px !important; 
+}
