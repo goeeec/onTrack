@@ -18,12 +18,12 @@
 }
 
 .navLogoIcon {
-  transform: rotate(-20deg);
   height: 50px;
+  border-radius: 10px;
 }
 
 .navLogoTitle {
-  color: black;
+  color: white;
 }
 
 .link_button {
