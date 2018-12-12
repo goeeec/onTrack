@@ -21,11 +21,22 @@ router.post("/create_project", (req, res) => {
       'User-Agent': 'onTrack-dev'
     },
     body: JSON.stringify(data)
-  }, (err, response, body) => {
+  }, async (err, response, body) => {
     let result = JSON.parse(body);
     if (response.statusCode === 201) {
-      res.status(201);
-      res.json({
+      try {
+        await Project.create({
+          projectId: result.id,
+          name: result.name,
+          description: result.description,
+          cloneUrl: result.clone_url,
+          owner: result.owner.login
+        });
+      } catch(err) {
+        console.log(err);
+        console.log("Failed to create Project object in DB");
+      }
+      res.status(201).json({
         id: result.id,
         cloneUrl: result.clone_url,
         owner: { username: result.owner.login, id: result.owner.id }
