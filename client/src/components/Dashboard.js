@@ -150,7 +150,7 @@ const Dashboard = inject("store")(
                   <img width="30px" height="30px" style={{alignItems: 'flex-end'}} src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgSWNvTW9vbi5pbyAtLT4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE0IDZ2LTJoLTdsLTEtMmgtNGwtMSAyaC0xdjExaDE0bDItOWgtMnpNMTQuOSA3bC0xLjYgNy0xMS45LTAuMSAyLjMtNi45aDExLjJ6TTEgNWgwLjZsMS0yaDIuNmwxLjIgMmg2LjZ2MWgtMTBsLTIgNS45di02Ljl6Ii8+Cjwvc3ZnPgo=" />
                   </div> */}
                   <div className="project-title">
-                    <h2 className="project-name">{this.props.store.projectName}</h2>
+                    <span className="project-text">Project: </span><h2 className="project-name"> {this.props.store.projectName}</h2>
                   </div>
                 </Toolbar>
               </AppBar>
