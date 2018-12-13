@@ -112,7 +112,7 @@
 }
 
 .project-title{
-  position: fixed;
+  /* position: fixed; */
   right: 0;
   left: 0;
   margin-right: auto;
