@@ -213,8 +213,10 @@
 }
 
 .media-picture {
-  height: 350px;
-  width: auto;
+  /* height: 350px;
+  width: auto; */
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .avatar {
