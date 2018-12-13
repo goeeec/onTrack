@@ -19,7 +19,7 @@ class ProjectForm extends Component {
 
   render() {
     return (
-      <Grid container justify="center">
+      <Grid container justify="center" style={{ display: 'flex', justifyContent: 'center', padding: "1vw" }}>
         <Grid item lg={8} md={8} sm={8}>
           <FormControl error={this.state.isChanged && !this.state.name}>
             <InputLabel htmlFor="component-simple">Project Name</InputLabel>

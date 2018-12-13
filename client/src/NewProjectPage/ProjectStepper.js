@@ -34,7 +34,7 @@ class ProjectStepper extends Component {
     switch (step) {
       case 0:
         return (
-          <ProjectForm
+          <ProjectForm 
             updateProjectName={this.updateProjectName}
             updateProjectDescription={this.updateProjectDescription}
             project={this.state.project}
@@ -145,12 +145,14 @@ class ProjectStepper extends Component {
           ) : (
             <div>
               {this.getStepContent(activeStep)}
+              <div style={{display: 'flex', justifyContent: 'center'}}>
               <Button disabled={activeStep === 0} onClick={this.handleBack}>Back</Button>
               {this.state.activeStep === this.state.steps.length - 1 ? (
                 <Button color="primary" onClick={this.handleSubmit}>Submit</Button>
               ) : (
                 <Button disabled={!this.state.project.name} color="primary" onClick={this.handleNext}>Next</Button>
               )}
+              </div>
             </div>
           )}
         </div>

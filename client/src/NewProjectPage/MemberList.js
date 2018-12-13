@@ -62,8 +62,8 @@ class MemberList extends Component {
       );
     }
     return (
-      <Grid container justify="center">
-        <Grid item lg={5} md={5} sm={5}>
+      <Grid container justify="center" style={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid item lg={12} md={12} sm={12}>
           <List>
             <ListSubheader>Enter Github users you want to add...</ListSubheader>
             {this.state.members.map(user => {
@@ -80,29 +80,32 @@ class MemberList extends Component {
             })}
             {inputBox}
           </List>
-          {this.state.isEditing ? (
-            <Button
-              variant="contained"
-              size="medium"
-              color="default"
-              onClick={() => {
-                this.setState({ isEditing: false });
-              }}
-            >
-              Cancel
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            {this.state.isEditing ? (
+              <Button
+                variant="contained"
+                size="medium"
+                color="default"
+                onClick={() => {
+                  this.setState({ isEditing: false });
+                }}
+              >
+                Cancel
             </Button>
-          ) : (
-            <Button
-              variant="contained"
-              size="medium"
-              color="default"
-              onClick={() => {
-                this.setState({ isEditing: true });
-              }}
-            >
-              Add new member
+            ) : (
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="default"
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                  onClick={() => {
+                    this.setState({ isEditing: true });
+                  }}
+                >
+                  Add new member
             </Button>
-          )}
+              )}
+          </div>
         </Grid>
       </Grid>
     );
