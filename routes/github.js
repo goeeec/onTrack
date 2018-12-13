@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const request = require("request");
 
+const Project = require("../models").Project;
+const Branch = require("../models").Branch;
+
 const githubEndpoint = 'https://api.github.com';
 
 router.post("/create_project", (req, res) => {
@@ -18,11 +21,22 @@ router.post("/create_project", (req, res) => {
       'User-Agent': 'onTrack-dev'
     },
     body: JSON.stringify(data)
-  }, (err, response, body) => {
+  }, async (err, response, body) => {
     let result = JSON.parse(body);
     if (response.statusCode === 201) {
-      res.status(201);
-      res.json({
+      try {
+        await Project.create({
+          projectId: result.id,
+          name: result.name,
+          description: result.description,
+          cloneUrl: result.clone_url,
+          owner: result.owner.login
+        });
+      } catch(err) {
+        console.log(err);
+        console.log("Failed to create Project object in DB");
+      }
+      res.status(201).json({
         id: result.id,
         cloneUrl: result.clone_url,
         owner: { username: result.owner.login, id: result.owner.id }
@@ -44,7 +58,13 @@ router.get("/branches/:owner/:repo", (req, res) => {
     const result = JSON.parse(body);
     if (response.statusCode === 200) {
       let branches = result.map(branch => {
-        return ({ ref: branch.ref, sha: branch.object.sha });
+        let parts = branch.ref.split("/");
+        return ({ 
+          name: parts[parts.length - 1],
+          sha: branch.object.sha,
+          location: branch.ref,
+          nodeId: branch.node_id
+        });
       });
       res.status(200).send(branches);
     } else {
@@ -54,22 +74,39 @@ router.get("/branches/:owner/:repo", (req, res) => {
   })
 })
 
-router.post("/branches/:owner/:repo", (req, res) => {
+router.post("/branches/:owner/:repo", async (req, res) => {
   const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
+  const projectId = (await Project.findOne({ where: { name: req.params.repo } })).id;
+  const sha = (await Branch.findOne({ where: { name: req.body.baseBranch, projectId: projectId } })).sha;
+  console.log("Branch create URI: ", githubEndpoint + uri);
   const data = {
-    "ref": req.body.ref,
-    "sha": req.body.sha
+    "ref": "refs/heads/" + req.body.newBranchName,
+    "sha": sha
   };
+  console.log("body created: ", data);
   request.post({
     url: githubEndpoint + uri,
     headers: {
-      'User-Agent': 'onTrack-dev'
+      'User-Agent': 'onTrack-dev',
+      'Authorization': 'token ' + req.user.accessToken
     },
     body: JSON.stringify(data)
-  }, (err, response, body) => {
+  }, async (err, response, body) => {
     const result = JSON.parse(body);
-    console.log(result);
-    res.send(response.statusCode);
+    console.log(response.statusCode, result);
+    if (response.statusCode === 201) {
+      const name = result.ref.split("/");
+      const newBranch = await Branch.create({
+        name: name[name.length - 1],
+        nodeId: result.node_id,
+        sha: result.object.sha,
+        projectId: projectId,
+        location: result.ref
+      });
+      res.status(201).json(newBranch);
+    } else {
+      res.send(response);
+    }
   })
 })
 

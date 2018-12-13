@@ -32,11 +32,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
-    },
-    branches: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
     }
   });
+
+  Project.associate = models => {
+    models.Project.hasMany(models.Branch);
+  }
 
   return Project;
 };
