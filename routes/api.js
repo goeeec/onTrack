@@ -6,7 +6,7 @@ const Branch = require("../models").Branch;
 
 // return the project in DB
 router.get("/project/:id", async (req, res) => {
-  const target = await Project.findOne({
+  let target = await Project.findOne({
     where: { projectId: req.params.id },
     include: [
       { model: Branch },
@@ -17,19 +17,21 @@ router.get("/project/:id", async (req, res) => {
   if (target) {
     res.status(200).json(target);
   } else {
-    res.status(404).send('Project not found');
+    res.status(404).send("Project not found");
   }
-})
+});
 
 // save a project into DB
 router.post("/project", async (req, res) => {
-  const existingProject = await Project.findOne({ where: { projectId: req.body.projectId + '' } });
+  const existingProject = await Project.findOne({
+    where: { projectId: req.body.projectId + "" }
+  });
   if (existingProject) {
-    res.status(400).send('Duplicated project');
+    res.status(400).send("Duplicated project");
   } else {
     try {
       let project = await Project.create({
-        projectId: req.body.projectId + '',   // change to string type
+        projectId: req.body.projectId + "", // change to string type
         name: req.body.name,
         description: req.body.description,
         cloneUrl: req.body.cloneUrl
@@ -44,7 +46,9 @@ router.post("/project", async (req, res) => {
       req.body.branches.map(async branch => {
         try {
           console.log("Received branch object: ", branch);
-          existingBranch = await Branch.findOne({ where: { nodeId: branch.nodeId } });
+          existingBranch = await Branch.findOne({
+            where: { nodeId: branch.nodeId }
+          });
           if (!existingBranch) {
             await Branch.create({
               name: branch.name,
@@ -57,13 +61,15 @@ router.post("/project", async (req, res) => {
             // update the associated projectId
             await existingBranch.update({ projectId: project.id });
           }
-        } catch(err) { console.log(err) }
+        } catch (err) {
+          console.log(err);
+        }
       });
       res.sendStatus(201);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
-})
+});
 
 module.exports = router;
