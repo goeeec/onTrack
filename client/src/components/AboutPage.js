@@ -35,7 +35,7 @@ export default class AboutPage extends Component {
           <h1>About Three.js</h1>
         </Grid>
         <Grid container justify="space-evenly">
-          <Grid item md={3} sm={3} lg={3}>
+          <Grid item md={3} sm={4} lg={3}>
             <Card>
               <CardActionArea>
                 <Grid container justify="center" alignItems="center">
@@ -48,9 +48,9 @@ export default class AboutPage extends Component {
                 <Grid container justify="center" alignItems="center">
                   <h2>Jianming Kang</h2>
                 </Grid>
-                <CardMedia
-                  title="Contemplative Reptile"
-                  image={require("../Assets/images/JasonQR.jpeg")}
+                <img
+                  src={require("../Assets/images/JasonQR.jpeg")}
+                  alt="jason"
                   className="media-picture"
                 />
                 <CardContent>
@@ -73,9 +73,9 @@ export default class AboutPage extends Component {
                 <Grid container justify="center" alignItems="center">
                   <h2>Joey Ching</h2>
                 </Grid>
-                <CardMedia
-                  title="Contemplative Reptile"
-                  image={require("../Assets/images/JoeyQR.png")}
+                <img
+                  src={require("../Assets/images/JoeyQR.png")}
+                  alt="joey"
                   className="media-picture"
                 />
                 <CardContent>
@@ -101,6 +101,11 @@ export default class AboutPage extends Component {
                 <CardMedia
                   title="Contemplative Reptile"
                   image={require("../Assets/images/JoeQR.jpeg")}
+                  className="media-picture"
+                />
+                <img
+                  src={require("../Assets/images/JoeQR.jpeg")}
+                  alt="joe"
                   className="media-picture"
                 />
                 <CardContent>
