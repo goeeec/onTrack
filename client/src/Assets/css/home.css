@@ -28,7 +28,7 @@ h2 {
   text-transform: uppercase;
 }
 
-.content {
+/* .content {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
@@ -41,7 +41,7 @@ h2 {
   width: 30%;
   padding: 20px;
   text-align: center;
-}
+} */
 
 .nav {
   position: absolute;
@@ -53,7 +53,7 @@ h2 {
   padding: 20px;
 }
 
-.pre-login-title{
+.pre-login-title {
   position: fixed;
   top: 40%;
   left: 0;
@@ -62,7 +62,7 @@ h2 {
   font-weight: bold;
 }
 
-.pre-login-context{
+.pre-login-context {
   position: fixed;
   top: 50%;
   left: 0;
@@ -72,7 +72,7 @@ h2 {
 }
 
 .dash_button {
-  color: #fff !important;
+  color: rgb(17, 16, 16) !important;
   text-transform: uppercase;
   background: #ed3330;
   padding: 20px;
@@ -113,4 +113,8 @@ h2 {
 
 .flex-item {
   margin: 50px;
+}
+
+.appBar {
+  background-color: aliceblue;
 }

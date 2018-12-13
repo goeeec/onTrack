@@ -10,7 +10,9 @@ import {
   DialogContent,
   AppBar,
   Toolbar,
-  SvgIcon
+  SvgIcon,
+  Card,
+  CardContent
 } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import NavigationIcon from "@material-ui/icons/Navigation";
@@ -21,6 +23,9 @@ import ExistingProjectPage from "../ExistingProjectPage/ExistingProjectPage";
 import OnTrackIcon from "../Assets/images/logo-white.png";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NewProjectPage from "../NewProjectPage/NewProjectPage";
+import SignUp from "./components/SignUp";
+import Dashboard from "./components/Dashboard";
+import Feature from "./components/Feature";
 
 const GithubIcon = ({
   style = {},
@@ -74,7 +79,7 @@ const Home = observer(
           this.setState({ validUser: false });
         }
       });
-    }
+    };
 
     componentWillMount() {
       const id = axios.get("/auth/user_detail").then(response => {
@@ -82,21 +87,21 @@ const Home = observer(
           this.setState({ validUser: true });
         }
       });
-    };
+    }
 
     render() {
       return (
         <div>
-          <div className="home-img" />
+          {/* <div className="home-img" /> */}
           <Grid
             container
             alignItems="center"
             justify="center"
             className="container"
           >
-            <Grid item md={10} xs={12}>
+            <Grid item md={12} lg={12} xs={12}>
               {/* <div className="nav"><Navbar /></div> */}
-              <AppBar position="fixed">
+              <AppBar position="static" style={{ backgroundColor: "" }}>
                 <Toolbar>
                   <Link className="navLogo" to="/">
                     <img
@@ -119,56 +124,72 @@ const Home = observer(
                         Logout
                       </Button>
                     ) : (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          href="/auth/github"
-                          className="flex-item"
-                        >
-                          <GithubIcon />
-                          Login
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/auth/github"
+                        className="flex-item"
+                      >
+                        <GithubIcon />
+                        Login
                       </Button>
-                      )}
+                    )}
                   </div>
                 </Toolbar>
               </AppBar>
-              {this.state.validUser ?
-                <div className="content">
-                  <h1>Manage your projects</h1>
-                  <Button 
-                    className="dash_button" 
-                    color="secondary" 
-                    variant="contained" 
-                    component={Link} 
-                    to="/dashboard"
-                  >
-                    dashboard
-                  </Button>
-                  <br />
+              <Grid
+                container
+                justify="space-evenly"
+                className="little-dashboard"
+              >
+                <SignUp />
+                {this.state.validUser ? (
+                  <Grid item sm={5} md={4} lg={3}>
+                    <Card className="manageBoard">
+                      <h3>Manage your projects</h3>
+                      <CardContent>
+                        <Button
+                          className="dash_button"
+                          color="secondary"
+                          variant="contained"
+                          component={Link}
+                          to="/dashboard"
+                        >
+                          dashboard
+                        </Button>
+                        <br />
 
-                  <div className="row">
-                    <NewProjectPage />
+                        <div className="row">
+                          <NewProjectPage />
 
-                    <br />
-                    <Button 
-                      className="dash_button column" 
-                      color="primary" 
-                      variant="outlined" 
-                      onClick={this.handleOpen}
-                    >
-                    Existing Project
-                  </Button>
-                  </div>
-                  <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle>Existing project</DialogTitle>
-                    <DialogContent>
-                      <ExistingProjectPage />
-                    </DialogContent>
-                  </Dialog>
-                </div>
-                : <div><h1 className="pre-login-title">Welcome to OnTrack</h1>
-                  <p className="pre-login-context">Please login with Github</p>
-                </div>}
+                          <br />
+                          <Button
+                            className="dash_button column"
+                            color="primary"
+                            variant="outlined"
+                            onClick={this.handleOpen}
+                          >
+                            Existing Project
+                          </Button>
+                        </div>
+                        <Dialog
+                          open={this.state.open}
+                          onClose={this.handleClose}
+                        >
+                          <DialogTitle>Existing project</DialogTitle>
+                          <DialogContent>
+                            <ExistingProjectPage />
+                          </DialogContent>
+                        </Dialog>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ) : (
+                  <Dashboard />
+                )}
+
+                <Feature />
+              </Grid>
             </Grid>
           </Grid>
         </div>
@@ -178,3 +199,8 @@ const Home = observer(
 );
 
 export default Home;
+
+{
+  /* <h1 className="pre-login-title">Welcome to OnTrack</h1>
+                  <p className="pre-login-context">Please login with Github</p> */
+}
