@@ -53,6 +53,23 @@ h2{
   padding: 20px;
 }
 
+.pre-login-title{
+  position: fixed;
+  top: 40%;
+  left: 0;
+  right: 0;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.pre-login-context{
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
 
 .dash_button {
   color: #fff !important;

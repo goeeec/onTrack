@@ -19,12 +19,12 @@ import ExistingProjectPage from '../ExistingProjectPage/ExistingProjectPage';
 import OnTrackIcon from '../Assets/images/logo-white.png';
 
 const GithubIcon = ({
-  style={},
-  fill="#fff",
-  width="100%",
-  className="",
-  height="100%",
-  viewBox="0 0 32 32",
+  style = {},
+  fill = "#fff",
+  width = "100%",
+  className = "",
+  height = "100%",
+  viewBox = "0 0 32 32",
 }) => {
   return (
     <SvgIcon
@@ -45,7 +45,8 @@ const GithubIcon = ({
 const Home = observer(
   class Home extends Component {
     state = {
-      open: false
+      open: false,
+      validUser: false
     };
 
     handleOpen = () => {
@@ -66,6 +67,15 @@ const Home = observer(
             state: { isLogged: false }
           });
           console.log(this.props.history);
+          this.setState({ validUser: false });
+        }
+      });
+    }
+
+    componentWillMount() {
+      const id = axios.get("/auth/user_detail").then(response => {
+        if (response.data.passport) {
+          this.setState({ validUser: true });
         }
       });
     }
@@ -81,43 +91,46 @@ const Home = observer(
             className="container"
           >
             <Grid item md={10} xs={12}>
-            <AppBar position="fixed">
-              <Toolbar>
-              <Link className="navLogo" to="/">
-                <img className="navLogoIcon" src={OnTrackIcon} alt="track logo" />
-              </Link>
-              {getFromStorage("userId") ? (
-                <Button
-                  variant="outlined"
-                  onClick={this.logout}
-                >Logout</Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  href="/auth/github"
-                ><GithubIcon />Login</Button>
-              )}
-              </Toolbar>
-            </AppBar>
-
+              <AppBar position="fixed">
+                <Toolbar>
+                  <Link className="navLogo" to="/">
+                    <img className="navLogoIcon" src={OnTrackIcon} alt="track logo" />
+                  </Link>
+                  {getFromStorage("userId") ? (
+                    <Button
+                      variant="outlined"
+                      onClick={this.logout}
+                    >Logout</Button>
+                  ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/auth/github"
+                      ><GithubIcon />Login</Button>
+                    )}
+                </Toolbar>
+              </AppBar>
               {/* <div className="nav"><Navbar /></div> */}
-              <div className="content">
-                <h1>Manage your projects</h1>
-                <Button className="dash_button" color="secondary" variant="contained" component={Link} to="/dashboard">dashboard</Button>
-                <br />
-                <div className="row">
-                  <NewProjectPage />
+              {this.state.validUser ?
+                <div className="content">
+                  <h1>Manage your projects</h1>
+                  <Button className="dash_button" color="secondary" variant="contained" component={Link} to="/dashboard">dashboard</Button>
                   <br />
-                  <Button className="dash_button column" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
+                  <div className="row">
+                    <NewProjectPage />
+                    <br />
+                    <Button className="dash_button column" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
+                  </div>
+                  <Dialog open={this.state.open} onClose={this.handleClose}>
+                    <DialogTitle>Existing project</DialogTitle>
+                    <DialogContent>
+                      <ExistingProjectPage />
+                    </DialogContent>
+                  </Dialog>
                 </div>
-                <Dialog open={this.state.open} onClose={this.handleClose}>
-                  <DialogTitle>Existing project</DialogTitle>
-                  <DialogContent>
-                    <ExistingProjectPage />
-                  </DialogContent>
-                </Dialog>
-              </div>
+                : <div><h1 className="pre-login-title">Welcome to OnTrack</h1>
+                  <p className="pre-login-context">Please login with Github</p>
+                </div>}
             </Grid>
           </Grid>
         </div>
