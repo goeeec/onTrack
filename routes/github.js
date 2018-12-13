@@ -115,10 +115,37 @@ router.post("/branches/:owner/:repo", async (req, res) => {
   })
 })
 
+// Get a single user by username
+router.get("/users/:user", (req, res) => {
+  const uri = "/users/" + req.params.user;
+  request.get({
+    url: githubEndpoint + uri,
+    headers: {
+      "User-Agent": "onTrack-dev"
+    }
+  }, async (err, response, body) => {
+    const result = JSON.parse(body);
+    console.log("Result: ", result);
+    if (response.statusCode === 200) {
+      try {
+        let user = await User.findOne({ where: { githubId: result.id } });
+        if (!user) {
+          user = await User.create({
+            name: result.name ? result.name : "",
+            githubId: result.id,
+            email: result.email ? result.email : "example@example.com"
+          });
+        }
+        console.log("user object: ", user);
+        res.status(200).send(user);
+      } catch(err) { console.log(err) }
+    }
+  })
+})
+
 // Get info of one repo
 router.get("/repos/:user/:repo", (req, res) => {
   const uri = "/repos/" + req.params.user + "/" + req.params.repo;
-  console.log("URI: ", uri);
   request.get({
     url: githubEndpoint + uri,
     headers: {

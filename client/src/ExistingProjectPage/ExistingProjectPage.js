@@ -22,15 +22,23 @@ class ExistingProjectPage extends Component {
     const requestUser = this.state.isCurrentUser
       ? user
       : document.getElementById("username").value;
+
+    // save that user to DB
+    await axios.get("/github/users/" + requestUser);
+    
+    // load existing repo info
     const repo = (await axios.get(
       "/github/repos/" +
         requestUser +
         "/" +
         document.getElementById("project-name").value
     )).data;
+
+    // load branches of that repo
     const branches = (await axios.get(
       "/github/branches/" + requestUser + "/" + repo.name
     )).data;
+    
     try {
       const res = await axios.post("/api/project", {
         projectId: repo.id,
