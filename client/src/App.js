@@ -4,6 +4,7 @@ import "./Assets/css/App.css";
 import Dashboard from "./components/Dashboard";
 import Home from "./home/Home";
 import SigninPage from "./User/SigninPage";
+import AboutPage from "./components/AboutPage";
 
 import axios from "axios";
 import {
@@ -97,6 +98,7 @@ const App = inject("store")(
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route exact path="/Signin" component={SigninPage} />
+            <Route exact path="/About" component={AboutPage} />
             <PrivateRoute
               exact
               path="/new_project"

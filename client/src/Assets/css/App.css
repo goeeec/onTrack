@@ -111,14 +111,14 @@
   font-size: 20px; */
 }
 
-.project-title{
+.project-title {
   /* position: fixed; */
   right: 0;
   left: 0;
   margin-right: auto;
   margin-left: auto;
 }
-.project-name{
+.project-name {
   display: inline-block;
   border-bottom: 2px solid yellow;
   text-transform: uppercase;
@@ -129,7 +129,7 @@
   /* background-color: lightgrey; */
 }
 
-.project-text{
+.project-text {
   font-weight: bold;
 }
 
@@ -208,4 +208,23 @@
 .List-Item {
   /* border-top: 1px solid #dcdbdc; */
   border-bottom: 1px solid #dcdbdc;
+}
+
+.media-picture {
+  height: 350px;
+  width: auto;
+}
+
+.avatar {
+  margin: 10px;
+  width: 100px !important;
+  height: 100px !important;
+}
+
+.aboutPageTitle {
+  margin: 20px;
+}
+
+.card {
+  padding-bottom: 30px;
 }
