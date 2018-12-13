@@ -3,7 +3,8 @@
 }
  
 .home-img{
-  background-image: url("../images/hero.jpg");
+  /* background-image: url("../images/hero.jpg"); */
+  background-color: rgba(42, 164, 255, 0.2);
   background-size: cover;
   height: 100vh;
   filter: blur(8px);
