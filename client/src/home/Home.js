@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { observer } from "mobx-react";
 import ExistingProjectPage from '../ExistingProjectPage/ExistingProjectPage';
+import OnTrackIcon from '../Assets/images/logo-white.png';
 
 const GithubIcon = ({
   style={},
@@ -83,6 +84,9 @@ const Home = observer(
             {/* <div className="nav"><Navbar /></div> */}
             <AppBar position="fixed">
               <Toolbar>
+              <Link className="navLogo" to="/">
+                <img className="navLogoIcon" src={OnTrackIcon} alt="track logo" />
+              </Link>
               {getFromStorage("userId") ? (
                 <Button
                   variant="outlined"
@@ -93,7 +97,6 @@ const Home = observer(
                   variant="contained"
                   color="primary"
                   href="/auth/github"
-                  className="MuiButtonBase-root-164 MuiButton-root-138 MuiButton-outlined-146"
                 ><GithubIcon />Login</Button>
               )}
               </Toolbar>
