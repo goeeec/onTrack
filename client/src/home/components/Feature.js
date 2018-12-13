@@ -33,7 +33,7 @@ export default class Feature extends Component {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item sm={5} md={5} lg={5}>
+        {/* <Grid item sm={5} md={5} lg={5}>
           <Card className="feature-card">
             <img
               src={require("../../Assets/images/daily_updates.jpg")}
@@ -60,7 +60,7 @@ export default class Feature extends Component {
               email.
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */}
       </Grid>
     );
   }

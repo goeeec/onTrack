@@ -76,7 +76,7 @@ const FeatureStepperForm = inject("store")(
                     required
                   >
                     {this.props.store.features.map(feature => (
-                      <MenuItem value={feature.name}>
+                      <MenuItem key={feature.name} value={feature.name}>
                         {feature.name}
                       </MenuItem>
                     ))}
@@ -149,6 +149,7 @@ const FeatureStepperForm = inject("store")(
       };
 
       handleSubmit = e => {
+        console.log("IN CREATE");
         e.preventDefault();
         const { featureName, featureDescription, baseBranch } = this.state;
         if (featureName && featureDescription) {
@@ -204,18 +205,25 @@ const FeatureStepperForm = inject("store")(
               activeStep={activeStep}
               className={classes.mobileStepper}
               nextButton={
-                <Button size="small" onClick={this.handleNext}>
-                  {activeStep === 1 ? (
-                    <span onClick={this.handleSubmit}>Create</span>
-                  ) : (
-                    "Next"
-                  )}
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowLeft />
-                  ) : (
-                    <KeyboardArrowRight />
-                  )}
-                </Button>
+                activeStep === 1? (
+                  <Button size="small" onClick={this.handleSubmit}>
+                    Create
+                    {theme.direction === "rtl" ? (
+                      <KeyboardArrowLeft />
+                    ) : (
+                      <KeyboardArrowRight />
+                    )}
+                  </Button>
+                ) : (
+                  <Button size="small" onClick={this.handleNext}>
+                    Next
+                    {theme.direction === "rtl" ? (
+                      <KeyboardArrowLeft />
+                    ) : (
+                      <KeyboardArrowRight />
+                    )}
+                  </Button>
+                )    
               }
               backButton={
                 <Button size="small" onClick={this.handleBack}>

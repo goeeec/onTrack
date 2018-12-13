@@ -6,9 +6,8 @@ export default class SignUp extends Component {
     return (
       <Grid item sm={5} md={5} lg={5}>
         <div className="signup-box">
-          <h2>Manage Your team, </h2>
-          <h2>in-sync</h2>
-          <p>OnTrack is a team</p>
+          <h1>OnTrack</h1>
+          <h3>Project management tool using Feature Branch Workflow</h3>
         </div>
       </Grid>
     );
