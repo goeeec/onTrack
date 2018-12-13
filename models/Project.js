@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Project.associate = models => {
     models.Project.hasMany(models.Branch);
-    models.Project.hasOne(models.User, { foreignKey: "projectId", as: "owner" });
+    models.Project.hasOne(models.User, { foreignKey: "ownerOfFk", as: "owner" });
+    models.Project.hasMany(models.User, { foreignKey: "memberOfFk", as: "member" });
   }
 
   return Project;

@@ -64,8 +64,9 @@ router.post("/post_user_info", async (req, res) => {
       User.create({
         name: req.body.name,
         email: req.body.email,
-        githubId: req.body.id
-        });
+        githubId: req.body.id,
+        githubLogin: req.body.login
+      });
     }
     res.json({ msg: "user updated" });
   }).catch(() => {

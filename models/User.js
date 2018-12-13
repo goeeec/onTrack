@@ -8,6 +8,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    githubLogin: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,7 +34,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = models => {
-    models.User.belongsTo(models.Project);
+    models.User.belongsTo(models.Project, { foreignKey: "ownerOfFk", as: "ownerOf" });
+    models.User.belongsTo(models.Project, { foreignKey: "memberOfFk", as: "memberOf" });
   }
 
   return User;

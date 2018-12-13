@@ -25,7 +25,7 @@ class ProjectStepper extends Component {
     this.state = {
       steps: getSteps(),
       activeStep: 0,
-      project: { name: '', description: '', id: '', cloneUrl: '', owner: {} },
+      project: { name: '', description: '', id: '', cloneUrl: '', owner: {}, members: [] },
       error: []
     };
   }
@@ -41,7 +41,7 @@ class ProjectStepper extends Component {
           />
         );
       case 1:
-        return <MemberList />;
+        return <MemberList addMember={this.handleAddMember} members={this.state.project.member} />;
       case 2:
         return <Confirmation project={this.state.project} />;
       default:
@@ -58,6 +58,12 @@ class ProjectStepper extends Component {
   updateProjectDescription = (descr) => {
     this.setState(prevState => ({
       project: { ...prevState.project, description: descr }
+    }));
+  }
+
+  handleAddMember = (newMember) => {
+    this.setState(prevState => ({
+      project: { ...prevState.project, member: [...prevState.project.members, newMember] }
     }));
   }
   
@@ -101,7 +107,8 @@ class ProjectStepper extends Component {
       cloneUrl: this.state.project.cloneUrl,
       owner: this.state.project.owner.id,
       description: this.state.project.description,
-      branches: []
+      branches: [],
+      members: this.state.project.members
     }).then(res => console.log(res)).catch(err => console.log(err))
   }
 

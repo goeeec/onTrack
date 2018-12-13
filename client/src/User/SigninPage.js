@@ -18,7 +18,8 @@ class UserConfirmInfo extends Component {
         this.state = {
             userEmail: "",
             userID: "",
-            userName: ""
+            userName: "",
+            userLogin: ""
         };
     }
 
@@ -27,7 +28,8 @@ class UserConfirmInfo extends Component {
         axios.post("/auth/post_user_info", {
             id: this.state.userID,
             name: this.state.userName,
-            email: this.state.userEmail
+            email: this.state.userEmail,
+            login: this.state.userLogin
         }).then(function (body) {
             console.log(body);
         })
@@ -47,7 +49,8 @@ class UserConfirmInfo extends Component {
                 this.setState({
                     userID: response.data.passport.user.id,
                     userEmail: response.data.passport.user.email,
-                    userName: response.data.passport.user.name
+                    userName: response.data.passport.user.name,
+                    userLogin: response.data.passport.user.login
                 })
                 if (this.state.userEmail === null)
                     this.setState({ userEmail: "" })
