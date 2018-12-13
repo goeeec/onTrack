@@ -35,7 +35,7 @@ router.post("/create_project", (req, res) => {
         });
         let owner = await User.findOne({ where: { githubId: result.owner.id } });
         await project.setOwner(owner);
-        //await project.setMember(owner);
+        await project.setMember(owner);
       } catch(err) {
         console.log(err);
         console.log("Failed to create Project object in DB");
