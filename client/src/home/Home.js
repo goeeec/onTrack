@@ -3,28 +3,32 @@ import { Link } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import "../Assets/css/home.css";
 import {
-  Grid, Button, Dialog, DialogTitle, DialogContent,
-  AppBar, Toolbar, SvgIcon
+  Grid,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  AppBar,
+  Toolbar,
+  SvgIcon
 } from "@material-ui/core";
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import NewProjectPage from "../NewProjectPage/NewProjectPage";
-import {
-  getFromStorage,
-  removeFromStorage
-} from "../components/utils/storage";
+import Fab from "@material-ui/core/Fab";
+import NavigationIcon from "@material-ui/icons/Navigation";
+import { getFromStorage, removeFromStorage } from "../components/utils/storage";
 import axios from "axios";
 import { observer } from "mobx-react";
-import ExistingProjectPage from '../ExistingProjectPage/ExistingProjectPage';
-import OnTrackIcon from '../Assets/images/logo-white.png';
+import ExistingProjectPage from "../ExistingProjectPage/ExistingProjectPage";
+import OnTrackIcon from "../Assets/images/logo-white.png";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import NewProjectPage from "../NewProjectPage/NewProjectPage";
 
 const GithubIcon = ({
-  style={},
-  fill="#fff",
-  width="100%",
-  className="",
-  height="100%",
-  viewBox="0 0 32 32",
+  style = {},
+  fill = "#fff",
+  width = "100%",
+  className = "",
+  height = "100%",
+  viewBox = "0 0 32 32"
 }) => {
   return (
     <SvgIcon
@@ -40,7 +44,7 @@ const GithubIcon = ({
       />
     </SvgIcon>
   );
-}
+};
 
 const Home = observer(
   class Home extends Component {
@@ -50,11 +54,11 @@ const Home = observer(
 
     handleOpen = () => {
       this.setState({ open: true });
-    }
+    };
 
     handleClose = () => {
       this.setState({ open: false });
-    }
+    };
 
     logout = () => {
       axios.get("/auth/logout").then(res => {
@@ -68,12 +72,12 @@ const Home = observer(
           console.log(this.props.history);
         }
       });
-    }
+    };
 
     render() {
       return (
         <div>
-          <div className="home-img"></div>
+          <div className="home-img" />
           <Grid
             container
             alignItems="center"
@@ -81,35 +85,72 @@ const Home = observer(
             className="container"
           >
             <Grid item md={10} xs={12}>
-            <AppBar position="fixed">
-              <Toolbar>
-              <Link className="navLogo" to="/">
-                <img className="navLogoIcon" src={OnTrackIcon} alt="track logo" />
-              </Link>
-              {getFromStorage("userId") ? (
-                <Button
-                  variant="outlined"
-                  onClick={this.logout}
-                >Logout</Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  href="/auth/github"
-                ><GithubIcon />Login</Button>
-              )}
-              </Toolbar>
-            </AppBar>
-
               {/* <div className="nav"><Navbar /></div> */}
+              <AppBar position="fixed">
+                <Toolbar>
+                  <Link className="navLogo" to="/">
+                    <img
+                      className="navLogoIcon"
+                      src={OnTrackIcon}
+                      alt="track logo"
+                    />
+                  </Link>
+                  <div className="flex-end">
+                    <Button color="inherit" href="/About">
+                      <AccountCircle />
+                      About
+                    </Button>
+                    {getFromStorage("userId") ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.logout}
+                      >
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/auth/github"
+                        className="flex-item"
+                      >
+                        <GithubIcon />
+                        Login
+                      </Button>
+                    )}
+                  </div>
+                </Toolbar>
+              </AppBar>
+
               <div className="content">
                 <h1>Manage your projects</h1>
-                <Button className="dash_button" color="secondary" variant="contained" component={Link} to="/dashboard">dashboard</Button>
+                {/* <Link to="/dashboard">dashboard</Link> */}
+
+                <Button
+                  className="dash_button"
+                  color="secondary"
+                  variant="contained"
+                  component={Link}
+                  to="/dashboard"
+                >
+                  dashboard
+                </Button>
+
                 <br />
+                {/* <Link to="/new_project">Create new project</Link> */}
                 <div className="row">
                   <NewProjectPage />
+
                   <br />
-                  <Button className="dash_button column" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
+                  <Button
+                    className="dash_button column"
+                    color="primary"
+                    variant="outlined"
+                    onClick={this.handleOpen}
+                  >
+                    Existing Project
+                  </Button>
                 </div>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                   <DialogTitle>Existing project</DialogTitle>
@@ -121,12 +162,9 @@ const Home = observer(
             </Grid>
           </Grid>
         </div>
-
       );
     }
   }
 );
 
 export default Home;
-
-

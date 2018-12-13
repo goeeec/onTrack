@@ -111,7 +111,7 @@
   font-size: 20px; */
 }
 
-.baritem{
+.baritem {
   /* position: fixed; */
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@
   margin-right: 2em;
   width: 100vw;
 }
-.baritem-name{
+.baritem-name {
   display: inline-block;
   border-bottom: 2px solid yellow;
   text-transform: uppercase;
@@ -130,7 +130,7 @@
   /* background-color: lightgrey; */
 }
 
-.baritem-text{
+.baritem-text {
   font-weight: bold;
   margin-left: 1em;
 }
@@ -210,4 +210,23 @@
 .List-Item {
   /* border-top: 1px solid #dcdbdc; */
   border-bottom: 1px solid #dcdbdc;
+}
+
+.media-picture {
+  height: 350px;
+  width: auto;
+}
+
+.avatar {
+  margin: 10px;
+  width: 100px !important;
+  height: 100px !important;
+}
+
+.aboutPageTitle {
+  margin: 20px;
+}
+
+.card {
+  padding-bottom: 30px;
 }
