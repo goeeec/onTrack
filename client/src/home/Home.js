@@ -49,7 +49,8 @@ const GithubIcon = ({
 const Home = observer(
   class Home extends Component {
     state = {
-      open: false
+      open: false,
+      validUser: false
     };
 
     handleOpen = () => {
@@ -70,6 +71,15 @@ const Home = observer(
             state: { isLogged: false }
           });
           console.log(this.props.history);
+          this.setState({ validUser: false });
+        }
+      });
+    }
+
+    componentWillMount() {
+      const id = axios.get("/auth/user_detail").then(response => {
+        if (response.data.passport) {
+          this.setState({ validUser: true });
         }
       });
     };
@@ -109,56 +119,56 @@ const Home = observer(
                         Logout
                       </Button>
                     ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        href="/auth/github"
-                        className="flex-item"
-                      >
-                        <GithubIcon />
-                        Login
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          href="/auth/github"
+                          className="flex-item"
+                        >
+                          <GithubIcon />
+                          Login
                       </Button>
-                    )}
+                      )}
                   </div>
                 </Toolbar>
               </AppBar>
-
-              <div className="content">
-                <h1>Manage your projects</h1>
-                {/* <Link to="/dashboard">dashboard</Link> */}
-
-                <Button
-                  className="dash_button"
-                  color="secondary"
-                  variant="contained"
-                  component={Link}
-                  to="/dashboard"
-                >
-                  dashboard
-                </Button>
-
-                <br />
-                {/* <Link to="/new_project">Create new project</Link> */}
-                <div className="row">
-                  <NewProjectPage />
-
-                  <br />
-                  <Button
-                    className="dash_button column"
-                    color="primary"
-                    variant="outlined"
-                    onClick={this.handleOpen}
+              {this.state.validUser ?
+                <div className="content">
+                  <h1>Manage your projects</h1>
+                  <Button 
+                    className="dash_button" 
+                    color="secondary" 
+                    variant="contained" 
+                    component={Link} 
+                    to="/dashboard"
                   >
+                    dashboard
+                  </Button>
+                  <br />
+
+                  <div className="row">
+                    <NewProjectPage />
+
+                    <br />
+                    <Button 
+                      className="dash_button column" 
+                      color="primary" 
+                      variant="outlined" 
+                      onClick={this.handleOpen}
+                    >
                     Existing Project
                   </Button>
+                  </div>
+                  <Dialog open={this.state.open} onClose={this.handleClose}>
+                    <DialogTitle>Existing project</DialogTitle>
+                    <DialogContent>
+                      <ExistingProjectPage />
+                    </DialogContent>
+                  </Dialog>
                 </div>
-                <Dialog open={this.state.open} onClose={this.handleClose}>
-                  <DialogTitle>Existing project</DialogTitle>
-                  <DialogContent>
-                    <ExistingProjectPage />
-                  </DialogContent>
-                </Dialog>
-              </div>
+                : <div><h1 className="pre-login-title">Welcome to OnTrack</h1>
+                  <p className="pre-login-context">Please login with Github</p>
+                </div>}
             </Grid>
           </Grid>
         </div>
