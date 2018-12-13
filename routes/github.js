@@ -131,7 +131,7 @@ router.get("/users/:user", (req, res) => {
         let user = await User.findOne({ where: { githubId: result.id } });
         if (!user) {
           user = await User.create({
-            name: result.name ? result.name : "",
+            name: result.name ? result.name : "blank",
             githubId: result.id,
             email: result.email ? result.email : "example@example.com"
           });
