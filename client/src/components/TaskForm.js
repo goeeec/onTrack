@@ -81,18 +81,18 @@ const TaskForm = inject("store")(
               TransitionComponent={Transition}
               aria-labelledby="form-dialog-title"
             >
-              <DialogTitle id="form-dialog-title">New Feature</DialogTitle>
+              <DialogTitle id="form-dialog-title">New Task</DialogTitle>
               <form onSubmit={this.handleSubmit}>
                 <DialogContent>
                   <FormControl fullWidth required>
                     <InputLabel htmlFor="taskName" focused required>
-                      Feature Name
+                      Task Name
                     </InputLabel>
                     <Input
                       fullWidth
                       required
                       id="taskName"
-                      placeholder="Feature Name"
+                      placeholder="Task Name"
                       onChange={this.handleChange("taskName")}
                       value={this.state.taskName}
                     />
@@ -105,7 +105,7 @@ const TaskForm = inject("store")(
                       fullWidth
                       required
                       id="description"
-                      placeholder="Feature Name"
+                      placeholder="description"
                       onChange={this.handleChange("description")}
                       value={this.state.description}
                     />
@@ -128,8 +128,7 @@ const TaskForm = inject("store")(
                     <TextField
                       id="date"
                       label="Due Date"
-                      type="date"
-                      // defaultValue="2018-05-24"
+                      type="date" // defaultValue="2018-05-24"
                       InputLabelProps={{ shrink: true }}
                       onChange={this.handleChange("date")}
                       value={this.state.date}

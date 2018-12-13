@@ -18,13 +18,27 @@ import { observer, inject } from "mobx-react";
 const TodoListTask = inject("store")(
   observer(
     class TodoListTask extends Component {
-      handleClick = () => {
+      state = {
+        expanded: null
+      };
+
+      handleChange = panel => (event, expanded) => {
+        this.setState({
+          expanded: expanded ? panel : false
+        });
+      };
+      handleClick = event => {
+        event.stopPropagation();
         this.props.store.handleChecked(this.props.subtask.name);
       };
 
       render() {
+        const { expanded } = this.state;
         return (
-          <ExpansionPanel>
+          <ExpansionPanel
+            expanded={expanded === this.props.subtask.name}
+            onChange={this.handleChange(this.props.subtask.name)}
+          >
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Checkbox
                 checked={this.props.subtask.isCompleted}
@@ -53,8 +67,9 @@ const TodoListTask = inject("store")(
                   </ListItem>
                 </List>
               </div>
+
               <div className="flex-right">
-                <EditTaskForm />
+                <EditTaskForm index={this.props.index} />
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>

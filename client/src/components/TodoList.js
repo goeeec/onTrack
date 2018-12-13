@@ -33,7 +33,7 @@ const TodoList = inject("store")(
               <ListSubheader>{features[featureIndex].description}</ListSubheader>
               <List className="branch-list">
                 {features[featureIndex].subTasks.map((task, i) => {
-                  return <TodoListTask key={i} subtask={task} />;
+                  return <TodoListTask key={i} subtask={task} index={i} />;
                 })}
               </List>
             </List>

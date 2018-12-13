@@ -1,4 +1,4 @@
-import { observable, computed, action, decorate, get } from "mobx";
+import { observable, computed, action, decorate } from "mobx";
 import axios from "axios";
 
 class Project {
@@ -110,6 +110,7 @@ class Project {
         this.owner = res.data.owner;
         this.createdAt = res.data.createdAt;
         this.features = res.data.branches.map(branch => {
+          const parts = branch.split("/"); // select branch ref's last part
           return {
             name: branch.name,
             description: "describing " + branch.name,
@@ -133,19 +134,41 @@ class Project {
   addSubTask(task) {
     this.features[this.featureIndex].subTasks.push(task);
   }
+
+  editSubTask(task, originalTaskIndex) {
+    const originalTask = this.features[this.featureIndex].subTasks[
+      originalTaskIndex
+    ];
+    originalTask.name = task.name;
+    originalTask.description = task.description;
+    originalTask.dueDate = task.dueDate;
+    originalTask.assignee = task.assignee;
+  }
+
+  currentSubTaskDetail(index) {
+    return this.features[this.featureIndex].subTasks[index];
+  }
+
+  deleteSubTask(index) {
+    const originalTask = this.features[this.featureIndex].subTasks[index];
+    this.features[this.featureIndex].subTasks = this.features[
+      this.featureIndex
+    ].subTasks.filter(task => task.name !== originalTask.name);
+  }
 }
 
 decorate(Project, {
   features: observable,
   featureIndex: observable,
   isLoading: observable,
-  // current: observable,
-  // elapsedTime: computed,
   change: action,
   updateFeatureIndex: action,
   addFeature: action,
   initData: action,
-  handleChecked: action
+  handleChecked: action,
+  editSubTask: action,
+  currentSubTaskDetail: action,
+  deleteSubTask: action
 });
 
 const store = new Project();
