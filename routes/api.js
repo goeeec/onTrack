@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models").Project;
+const User = require("../models").User;
 const Branch = require("../models").Branch;
 
+// return the project in DB
 router.get("/project/:id", async (req, res) => {
   const target = await Project.findOne({
     where: { projectId: req.params.id },
-    include: [{ model: Branch }]
+    include: [{ model: Branch }, { model: User, as: "owner" }]
   });
   if (target) {
     res.status(200).json(target);
@@ -15,6 +17,7 @@ router.get("/project/:id", async (req, res) => {
   }
 })
 
+// save a project into DB
 router.post("/project", async (req, res) => {
   const existingProject = await Project.findOne({ where: { projectId: req.body.projectId + '' } });
   if (existingProject) {
@@ -25,9 +28,12 @@ router.post("/project", async (req, res) => {
         projectId: req.body.projectId + '',   // change to string type
         name: req.body.name,
         description: req.body.description,
-        cloneUrl: req.body.cloneUrl,
-        owner: req.body.owner,
+        cloneUrl: req.body.cloneUrl
       });
+      // find the current user in the DB
+      let owner = await User.findOne({ where: { githubId: req.body.owner } });
+      await project.setOwner(owner);
+
       console.log("Now mapping branches to project id: ", project.id);
       console.log("Branch number: ", req.body.branches.length);
       req.body.branches.map(async branch => {
@@ -42,6 +48,9 @@ router.post("/project", async (req, res) => {
               nodeId: branch.nodeId,
               projectId: project.id
             });
+          } else {
+            // update the associated projectId
+            await existingBranch.update({ projectId: project.id });
           }
         } catch(err) { console.log(err) }
       });

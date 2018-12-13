@@ -99,7 +99,7 @@ class ProjectStepper extends Component {
       projectId: this.state.project.id,
       name: this.state.project.name,
       cloneUrl: this.state.project.cloneUrl,
-      owner: this.state.project.owner.username,
+      owner: this.state.project.owner.id,
       description: this.state.project.description,
       branches: []
     }).then(res => console.log(res)).catch(err => console.log(err))
