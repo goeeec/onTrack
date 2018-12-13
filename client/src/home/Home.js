@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
+import NewProjectPage from "../NewProjectPage/NewProjectPage";
 import {
   getFromStorage,
   removeFromStorage
@@ -73,7 +74,6 @@ const Home = observer(
       return (
         <div>
           <div className="home-img"></div>
-          
           <Grid
             container
             alignItems="center"
@@ -81,7 +81,6 @@ const Home = observer(
             className="container"
           >
             <Grid item md={10} xs={12}>
-            {/* <div className="nav"><Navbar /></div> */}
             <AppBar position="fixed">
               <Toolbar>
               <Link className="navLogo" to="/">
@@ -102,35 +101,27 @@ const Home = observer(
               </Toolbar>
             </AppBar>
 
-
+              {/* <div className="nav"><Navbar /></div> */}
               <div className="content">
-              <h1>Manage your projects</h1>
-              {/* <Link to="/dashboard">dashboard</Link> */}
-
-              <Button className="dash_button" color="secondary" variant="contained" component={Link} to="/dashboard">
-              dashboard
-              </Button>
-
-              <br />
-              {/* <Link to="/new_project">Create new project</Link> */}
-              <div className="row">
-              <Button className="dash_button column" color="secondary" variant="outlined" component={Link} to="/new_project">
-              Create new project
-              </Button>
-              <br />
-              <Button className="dash_button column" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
-              </div>
-              <Dialog open={this.state.open} onClose={this.handleClose}>
-                <DialogTitle>Existing project</DialogTitle>
-                <DialogContent>
-                  <ExistingProjectPage />
-                </DialogContent>
-              </Dialog>
+                <h1>Manage your projects</h1>
+                <Button className="dash_button" color="secondary" variant="contained" component={Link} to="/dashboard">dashboard</Button>
+                <br />
+                <div className="row">
+                  <NewProjectPage />
+                  <br />
+                  <Button className="dash_button column" color="primary" variant="outlined" onClick={this.handleOpen}>Existing Project</Button>
+                </div>
+                <Dialog open={this.state.open} onClose={this.handleClose}>
+                  <DialogTitle>Existing project</DialogTitle>
+                  <DialogContent>
+                    <ExistingProjectPage />
+                  </DialogContent>
+                </Dialog>
               </div>
             </Grid>
           </Grid>
         </div>
-        
+
       );
     }
   }
