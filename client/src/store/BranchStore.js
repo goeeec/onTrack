@@ -107,7 +107,7 @@ class Project {
         this.projectName = res.data.name;
         this.projectUrl = res.data.cloneUrl;
         this.description = res.data.description;
-        this.owner = res.data.owner;
+        this.owner = res.data.owner.name;
         this.createdAt = res.data.createdAt;
         this.features = res.data.branches.map(branch => {
           // const parts = branch.split("/"); // select branch ref's last part

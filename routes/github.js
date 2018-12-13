@@ -3,10 +3,12 @@ const router = express.Router();
 const request = require("request");
 
 const Project = require("../models").Project;
+const User = require("../models").User;
 const Branch = require("../models").Branch;
 
 const githubEndpoint = 'https://api.github.com';
 
+// Create new repo
 router.post("/create_project", (req, res) => {
   const data = {
     name: req.body.name,
@@ -25,13 +27,14 @@ router.post("/create_project", (req, res) => {
     let result = JSON.parse(body);
     if (response.statusCode === 201) {
       try {
-        await Project.create({
+        let project = await Project.create({
           projectId: result.id,
           name: result.name,
           description: result.description,
           cloneUrl: result.clone_url,
-          owner: result.owner.login
         });
+        let owner = await User.findOne({ where: { githubId: result.owner.id } });
+        await project.setOwner(owner);
       } catch(err) {
         console.log(err);
         console.log("Failed to create Project object in DB");
@@ -39,7 +42,7 @@ router.post("/create_project", (req, res) => {
       res.status(201).json({
         id: result.id,
         cloneUrl: result.clone_url,
-        owner: { username: result.owner.login, id: result.owner.id }
+        owner: { login: result.owner.login, id: result.owner.id }
       });
     } else {
       res.status(200).send({ error: result });
@@ -47,6 +50,7 @@ router.post("/create_project", (req, res) => {
   });
 })
 
+// Get branches on one existing repo
 router.get("/branches/:owner/:repo", (req, res) => {
   const uri = '/repos/' + req.params.owner + '/' + req.params.repo + '/git/refs';
   request.get({
@@ -68,12 +72,13 @@ router.get("/branches/:owner/:repo", (req, res) => {
       });
       res.status(200).send(branches);
     } else {
-      console.log('error getting branches ref');
+      console.log('error getting branches ref, an empty list will be sent back');
       res.status(200).send([]);
     }
   })
 })
 
+// Create a new branch on a repo
 router.post("/branches/:owner/:repo", async (req, res) => {
   const uri = "/repos/" + req.params.owner + "/" + req.params.repo + "/git/refs";
   const projectId = (await Project.findOne({ where: { name: req.params.repo } })).id;
@@ -110,6 +115,7 @@ router.post("/branches/:owner/:repo", async (req, res) => {
   })
 })
 
+// Get info of one repo
 router.get("/repos/:user/:repo", (req, res) => {
   const uri = "/repos/" + req.params.user + "/" + req.params.repo;
   console.log("URI: ", uri);

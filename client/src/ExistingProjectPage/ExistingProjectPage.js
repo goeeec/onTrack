@@ -38,7 +38,7 @@ class ExistingProjectPage extends Component {
         cloneUrl: repo.cloneUrl,
         description: repo.description,
         branches: branches,
-        owner: repo.owner.login
+        owner: repo.owner.id
       });
       if (res.status === 201) {
         this.setState({ isCreated: true });

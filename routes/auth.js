@@ -30,8 +30,9 @@ router.get(
       .then(user => {
         if(user) {
           res.redirect("/");
-        } 
-        res.redirect("/Signin");
+        } else {
+          res.redirect("/Signin");
+        }
       })
   });
 

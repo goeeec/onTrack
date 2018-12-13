@@ -25,18 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
-    },
-    owner: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
     }
   });
 
   Project.associate = models => {
     models.Project.hasMany(models.Branch);
+    models.Project.hasOne(models.User, { foreignKey: "projectId", as: "owner" });
   }
 
   return Project;
