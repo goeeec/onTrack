@@ -41,7 +41,7 @@ class ProjectStepper extends Component {
           />
         );
       case 1:
-        return <MemberList addMember={this.handleAddMember} members={this.state.project.member} />;
+        return <MemberList addMember={this.handleAddMember} members={this.state.project.members} />;
       case 2:
         return <Confirmation project={this.state.project} />;
       default:
@@ -63,7 +63,7 @@ class ProjectStepper extends Component {
 
   handleAddMember = (newMember) => {
     this.setState(prevState => ({
-      project: { ...prevState.project, member: [...prevState.project.members, newMember] }
+      project: { ...prevState.project, members: [...prevState.project.members, newMember] }
     }));
   }
   
