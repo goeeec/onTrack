@@ -35,6 +35,7 @@ router.post("/create_project", (req, res) => {
         });
         let owner = await User.findOne({ where: { githubId: result.owner.id } });
         await project.setOwner(owner);
+        //await project.setMember(owner);
       } catch(err) {
         console.log(err);
         console.log("Failed to create Project object in DB");
@@ -121,11 +122,11 @@ router.get("/users/:user", (req, res) => {
   request.get({
     url: githubEndpoint + uri,
     headers: {
-      "User-Agent": "onTrack-dev"
+      "User-Agent": "onTrack-dev",
+      "Authorization": "token " + req.user.accessToken
     }
   }, async (err, response, body) => {
     const result = JSON.parse(body);
-    console.log("Result: ", result);
     if (response.statusCode === 200) {
       try {
         let user = await User.findOne({ where: { githubId: result.id } });
@@ -133,10 +134,10 @@ router.get("/users/:user", (req, res) => {
           user = await User.create({
             name: result.name ? result.name : "blank",
             githubId: result.id,
+            githubLogin: result.login,
             email: result.email ? result.email : "example@example.com"
           });
         }
-        console.log("user object: ", user);
         res.status(200).send(user);
       } catch(err) { console.log(err) }
     }

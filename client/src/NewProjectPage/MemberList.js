@@ -18,16 +18,17 @@ class MemberList extends Component {
     super(props);
     this.state = {
       isEditing: false,
-      members: []
+      //members: []
     };
   }
 
   handleAdd = () => {
+    this.props.addMember(document.getElementById("new_member").value);
     this.setState({
-      members: [
-        ...this.state.members,
-        document.getElementById("new_member").value
-      ],
+      // members: [
+      //   ...this.state.members,
+      //   document.getElementById("new_member").value
+      // ],
       isEditing: false
     });
   };
@@ -35,11 +36,11 @@ class MemberList extends Component {
   // TODO: fix this delete handler
   handleDelete = e => {
     console.log(e.target);
-    this.setState({
-      members: this.state.members.filter(member => {
-        return member !== e.target.value;
-      })
-    });
+    // this.setState({
+    //   members: this.state.members.filter(member => {
+    //     return member !== e.target.value;
+    //   })
+    // });
   };
 
   render() {
@@ -66,7 +67,7 @@ class MemberList extends Component {
         <Grid item lg={12} md={12} sm={12}>
           <List>
             <ListSubheader>Enter Github users you want to add...</ListSubheader>
-            {this.state.members.map(user => {
+            {this.props.members.map(user => {
               return (
                 <ListItem>
                   <ListItemText>{user}</ListItemText>

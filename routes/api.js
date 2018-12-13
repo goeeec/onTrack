@@ -8,7 +8,11 @@ const Branch = require("../models").Branch;
 router.get("/project/:id", async (req, res) => {
   const target = await Project.findOne({
     where: { projectId: req.params.id },
-    include: [{ model: Branch }, { model: User, as: "owner" }]
+    include: [
+      { model: Branch },
+      { model: User, as: "owner" },
+      { model: User, as: "member" }
+    ]
   });
   if (target) {
     res.status(200).json(target);
@@ -33,6 +37,7 @@ router.post("/project", async (req, res) => {
       // find the current user in the DB
       let owner = await User.findOne({ where: { githubId: req.body.owner } });
       await project.setOwner(owner);
+      await project.setMember(owner);
 
       console.log("Now mapping branches to project id: ", project.id);
       console.log("Branch number: ", req.body.branches.length);
