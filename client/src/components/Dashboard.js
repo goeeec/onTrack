@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 import {
   Drawer,
   CssBaseline,
@@ -98,7 +98,7 @@ const Dashboard = inject("store")(
 
       componentWillMount = () => {
         this.props.store.initData("160088407");
-      }
+      };
 
       handleDrawerOpen = () => {
         this.setState({ open: true });
@@ -137,7 +137,7 @@ const Dashboard = inject("store")(
                     onClick={this.handleDrawerOpen}
                     className={classNames(
                       classes.menuButton,
-                      open && classes.hide,
+                      open && classes.hide
                     )}
                   >
                     <MenuIcon />
@@ -152,7 +152,10 @@ const Dashboard = inject("store")(
                   <div className="baritem">
                     <div>
                       <span className="baritem-text">Project: </span>
-                      <h2 className="baritem-name"> {this.props.store.projectName}</h2>
+                      <h2 className="baritem-name">
+                        {" "}
+                        {this.props.store.projectName}
+                      </h2>
                     </div>
                     <div>
                       <span className="baritem-text">User: </span>
@@ -174,14 +177,14 @@ const Dashboard = inject("store")(
                     {theme.direction === "ltr" ? (
                       <ChevronLeftIcon />
                     ) : (
-                        <ChevronRightIcon />
-                      )}
+                      <ChevronRightIcon />
+                    )}
                   </IconButton>
                 </div>
                 <h3>{this.state.username}</h3>
                 <Button variant="contained" href="/" color="primary">
                   Home
-              </Button>
+                </Button>
 
                 <Divider />
                 <Divider />
@@ -198,12 +201,17 @@ const Dashboard = inject("store")(
                     {/* {this.props.store.projectName} */}
                   </Grid>
                   <ProjectPanel />
-                  <BranchPanel branchLocation={this.props.store.features[this.props.store.featureIndex].location} />
+                  <BranchPanel
+                    branchLocation={
+                      this.props.store.features[this.props.store.featureIndex]
+                        .location
+                    }
+                  />
                 </Grid>
               </main>
             </div>
-          )
-        };
+          );
+        }
       }
     }
   )

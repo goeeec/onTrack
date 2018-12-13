@@ -29,7 +29,7 @@ app.use(require("./routes"));
 const models = require("./models/");
 
 models.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`);
   });
 });
